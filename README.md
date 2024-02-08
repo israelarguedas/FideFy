@@ -1,18 +1,18 @@
 Enero, 2024 
-San Jose, Costa Rica. 
+San José, Costa Rica. 
 Universidad Fidelitas 
 Programación Cliente/Servidor Concurrente Grupo No.5 
 Proyecto Final (**FideFy**) - Grupo 3
 
 **Integrantes:** 
 Israel Arguedas Gonzalez (earguedas10294@ufide.ac.cr)
-Jose Dario Monge Arce (jmonge0239@ufide.ac.cr)
+José Darío Monge Arce (jmonge0239@ufide.ac.cr)
 Josue Espino Orozco (jespino12924@ufide.ac.cr)
-Marco Hernandez Amador (mhernandez10314@ufide.ac.cr)
+Marco Hernández Amador (mhernandez10314@ufide.ac.cr)
 
 **Requerimientos:** Java 11
 
-**Descripcion:**
+**Descripción:**
 La empresa de streaming de música "Fidefy" desea desarrollar una nueva aplicación móvil 
 que permita a los usuarios descubrir y compartir canciones. La aplicación debe proporcionar 
 las siguientes funcionalidades:
