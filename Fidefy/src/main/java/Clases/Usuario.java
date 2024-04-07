@@ -4,8 +4,15 @@
  */
 package Clases;
 
+import Frames.Login;
+import com.mysql.cj.protocol.Resultset;
+import com.mysql.cj.xdevapi.Result;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class Usuario implements Comparable<Usuario>{
     private String Nombre;
@@ -116,5 +123,58 @@ public class Usuario implements Comparable<Usuario>{
         JOptionPane.showMessageDialog(null,
                 "El usuario ha sido removido exitosamente");
     }
+    //Valida que el usuario se encuentre en la base de datos
+    public void ValidarUsuario(JTextField txtNombreUsuario, JPasswordField txtContrasena){
+        try {
+            ResultSet rs= null;
+            PreparedStatement ps =null;  
+            Clases.ConexionBD pConexion = new Clases.ConexionBD();
+            
+            String comandoInsert = "SELECT * from usuarios where usuarios.nombre = ? and usuarios.pass = ?;";
+            
+            ps=pConexion.establecerConexion().prepareStatement(comandoInsert); 
+            
+            String contra = String.valueOf(txtContrasena.getPassword());
+            
+            ps.setString(1, txtNombreUsuario.getText());
+            ps.setString(2, contra);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {     
+                JOptionPane.showMessageDialog(null, "Bienvenido");
+                //agregar la interfaz de la aplicacion 
+               // Login pLogin = new Login();
+                //pLogin.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "El usuario es incorrecto vuelva a intentarlo");
+            }
+            
+        
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "ERROR"+error.toString());
+        }
+    }
+    
+    public void AgregarUsuario(JTextField txtNombreUsuario, JPasswordField txtContrasena){
+        try {
+            PreparedStatement ps =null;
+            Clases.ConexionBD pConexion = new Clases.ConexionBD();
+            String comandoInsert = "INSERT INTO usuarios(nombre,pass)VALUE(?,?);";
+            ps=pConexion.establecerConexion().prepareStatement(comandoInsert); 
+           
+        String contra = String.valueOf(txtContrasena.getPassword());
+            
+            ps.setString(1, txtNombreUsuario.getText());
+            ps.setString(2, contra);
+            
+            ps.executeUpdate();
+           
+        
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "ERROR"+error.toString());
+        }
+    }
 }
+
 

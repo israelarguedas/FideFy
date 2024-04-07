@@ -8,6 +8,6 @@ package Clases;
  *
  * @author Grupo_2
  */
-public class ListaResproducion {
+public class ListaReproduccion {
     
 }

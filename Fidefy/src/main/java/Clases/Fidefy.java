@@ -10,7 +10,5 @@ package Clases;
  */
 public class Fidefy {
 
-    public static void main(String[] args) {
         
-    }
 }
