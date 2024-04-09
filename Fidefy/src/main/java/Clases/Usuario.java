@@ -18,6 +18,8 @@ public class Usuario implements Comparable<Usuario>{
     private String Nombre;
     private String NombreUsuario; 
     private String Contrasena;
+    //Variable para guardar preferencias en el registro
+    private int generoMusical;
     
     private ArrayList<Seguidos> Seguidos;
     private ArrayList<Seguidores> Seguidores;

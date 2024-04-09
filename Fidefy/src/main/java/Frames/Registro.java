@@ -4,12 +4,17 @@
  */
 package Frames;
 
+import Clases.GeneroMusical;
+
 /**
  *
  * @author josue
  */
 public class Registro extends javax.swing.JFrame {
 
+    GeneroMusical guardarGeneros = new GeneroMusical();
+    Clases.Usuario pUsuario = new Clases.Usuario();
+    
     /**
      * Creates new form Registro
      */
@@ -37,12 +42,12 @@ public class Registro extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtNombreUsuario = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
+        cbxElectronica = new javax.swing.JCheckBox();
+        cbxRock = new javax.swing.JCheckBox();
+        cbxPop = new javax.swing.JCheckBox();
+        cbxClasica = new javax.swing.JCheckBox();
+        cbxJazz = new javax.swing.JCheckBox();
+        cbxLatina = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
         btnCrearUsuario = new javax.swing.JButton();
@@ -51,7 +56,7 @@ public class Registro extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(2, 51, 19));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icono.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icono.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         jLabel2.setBackground(new java.awt.Color(2, 51, 19));
@@ -87,36 +92,36 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Electronica");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbxElectronica.setForeground(new java.awt.Color(255, 255, 255));
+        cbxElectronica.setText("Electronica");
+        cbxElectronica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                cbxElectronicaActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setText("Rock");
+        cbxRock.setForeground(new java.awt.Color(255, 255, 255));
+        cbxRock.setText("Rock");
 
-        jCheckBox3.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setText("Pop");
+        cbxPop.setForeground(new java.awt.Color(255, 255, 255));
+        cbxPop.setText("Pop");
 
-        jCheckBox4.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox4.setText("Clasica");
+        cbxClasica.setForeground(new java.awt.Color(255, 255, 255));
+        cbxClasica.setText("Clasica");
 
-        jCheckBox5.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox5.setText("Jazz");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        cbxJazz.setForeground(new java.awt.Color(255, 255, 255));
+        cbxJazz.setText("Jazz");
+        cbxJazz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                cbxJazzActionPerformed(evt);
             }
         });
 
-        jCheckBox6.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox6.setText("Latina");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+        cbxLatina.setForeground(new java.awt.Color(255, 255, 255));
+        cbxLatina.setText("Latina");
+        cbxLatina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
+                cbxLatinaActionPerformed(evt);
             }
         });
 
@@ -153,18 +158,18 @@ public class Registro extends javax.swing.JFrame {
                                 .addGap(94, 94, 94)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxElectronica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxRock, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(28, 28, 28)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxClasica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbxLatina, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxPop, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(cbxJazz, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,14 +211,14 @@ public class Registro extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox5))
+                    .addComponent(cbxElectronica)
+                    .addComponent(cbxPop)
+                    .addComponent(cbxJazz))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox6))
+                    .addComponent(cbxRock)
+                    .addComponent(cbxClasica)
+                    .addComponent(cbxLatina))
                 .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearUsuario)
@@ -230,27 +235,30 @@ public class Registro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreUsuarioActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbxElectronicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxElectronicaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_cbxElectronicaActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void cbxJazzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxJazzActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_cbxJazzActionPerformed
 
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+    private void cbxLatinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLatinaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
+    }//GEN-LAST:event_cbxLatinaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.setVisible(false);
+        this.dispose();
         Login pLogin = new Login();
         pLogin.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
-     Clases.Usuario pUsuario = new Clases.Usuario();
+     
      pUsuario.AgregarUsuario(txtNombreUsuario, txtContrasena);
+     insertarGeneros();
+          
+     
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     /**
@@ -287,16 +295,32 @@ public class Registro extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void insertarGeneros(){
+        
+        guardarGeneros.setNombreUsuario(pUsuario.getNombreUsuario());
+        guardarGeneros.setClasica(cbxClasica.isSelected());
+        guardarGeneros.setElectronica(cbxElectronica.isSelected());
+        guardarGeneros.setJazz(cbxJazz.isSelected());
+        guardarGeneros.setLatina(cbxLatina.isSelected());
+        guardarGeneros.setPop(cbxPop.isSelected());
+        guardarGeneros.setRock(cbxRock.isSelected());
+        
+        //Requiere una tabla de generosMusicales en la BD que lleva el control de los generos y usuarios
+        
+    }       
+        
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrearUsuario;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
+    private javax.swing.JCheckBox cbxClasica;
+    private javax.swing.JCheckBox cbxElectronica;
+    private javax.swing.JCheckBox cbxJazz;
+    private javax.swing.JCheckBox cbxLatina;
+    private javax.swing.JCheckBox cbxPop;
+    private javax.swing.JCheckBox cbxRock;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

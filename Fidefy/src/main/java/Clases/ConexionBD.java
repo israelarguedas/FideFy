@@ -27,7 +27,7 @@ public class ConexionBD {
          try {
             Class.forName("com.mysql.jdbc.Driver");
             conectar = DriverManager.getConnection(cadena,usuario,contrasena);
-               //JOptionPane.showMessageDialog(null, "se establecio conexion");     
+               JOptionPane.showMessageDialog(null, "Se establecio conexion");     
         } catch (Exception e) {
              JOptionPane.showMessageDialog(null, "Problema en la conexion"+e.toString());
         }
