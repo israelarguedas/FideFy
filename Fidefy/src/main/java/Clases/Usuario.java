@@ -4,11 +4,13 @@
  */
 package Clases;
 
+import Frames.Interfaz;
 import Frames.Login;
 import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.xdevapi.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -18,8 +20,6 @@ public class Usuario implements Comparable<Usuario>{
     private String Nombre;
     private String NombreUsuario; 
     private String Contrasena;
-    //Variable para guardar preferencias en el registro
-    private int generoMusical;
     
     private ArrayList<Seguidos> Seguidos;
     private ArrayList<Seguidores> Seguidores;
@@ -33,6 +33,7 @@ public class Usuario implements Comparable<Usuario>{
         this.Contrasena = Contrasena;
     }
     
+
     public Usuario(String Nombre, String NombreUsuario, String Contrasena) {
         this.Nombre = Nombre;
         this.NombreUsuario = NombreUsuario;
@@ -126,53 +127,55 @@ public class Usuario implements Comparable<Usuario>{
                 "El usuario ha sido removido exitosamente");
     }
     //Valida que el usuario se encuentre en la base de datos
-    public void ValidarUsuario(JTextField txtNombreUsuario, JPasswordField txtContrasena){
-        try {
-            ResultSet rs= null;
-            PreparedStatement ps =null;  
-            Clases.ConexionBD pConexion = new Clases.ConexionBD();
-            
-            String comandoInsert = "SELECT * from usuarios where usuarios.nombre = ? and usuarios.pass = ?;";
-            
-            ps=pConexion.establecerConexion().prepareStatement(comandoInsert); 
-            
-            String contra = String.valueOf(txtContrasena.getPassword());
-            
-            ps.setString(1, txtNombreUsuario.getText());
-            ps.setString(2, contra);
-            
-            rs = ps.executeQuery();
-            
-            if (rs.next()) {     
-                JOptionPane.showMessageDialog(null, "Bienvenido");
-                //agregar la interfaz de la aplicacion 
-               // Login pLogin = new Login();
-                //pLogin.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "El usuario es incorrecto vuelva a intentarlo");
-            }
-            
-        
-        } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "ERROR"+error.toString());
-        }
-    }
+public boolean ValidarUsuario(Usuario pDato){
     
-    public void AgregarUsuario(JTextField txtNombreUsuario, JPasswordField txtContrasena){
+    boolean isValido = false; 
+    try {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        Clases.ConexionBD pConexion = new Clases.ConexionBD();
+        
+        System.out.println("Usuario: " + pDato.getNombreUsuario());
+        System.out.println("Contraseña: " + pDato.getContrasena());
+        
+        String query = "SELECT * FROM usuarios WHERE usuarios.nombreUsuario = '?' AND usuarios.contraseña = '?';";
+        
+        ps = pConexion.establecerConexion().prepareStatement(query);
+        ps.setString(1, pDato.getNombreUsuario());
+        ps.setString(2, pDato.getContrasena());
+        
+        rs = ps.executeQuery();
+        System.out.println("Nombre: " + rs.getString("nombreUsuario")); 
+        System.out.println("Contraseña: " + rs.getString("contraseña"));
+        
+        if (rs.next()) {
+            isValido = true;                        
+        }
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error ValidarUsuario:" + e.getMessage());
+    }
+    return isValido; 
+}
+    
+    
+    public void AgregarUsuario(Usuario pDato) throws ExcepcionUsuarioDuplicado{
         try {
             PreparedStatement ps =null;
             Clases.ConexionBD pConexion = new Clases.ConexionBD();
-            String comandoInsert = "INSERT INTO usuarios(nombre,pass)VALUE(?,?);";
-            ps=pConexion.establecerConexion().prepareStatement(comandoInsert); 
-           
-        String contra = String.valueOf(txtContrasena.getPassword());
             
-            ps.setString(1, txtNombreUsuario.getText());
-            ps.setString(2, contra);
+            String comandoInsert = "INSERT INTO usuarios(nombre,nombreusuario,contraseña)VALUE(?,?,?);";
+            
+            ps=pConexion.establecerConexion().prepareStatement(comandoInsert); 
+                       
+            ps.setString(1, pDato.getNombre());
+            ps.setString(2, pDato.getNombreUsuario());
+            ps.setString(3, pDato.getContrasena());
             
             ps.executeUpdate();
            
-        
+        } catch (SQLIntegrityConstraintViolationException error) {
+            throw new ExcepcionUsuarioDuplicado("El usuario ya existe, favor cambie su usuario:");
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "ERROR"+error.toString());
         }

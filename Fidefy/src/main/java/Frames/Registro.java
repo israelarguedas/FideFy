@@ -4,7 +4,10 @@
  */
 package Frames;
 
-import Clases.GeneroMusical;
+import Clases.ExcepcionUsuarioDuplicado;
+import Clases.PreferenciaMusical;
+import java.sql.SQLIntegrityConstraintViolationException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,8 +15,9 @@ import Clases.GeneroMusical;
  */
 public class Registro extends javax.swing.JFrame {
 
-    GeneroMusical guardarGeneros = new GeneroMusical();
+    PreferenciaMusical guardarGeneros = new PreferenciaMusical();
     Clases.Usuario pUsuario = new Clases.Usuario();
+    Clases.Usuario pDato = new Clases.Usuario();
     
     /**
      * Creates new form Registro
@@ -21,9 +25,6 @@ public class Registro extends javax.swing.JFrame {
     public Registro() {
         initComponents();
         this.setLocationRelativeTo(this);
-        
-        Clases.ConexionBD pConexion = new Clases.ConexionBD();
-        pConexion.establecerConexion();
     }
 
     /**
@@ -51,6 +52,10 @@ public class Registro extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
         btnCrearUsuario = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtConfirmarContrasena = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,12 +72,12 @@ public class Registro extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(2, 51, 19));
         jLabel3.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Crear usuario");
+        jLabel3.setText("Ingrese un nombre de usuario:");
 
         jLabel4.setBackground(new java.awt.Color(2, 51, 19));
         jLabel4.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Crear contraseña");
+        jLabel4.setText("Digite su contraseña:");
 
         txtNombreUsuario.setBackground(new java.awt.Color(48, 87, 48));
         txtNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
@@ -143,19 +148,71 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setBackground(new java.awt.Color(2, 51, 19));
+        jLabel6.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Ingrese su nombre:");
+
+        txtNombre.setBackground(new java.awt.Color(48, 87, 48));
+        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+
+        txtConfirmarContrasena.setBackground(new java.awt.Color(48, 87, 48));
+        txtConfirmarContrasena.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtConfirmarContrasena.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setBackground(new java.awt.Color(2, 51, 19));
+        jLabel7.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Confirme su contraseña:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(btnCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCrearUsuario)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(70, 70, 70))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(90, 90, 90))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(60, 60, 60)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(94, 94, 94)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(cbxElectronica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,26 +229,8 @@ public class Registro extends javax.swing.JFrame {
                                     .addComponent(cbxJazz, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(btnCancelar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCrearUsuario)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,15 +238,23 @@ public class Registro extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -254,12 +301,56 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
-     
-     pUsuario.AgregarUsuario(txtNombreUsuario, txtContrasena);
-     insertarGeneros();
-          
-     
+
+    if(new String(txtContrasena.getPassword()).equals(new String(txtConfirmarContrasena.getPassword()))) {
+        // Las contraseñas coinciden
+
+            // Prepara la información del usuario en pUsuario
+            String contrasena = String.valueOf(txtContrasena.getPassword());
+            pUsuario.setNombreUsuario(txtNombreUsuario.getText());
+            pUsuario.setNombre(txtNombre.getText());
+            pUsuario.setContrasena(contrasena);
+
+            // Intenta registrar en la base de datos y valid si el nombreUsuario existe
+            try {
+                
+                pUsuario.AgregarUsuario(pUsuario);
+                alimentarGenerosUsuario();
+                
+                // Limpia las casillas de la interfaz después del registro exitoso
+                txtNombre.setText("");
+                txtNombreUsuario.setText("");
+                txtContrasena.setText("");
+                txtConfirmarContrasena.setText("");
+                cbxClasica.setSelected(false);
+                cbxElectronica.setSelected(false);
+                cbxJazz.setSelected(false);
+                cbxLatina.setSelected(false);
+                cbxPop.setSelected(false);
+                cbxRock.setSelected(false);
+                        
+                JOptionPane.showMessageDialog(this, "El usuario: "+pUsuario.getNombreUsuario()+ "se registro con exito!");
+                
+            } catch (ExcepcionUsuarioDuplicado e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+                txtNombreUsuario.setText("");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "EROR:" +e);
+            }
+
+
+    } else {
+        // Las contraseñas no coinciden
+        JOptionPane.showMessageDialog(this, "La contraseña digitada no coincide, intente de nuevo");
+        txtContrasena.setText("");
+        txtConfirmarContrasena.setText("");
+    }   
+ 
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,7 +387,7 @@ public class Registro extends javax.swing.JFrame {
         });
     }
     
-    public void insertarGeneros(){
+    public void alimentarGenerosUsuario(){
         
         guardarGeneros.setNombreUsuario(pUsuario.getNombreUsuario());
         guardarGeneros.setClasica(cbxClasica.isSelected());
@@ -305,6 +396,8 @@ public class Registro extends javax.swing.JFrame {
         guardarGeneros.setLatina(cbxLatina.isSelected());
         guardarGeneros.setPop(cbxPop.isSelected());
         guardarGeneros.setRock(cbxRock.isSelected());
+        
+        guardarGeneros.RegistrarPreferencias(guardarGeneros);
         
         //Requiere una tabla de generosMusicales en la BD que lleva el control de los generos y usuarios
         
@@ -326,8 +419,12 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField txtConfirmarContrasena;
     private javax.swing.JPasswordField txtContrasena;
+    private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }

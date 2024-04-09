@@ -4,7 +4,9 @@
  */
 package Frames;
 
+import Clases.Usuario;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -218,8 +220,26 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        Clases.Usuario pUsuario = new Clases.Usuario();
-        pUsuario.ValidarUsuario(txtNombreUsuario, txtContrasena);
+        
+        String contrasena = String.valueOf(txtContrasena.getPassword());
+        Clases.Usuario pUsuario = new Clases.Usuario(txtNombreUsuario.getText(), contrasena);
+        //Se toma informacion de inicio sesion
+
+        
+        boolean usuarioValido = pUsuario.ValidarUsuario(pUsuario);
+        
+        if (usuarioValido) {
+            JOptionPane.showMessageDialog(null, "Bienvenido " + pUsuario.getNombreUsuario()+"!!");
+            this.dispose(); 
+            // Mostrar la ventana interfaz
+            Interfaz vVentana = new Interfaz();
+            vVentana.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos. Vuelva a intentarlo.");
+        }
+        
+        //Se valida contra base de datos
+        pUsuario.ValidarUsuario(pUsuario);
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**

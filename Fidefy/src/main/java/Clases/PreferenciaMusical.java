@@ -4,11 +4,13 @@
  */
 package Clases;
 
+import java.sql.PreparedStatement;
+
 /**
  *
  * @author mhernandez
  */
-public class GeneroMusical {
+public class PreferenciaMusical {
     
     private String nombreUsuario;
     private boolean electronica;
@@ -18,10 +20,10 @@ public class GeneroMusical {
     private boolean clasica;
     private boolean latina;
 
-    public GeneroMusical() {
+    public PreferenciaMusical() {
     }
 
-    public GeneroMusical(String idUsuario, boolean electronica, boolean rock, boolean pop, boolean jazz, boolean clasica, boolean latina) {
+    public PreferenciaMusical(String idUsuario, boolean electronica, boolean rock, boolean pop, boolean jazz, boolean clasica, boolean latina) {
         this.nombreUsuario = idUsuario;
         this.electronica = electronica;
         this.rock = rock;
@@ -87,9 +89,30 @@ public class GeneroMusical {
         this.latina = latina;
     }
 
-    @Override
-    public String toString() {
-        return "GeneroMusical{" + "idUsuario=" + nombreUsuario + ", electronica=" + electronica + ", rock=" + rock + ", pop=" + pop + ", jazz=" + jazz + ", clasica=" + clasica + ", latina=" + latina + '}';
+    public void RegistrarPreferencias(PreferenciaMusical pDatos){
+        try {
+            PreparedStatement comandoInsertPreparado =null;
+            Clases.ConexionBD pConexion = new Clases.ConexionBD();
+            
+            String comandoInsert = "INSERT INTO preferenciasmusicales(nombreusuario,electronica,pop,jazz,rock,clasica,latina)VALUE(?,?,?,?,?,?,?);";
+            
+            comandoInsertPreparado=pConexion.establecerConexion().prepareStatement(comandoInsert); 
+           
+            
+            comandoInsertPreparado.setString(1, pDatos.nombreUsuario);
+            comandoInsertPreparado.setBoolean(2, pDatos.electronica);
+            comandoInsertPreparado.setBoolean(3, pDatos.pop);
+            comandoInsertPreparado.setBoolean(4, pDatos.jazz);
+            comandoInsertPreparado.setBoolean(5, pDatos.rock);
+            comandoInsertPreparado.setBoolean(6, pDatos.clasica);
+            comandoInsertPreparado.setBoolean(7, pDatos.latina);
+            
+            comandoInsertPreparado.executeUpdate();
+           
+        
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
     }
     
     
