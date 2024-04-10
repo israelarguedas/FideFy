@@ -138,17 +138,18 @@ public boolean ValidarUsuario(Usuario pDato){
         System.out.println("Usuario: " + pDato.getNombreUsuario());
         System.out.println("Contraseña: " + pDato.getContrasena());
         
-        String query = "SELECT * FROM usuarios WHERE usuarios.nombreUsuario = '?' AND usuarios.contraseña = '?';";
+        
+        String query = "SELECT * FROM usuarios WHERE usuarios.nombreusuario = ? AND usuarios.contraseña = ?;";
         
         ps = pConexion.establecerConexion().prepareStatement(query);
-        ps.setString(1, pDato.getNombreUsuario());
-        ps.setString(2, pDato.getContrasena());
+        ps.setString(1, pDato.getNombreUsuario()); 
+        ps.setString(2, pDato.getContrasena()); 
         
         rs = ps.executeQuery();
-        System.out.println("Nombre: " + rs.getString("nombreUsuario")); 
-        System.out.println("Contraseña: " + rs.getString("contraseña"));
-        
+
         if (rs.next()) {
+            System.out.println("Nombre: " + rs.getString("nombreusuario")); 
+            System.out.println("Contraseña: " + rs.getString("contraseña"));
             isValido = true;                        
         }
         

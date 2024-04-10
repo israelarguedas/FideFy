@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     int xMouse, yMouse;
+    
 
     /**
      * Creates new form Login
@@ -221,25 +222,29 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         
+        //Se carga los datos ingresados en el login a vUsuario
         String contrasena = String.valueOf(txtContrasena.getPassword());
-        Clases.Usuario pUsuario = new Clases.Usuario(txtNombreUsuario.getText(), contrasena);
-        //Se toma informacion de inicio sesion
-
+        Usuario vUsuario = new Usuario(txtNombreUsuario.getText(), contrasena);
         
-        boolean usuarioValido = pUsuario.ValidarUsuario(pUsuario);
+                
+        //Se valida vUsuario y se carga un true o false a usuarioValido
+        boolean usuarioValido = vUsuario.ValidarUsuario(vUsuario);
+        System.out.println(usuarioValido);
         
         if (usuarioValido) {
-            JOptionPane.showMessageDialog(null, "Bienvenido " + pUsuario.getNombreUsuario()+"!!");
-            this.dispose(); 
+            JOptionPane.showMessageDialog(null, "Bienvenido " + vUsuario.getNombreUsuario()+"!!");
+ 
             // Mostrar la ventana interfaz
             Interfaz vVentana = new Interfaz();
             vVentana.setVisible(true);
+            this.dispose();
+            
         } else {
             JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos. Vuelva a intentarlo.");
+            txtNombreUsuario.setText("");
+            txtContrasena.setText("");
+
         }
-        
-        //Se valida contra base de datos
-        pUsuario.ValidarUsuario(pUsuario);
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**

@@ -59,7 +59,7 @@ CREATE TABLE `preferenciasmusicales` (
   `latina` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombreusuario_UNIQUE` (`nombreusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `preferenciasmusicales` (
 
 LOCK TABLES `preferenciasmusicales` WRITE;
 /*!40000 ALTER TABLE `preferenciasmusicales` DISABLE KEYS */;
-INSERT INTO `preferenciasmusicales` VALUES (1,'aplomrk',1,1,1,0,0,0),(4,'juan512',1,1,0,1,0,1),(5,'ygonzalez',0,1,1,0,1,1),(6,'loly1',1,0,0,1,0,0);
+INSERT INTO `preferenciasmusicales` VALUES (1,'aplomrk',1,1,1,0,0,0),(4,'juan512',1,1,0,1,0,1),(5,'ygonzalez',0,1,1,0,1,1),(6,'loly1',1,0,0,1,0,0),(7,'señogato',1,1,0,0,1,0);
 /*!40000 ALTER TABLE `preferenciasmusicales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,11 +82,11 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `nombreUsuario` varchar(25) NOT NULL,
+  `nombreusuario` varchar(25) NOT NULL,
   `contraseña` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreusuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,9 +95,17 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Marcos','aplomrk','banano'),(8,'Juano','juan512','holas'),(9,'Yorleny','ygonzalez','panycafe'),(10,'Karol','loly1','kiko');
+INSERT INTO `usuarios` VALUES (1,'Marcos','aplomrk','banano'),(8,'Juano','juan512','holas'),(9,'Yorleny','ygonzalez','panycafe'),(10,'Karol','loly1','kiko'),(11,'Juan vindas','señogato','gatos');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'fidefy'
+--
+
+--
+-- Dumping routines for database 'fidefy'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -108,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-09 17:54:21
+-- Dump completed on 2024-04-10  9:19:36
