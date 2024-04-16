@@ -4,15 +4,18 @@
  */
 package Clases;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 
 /**
  *
  * @author mhernandez
  */
-public class PreferenciaMusical {
+public class UsuarioRegistro implements Serializable{
     
+    private String nombre;
     private String nombreUsuario;
+    private String Contrasena;
     private boolean electronica;
     private boolean rock;
     private boolean pop;
@@ -20,10 +23,23 @@ public class PreferenciaMusical {
     private boolean clasica;
     private boolean latina;
 
-    public PreferenciaMusical() {
+    public UsuarioRegistro() {
     }
 
-    public PreferenciaMusical(String idUsuario, boolean electronica, boolean rock, boolean pop, boolean jazz, boolean clasica, boolean latina) {
+    public UsuarioRegistro(String nombre, String nombreUsuario, String Contrasena, boolean electronica, boolean rock, boolean pop, boolean jazz, boolean clasica, boolean latina) {
+        this.nombre = nombre;
+        this.nombreUsuario = nombreUsuario;
+        this.Contrasena = Contrasena;
+        this.electronica = electronica;
+        this.rock = rock;
+        this.pop = pop;
+        this.jazz = jazz;
+        this.clasica = clasica;
+        this.latina = latina;
+    }
+   
+    /*
+    public UsuarioRegistro(String idUsuario, boolean electronica, boolean rock, boolean pop, boolean jazz, boolean clasica, boolean latina) {
         this.nombreUsuario = idUsuario;
         this.electronica = electronica;
         this.rock = rock;
@@ -32,10 +48,29 @@ public class PreferenciaMusical {
         this.clasica = clasica;
         this.latina = latina;
     }
+    */
+    
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getIdUsuario() {
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getContrasena() {
+        return Contrasena;
+    }
+
+    public void setContrasena(String Contrasena) {
+        this.Contrasena = Contrasena;
+    }
+
+   
+    public String getNombreUsuario() {
         return nombreUsuario;
     }
+
 
     public void setNombreUsuario(String idUsuario) {
         this.nombreUsuario = idUsuario;
@@ -89,7 +124,7 @@ public class PreferenciaMusical {
         this.latina = latina;
     }
 
-    public void RegistrarPreferencias(PreferenciaMusical pDatos){
+    public void RegistrarPreferencias(UsuarioRegistro pDatos){
         try {
             PreparedStatement comandoInsertPreparado =null;
             Clases.ConexionBD pConexion = new Clases.ConexionBD();
@@ -113,6 +148,11 @@ public class PreferenciaMusical {
         } catch (Exception error) {
             System.out.println("ERROR: "+error.toString());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "UsuarioRegistro{" + "nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", Contrasena=" + Contrasena + ", electronica=" + electronica + ", rock=" + rock + ", pop=" + pop + ", jazz=" + jazz + ", clasica=" + clasica + ", latina=" + latina + '}';
     }
     
     

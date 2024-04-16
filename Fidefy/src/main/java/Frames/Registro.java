@@ -4,9 +4,9 @@
  */
 package Frames;
 
-import Clases.ExcepcionUsuarioDuplicado;
-import Clases.PreferenciaMusical;
-import java.sql.SQLIntegrityConstraintViolationException;
+import Clases.UsuarioRegistro;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,8 +15,9 @@ import javax.swing.JOptionPane;
  */
 public class Registro extends javax.swing.JFrame {
 
-    PreferenciaMusical guardarGeneros = new PreferenciaMusical();
-    Clases.Usuario pUsuario = new Clases.Usuario();
+    UsuarioRegistro guardarGeneros = new UsuarioRegistro();
+    //Clases.Usuario pUsuario = new Clases.Usuario();
+    UsuarioRegistro pUsuario = new UsuarioRegistro();
     Clases.Usuario pDato = new Clases.Usuario();
     
     /**
@@ -97,6 +98,7 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
+        cbxElectronica.setBackground(new java.awt.Color(2, 51, 19));
         cbxElectronica.setForeground(new java.awt.Color(255, 255, 255));
         cbxElectronica.setText("Electronica");
         cbxElectronica.addActionListener(new java.awt.event.ActionListener() {
@@ -105,15 +107,19 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
+        cbxRock.setBackground(new java.awt.Color(2, 51, 19));
         cbxRock.setForeground(new java.awt.Color(255, 255, 255));
         cbxRock.setText("Rock");
 
+        cbxPop.setBackground(new java.awt.Color(2, 51, 19));
         cbxPop.setForeground(new java.awt.Color(255, 255, 255));
         cbxPop.setText("Pop");
 
+        cbxClasica.setBackground(new java.awt.Color(2, 51, 19));
         cbxClasica.setForeground(new java.awt.Color(255, 255, 255));
         cbxClasica.setText("Clasica");
 
+        cbxJazz.setBackground(new java.awt.Color(2, 51, 19));
         cbxJazz.setForeground(new java.awt.Color(255, 255, 255));
         cbxJazz.setText("Jazz");
         cbxJazz.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +128,7 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
+        cbxLatina.setBackground(new java.awt.Color(2, 51, 19));
         cbxLatina.setForeground(new java.awt.Color(255, 255, 255));
         cbxLatina.setText("Latina");
         cbxLatina.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +137,7 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setBackground(new java.awt.Color(2, 51, 19));
         jLabel5.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("¿Qué te gustaria escuchar?");
@@ -213,21 +221,22 @@ public class Registro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbxElectronica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbxRock, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(28, 28, 28)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(cbxClasica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cbxLatina, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(cbxPop, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cbxJazz, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxElectronica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxRock, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cbxClasica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxLatina, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cbxPop, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxJazz, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(87, 87, 87))))
@@ -254,9 +263,9 @@ public class Registro extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel5)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxElectronica)
                     .addComponent(cbxPop)
@@ -302,21 +311,44 @@ public class Registro extends javax.swing.JFrame {
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
 
+            // Se valida si las contraseñas coinciden        
     if(new String(txtContrasena.getPassword()).equals(new String(txtConfirmarContrasena.getPassword()))) {
-        // Las contraseñas coinciden
-
-            // Prepara la información del usuario en pUsuario
+            
+            Socket socket = null;
+            ObjectOutputStream serializador = null;
+            
+            // Prepara la información del usuario y su generos de preferencia
             String contrasena = String.valueOf(txtContrasena.getPassword());
             pUsuario.setNombreUsuario(txtNombreUsuario.getText());
             pUsuario.setNombre(txtNombre.getText());
             pUsuario.setContrasena(contrasena);
 
+            //Agrega sus gustos musicales
+            pUsuario.setClasica(cbxClasica.isSelected());
+            pUsuario.setElectronica(cbxElectronica.isSelected());
+            pUsuario.setJazz(cbxJazz.isSelected());
+            pUsuario.setLatina(cbxLatina.isSelected());
+            pUsuario.setPop(cbxPop.isSelected());
+            pUsuario.setRock(cbxRock.isSelected());
+            
+            //System.out.println(pUsuario.toString());
+            
+            //alimentarGenerosUsuario();
+
             // Intenta registrar en la base de datos y valid si el nombreUsuario existe
             try {
-                
-                pUsuario.AgregarUsuario(pUsuario);
-                alimentarGenerosUsuario();
-                
+                 
+                socket = new Socket("127.0.0.1", 15575);
+                serializador = new ObjectOutputStream(socket.getOutputStream());
+
+                // Enviar datos del usuario al servidor
+                serializador.writeObject(pUsuario);
+                   
+                serializador.close();
+                //deserializador.close();
+                socket.close();
+    
+    
                 // Limpia las casillas de la interfaz después del registro exitoso
                 txtNombre.setText("");
                 txtNombreUsuario.setText("");
@@ -328,17 +360,10 @@ public class Registro extends javax.swing.JFrame {
                 cbxLatina.setSelected(false);
                 cbxPop.setSelected(false);
                 cbxRock.setSelected(false);
-                        
-                JOptionPane.showMessageDialog(this, "El usuario: "+pUsuario.getNombreUsuario()+ "se registro con exito!");
-                
-            } catch (ExcepcionUsuarioDuplicado e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
-                txtNombreUsuario.setText("");
+                                   
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "EROR:" +e);
+                JOptionPane.showMessageDialog(null, "ERROR Registro:" +e);
             }
-
-
     } else {
         // Las contraseñas no coinciden
         JOptionPane.showMessageDialog(this, "La contraseña digitada no coincide, intente de nuevo");
@@ -397,9 +422,11 @@ public class Registro extends javax.swing.JFrame {
         guardarGeneros.setPop(cbxPop.isSelected());
         guardarGeneros.setRock(cbxRock.isSelected());
         
+        /*Insercion funcional desde clase RegistrarPreferencias a SQL sin cliente servidor
         guardarGeneros.RegistrarPreferencias(guardarGeneros);
+        */
         
-        //Requiere una tabla de generosMusicales en la BD que lleva el control de los generos y usuarios
+        
         
     }       
         

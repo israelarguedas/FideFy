@@ -25,7 +25,7 @@ public class BibliotecaMusica {
     public void setMiBiblioteca(ArrayList<Cancion> miBiblioteca) {
         this.miBiblioteca = miBiblioteca;
     }
-
+    /*
     public void agregar_cancion(Cancion NuevaCancion){
         this.miBiblioteca.add(NuevaCancion);
         NuevaCancion.setMeGusta(true);
@@ -39,6 +39,6 @@ public class BibliotecaMusica {
         JOptionPane.showMessageDialog(null,
                 "La cancion " + NuevaCancion.getTitulo() + " ha sido removida de la biblioteca");
     }    
-    
+    */
 }
 

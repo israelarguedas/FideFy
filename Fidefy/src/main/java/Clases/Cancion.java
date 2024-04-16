@@ -10,22 +10,19 @@ public class Cancion implements Comparable<Cancion>{
     private String Album;
     private String AnoLanzamiento;
     private String Genero;
-    private boolean MeGusta;
-    private int ArtistaID;
-    private int ComentarioID;
+    private int MeGusta;
 
     public Cancion() {
     }
 
-    public Cancion(String Titulo, String Artista, String Album, String AnoLanzamiento, String Genero, boolean MeGusta, int ArtistaID, int ComentarioID) {
+    public Cancion(String Titulo, String Artista, String Album, String AnoLanzamiento, String Genero, int MeGusta) {
         this.Titulo = Titulo;
         this.Artista = Artista;
         this.Album = Album;
         this.AnoLanzamiento = AnoLanzamiento;
         this.Genero = Genero;
         this.MeGusta = MeGusta;
-        this.ArtistaID = ArtistaID;
-        this.ComentarioID = ComentarioID;
+ 
     }
 
     public String getTitulo() {
@@ -68,29 +65,14 @@ public class Cancion implements Comparable<Cancion>{
         this.Genero = Genero;
     }
 
-    public boolean isMeGusta() {
+    public int isMeGusta() {
         return MeGusta;
     }
 
-    public void setMeGusta(boolean MeGusta) {
+    public void setMeGusta(int MeGusta) {
         this.MeGusta = MeGusta;
     }
 
-    public int getArtistaID() {
-        return ArtistaID;
-    }
-
-    public void setArtistaID(int ArtistaID) {
-        this.ArtistaID = ArtistaID;
-    }
-
-    public int getComentarioID() {
-        return ComentarioID;
-    }
-
-    public void setComentarioID(int ComentarioID) {
-        this.ComentarioID = ComentarioID;
-    }
 
     @Override
     public int compareTo(Cancion NuevaCancion) {

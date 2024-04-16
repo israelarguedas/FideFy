@@ -4,8 +4,14 @@
  */
 package Frames;
 
+import Clases.HiloServidor;
 import Clases.Usuario;
+import Clases.UsuarioInicioSesion;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import javax.swing.JOptionPane;
 
 
@@ -15,7 +21,6 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     int xMouse, yMouse;
-    
 
     /**
      * Creates new form Login
@@ -23,6 +28,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(this);
+                
     }
 
     /**
@@ -224,27 +230,43 @@ public class Login extends javax.swing.JFrame {
         
         //Se carga los datos ingresados en el login a vUsuario
         String contrasena = String.valueOf(txtContrasena.getPassword());
-        Usuario vUsuario = new Usuario(txtNombreUsuario.getText(), contrasena);
-        
-                
-        //Se valida vUsuario y se carga un true o false a usuarioValido
-        boolean usuarioValido = vUsuario.ValidarUsuario(vUsuario);
-        System.out.println(usuarioValido);
-        
-        if (usuarioValido) {
-            JOptionPane.showMessageDialog(null, "Bienvenido " + vUsuario.getNombreUsuario()+"!!");
- 
-            // Mostrar la ventana interfaz
-            Interfaz vVentana = new Interfaz();
-            vVentana.setVisible(true);
-            this.dispose();
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos. Vuelva a intentarlo.");
-            txtNombreUsuario.setText("");
-            txtContrasena.setText("");
+        //Usuario vUsuario = new Usuario(txtNombreUsuario.getText(), contrasena);
+        UsuarioInicioSesion vInicioSesion = new UsuarioInicioSesion(txtNombreUsuario.getText(), contrasena,false);
+               
+       
+    try (Socket vSocket = new Socket("127.0.0.1", 15575);
+             ObjectOutputStream serializador = new ObjectOutputStream(vSocket.getOutputStream());
+             ObjectInputStream deserializador = new ObjectInputStream(vSocket.getInputStream())) {
 
-        }
+            serializador.writeObject(vInicioSesion);
+
+            Object objetoRecibido = deserializador.readObject();
+            
+            if (objetoRecibido instanceof UsuarioInicioSesion) {
+                UsuarioInicioSesion respuesta = (UsuarioInicioSesion) objetoRecibido;
+                boolean usuarioValido = respuesta.isEsValido();
+
+                if (usuarioValido) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido " + vInicioSesion.getNombreUsuario() + "!!");
+                    Interfaz vVentana = new Interfaz();
+                    vVentana.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos. Vuelva a intentarlo.");
+                    txtContrasena.setText("");
+                }
+            } else {
+                System.out.println("Error con el objeto recibido");
+            }
+    } catch (IOException e) {
+        System.out.println("Error de conexión: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error de conexión. Intente nuevamente.");
+    } catch (ClassNotFoundException e) {
+        System.out.println("Error de clase no encontrada: " + e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Error general: " + e.getMessage());
+    }
+
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
