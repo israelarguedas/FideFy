@@ -10,4 +10,8 @@ package Clases;
  */
 public class Chat {
     
+    private String nombreUsuarioEnvia;
+    private String nombreUsuarioRecibe;
+    private String mensaje;
+    
 }
