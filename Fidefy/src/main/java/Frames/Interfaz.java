@@ -30,6 +30,10 @@ public class Interfaz extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jToolBar2 = new javax.swing.JToolBar();
         jToolBar3 = new javax.swing.JToolBar();
+        jToolBar4 = new javax.swing.JToolBar();
+        tpChatsDirectos = new javax.swing.JTabbedPane();
+        jToolBar5 = new javax.swing.JToolBar();
+        jToolBar6 = new javax.swing.JToolBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +52,27 @@ public class Interfaz extends javax.swing.JFrame {
         jToolBar3.setBackground(new java.awt.Color(2, 51, 19));
         jToolBar3.setRollover(true);
         jTabbedPane1.addTab("Cuenta", jToolBar3);
+
+        jToolBar4.setBackground(new java.awt.Color(2, 51, 19));
+        jToolBar4.setRollover(true);
+
+        tpChatsDirectos.setBackground(new java.awt.Color(0, 51, 51));
+        tpChatsDirectos.setForeground(new java.awt.Color(255, 255, 255));
+        tpChatsDirectos.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tpChatsDirectos.setAutoscrolls(true);
+        tpChatsDirectos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jToolBar5.setBackground(new java.awt.Color(2, 51, 19));
+        jToolBar5.setRollover(true);
+        tpChatsDirectos.addTab("Mensajes directos", jToolBar5);
+
+        jToolBar6.setBackground(new java.awt.Color(2, 51, 19));
+        jToolBar6.setRollover(true);
+        tpChatsDirectos.addTab("Chats temáticos", jToolBar6);
+
+        jToolBar4.add(tpChatsDirectos);
+
+        jTabbedPane1.addTab("Chats", jToolBar4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,5 +128,9 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JToolBar jToolBar4;
+    private javax.swing.JToolBar jToolBar5;
+    private javax.swing.JToolBar jToolBar6;
+    private javax.swing.JTabbedPane tpChatsDirectos;
     // End of variables declaration//GEN-END:variables
 }
