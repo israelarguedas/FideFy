@@ -4,6 +4,10 @@
  */
 package Frames;
 
+import Clases.Cancion;
+import Clases.ListaReproduccion;
+import Clases.Seguidos;
+
 /**
  *
  * @author josue
@@ -29,6 +33,12 @@ public class Interfaz extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
         jToolBar2 = new javax.swing.JToolBar();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        CBoxTipo = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,6 +53,67 @@ public class Interfaz extends javax.swing.JFrame {
 
         jToolBar2.setBackground(new java.awt.Color(2, 51, 19));
         jToolBar2.setRollover(true);
+
+        jPanel1.setBackground(new java.awt.Color(0, 51, 0));
+        jPanel1.setForeground(new java.awt.Color(0, 51, 0));
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Buscar: ");
+
+        CBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canciones", "Artistas", "Usuarios", "Listas de Reproduccion" }));
+        CBoxTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBoxTipoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Tipo:");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuscar)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CBoxTipo, 0, 438, Short.MAX_VALUE)
+                            .addComponent(txtBuscar))))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscar)
+                .addContainerGap(271, Short.MAX_VALUE))
+        );
+
+        jToolBar2.add(jPanel1);
+
         jTabbedPane1.addTab("Buscar", jToolBar2);
 
         jToolBar3.setBackground(new java.awt.Color(2, 51, 19));
@@ -53,15 +124,38 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CBoxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBoxTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBoxTipoActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        Cancion nuevaCancion = new Cancion();
+        //Artista nuevoArtista = new Artista();
+        ListaReproduccion nuevaLista = new ListaReproduccion();
+        Seguidos nuevoSeguidor = new Seguidos();
+        
+        if(CBoxTipo.getSelectedIndex() == 0){ 
+            nuevaCancion.setTitulo(txtBuscar.getText());
+        }if(CBoxTipo.getSelectedIndex() == 1) {
+            //nuevoArtista.setTitulo(txtBuscar.getText());
+        }if(CBoxTipo.getSelectedIndex() == 2) {
+            nuevaLista.setNombreLista(txtBuscar.getText());
+        }else {
+            nuevoSeguidor.setNombreUsuario(txtBuscar.getText());
+        }
+        
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,9 +193,15 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CBoxTipo;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

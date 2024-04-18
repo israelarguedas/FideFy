@@ -8,6 +8,13 @@ package Clases;
  *
  * @author Grupo_2
  */
-public class Seguidos {
+public class Seguidos extends Usuario{
+
+    public Seguidos() {
+    }
+
+    public Seguidos(String NombreUsuario) {
+        super(NombreUsuario);
+    }
     
 }

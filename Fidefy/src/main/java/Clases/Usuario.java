@@ -23,7 +23,11 @@ public class Usuario implements Serializable, Comparable<Usuario>{
 
     public Usuario() {
     }
-
+    
+    public Usuario(String NombreUsuario) {
+        this.NombreUsuario = NombreUsuario;
+    }
+    
     public Usuario(String NombreUsuario, String Contrasena) {
         this.NombreUsuario = NombreUsuario;
         this.Contrasena = Contrasena;
