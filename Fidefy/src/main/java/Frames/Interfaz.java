@@ -19,7 +19,6 @@ public class Interfaz extends javax.swing.JFrame {
     
     public void setUsuarioActual(String pUsuarioActual){
         this.usuarioActual=pUsuarioActual;
-        lblPrueba.setText(usuarioActual);
     }
     
 
