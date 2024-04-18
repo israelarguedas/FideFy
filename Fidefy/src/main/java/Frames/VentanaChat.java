@@ -9,13 +9,24 @@ package Frames;
  * @author 100da
  */
 public class VentanaChat extends javax.swing.JFrame {
-
+    private String nombreChat; //nombre de la persona remitente o nombre del tema
+    private String emisor; //quien envia el mensaje
     /**
      * Creates new form VentanaChat
      */
     public VentanaChat() {
         initComponents();
     }
+    
+    public void setNombreChat(String pNombreChat){
+        this.nombreChat=pNombreChat;
+        this.lblNombreChat.setText(pNombreChat);
+    }
+    
+    public void setEmisor(String pEmisor){
+        this.emisor=pEmisor;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

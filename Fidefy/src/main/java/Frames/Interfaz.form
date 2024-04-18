@@ -287,6 +287,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Electr&#xf3;nica"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChatElectronicaActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnChatPop">
                       <Properties>
@@ -295,6 +298,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Pop"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChatPopActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnChatJazz">
                       <Properties>
