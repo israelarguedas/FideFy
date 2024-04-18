@@ -49,7 +49,7 @@
                       <Component id="lblNombreChat" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jTextField1" max="32767" attributes="0"/>
+                              <Component id="txtNuevoMensaje" max="32767" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnEnviarMensaje" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -69,7 +69,7 @@
                   <Component id="jScrollPane1" min="-2" pref="147" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextField1" min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="txtNuevoMensaje" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="btnEnviarMensaje" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="22" max="32767" attributes="0"/>
@@ -104,7 +104,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="txtNuevoMensaje">
         </Component>
         <Component class="javax.swing.JButton" name="btnEnviarMensaje">
           <Properties>

@@ -30,7 +30,7 @@ public class VentanaChat extends javax.swing.JFrame {
         lblNombreChat = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaChat = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
+        txtNuevoMensaje = new javax.swing.JTextField();
         btnEnviarMensaje = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -57,7 +57,7 @@ public class VentanaChat extends javax.swing.JFrame {
                     .addComponent(lblNombreChat)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jTextField1)
+                            .addComponent(txtNuevoMensaje)
                             .addGap(18, 18, 18)
                             .addComponent(btnEnviarMensaje))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -72,7 +72,7 @@ public class VentanaChat extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNuevoMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnviarMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -130,8 +130,8 @@ public class VentanaChat extends javax.swing.JFrame {
     private javax.swing.JButton btnEnviarMensaje;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblNombreChat;
     private javax.swing.JTextArea txaChat;
+    private javax.swing.JTextField txtNuevoMensaje;
     // End of variables declaration//GEN-END:variables
 }
