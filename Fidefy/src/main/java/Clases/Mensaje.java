@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class Mensaje implements Serializable{
     private String emisor;
-    private String receptor;
+    private String receptor="";
     private int tema;
     private String contenido;
     private String fecha;

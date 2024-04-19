@@ -153,7 +153,7 @@ public class VentanaChat extends javax.swing.JFrame {
             vSerializador.close();
             vNuevoSocket.close();
             
-            JOptionPane.showMessageDialog(this, "Mensaje enviado al servidor");
+            //JOptionPane.showMessageDialog(this, "Mensaje enviado al servidor");
             
         } catch (IOException ex) {
             Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);

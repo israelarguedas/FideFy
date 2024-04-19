@@ -85,6 +85,7 @@ public void run() {
                     System.err.println("Error al enviar respuesta: " + e.getMessage());
                 }
             } if (objetoRecibido instanceof Mensaje){
+                //JOptionPane.showMessageDialog(null, "mensaje recibido en server");
                 Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
                 guardarMensajeBD(vMensajeRecibido);
             }
@@ -181,22 +182,28 @@ public UsuarioInicioSesion validarUsuario(UsuarioInicioSesion pDato) {
 }
 
 private void guardarMensajeBD(Mensaje pMensaje){
+
     ConexionBD vConectar = new ConexionBD();
     Connection conexion = null;
     
-    if (pMensaje.getReceptor().equals("")){//Mensaje tematico, ya que no tiene receptor
+    if (pMensaje.getReceptor().equals("")){ //Mensaje tematico, ya que no tiene receptor
         try {
-        
         
         conexion = vConectar.establecerConexion();
         conexion.setAutoCommit(false);
         
-        String comandoInsert = "INSERT INTO usuarios(nombre, nombreusuario, contraseña) VALUES (?, ?, ?);";
+        String comandoInsert = "INSERT INTO chatsgrupales(remitente, mensaje, tema) VALUES (?, ?, ?);";
+        PreparedStatement comandoPreparado = vConectar.establecerConexion().prepareStatement(comandoInsert);
+        comandoPreparado.setString(1, pMensaje.getEmisor());
+        comandoPreparado.setString(2, pMensaje.getContenido());
+        comandoPreparado.setInt(3, pMensaje.getTema());
+        comandoPreparado.executeUpdate();
+        conexion.close();
+        //JOptionPane.showMessageDialog(null, "mensaje guardado en BD");
+        
         } catch (SQLException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }else{//mensaje privado, que si tiene receptor
-    
     }
 }
               
