@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
@@ -82,7 +84,11 @@ public void run() {
                 } catch (IOException e) {
                     System.err.println("Error al enviar respuesta: " + e.getMessage());
                 }
+            } if (objetoRecibido instanceof Mensaje){
+                Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
+                guardarMensajeBD(vMensajeRecibido);
             }
+            
             vDeserializador.close();
             vSerializador.close();
             vPeticionCliente.close();
@@ -172,6 +178,26 @@ public UsuarioInicioSesion validarUsuario(UsuarioInicioSesion pDato) {
         consulta.setEsValido(false);
     }
     return consulta;
+}
+
+private void guardarMensajeBD(Mensaje pMensaje){
+    ConexionBD vConectar = new ConexionBD();
+    Connection conexion = null;
+    
+    if (pMensaje.getReceptor().equals("")){//Mensaje tematico, ya que no tiene receptor
+        try {
+        
+        
+        conexion = vConectar.establecerConexion();
+        conexion.setAutoCommit(false);
+        
+        String comandoInsert = "INSERT INTO usuarios(nombre, nombreusuario, contraseña) VALUES (?, ?, ?);";
+        } catch (SQLException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }else{//mensaje privado, que si tiene receptor
+    
+    }
 }
               
 

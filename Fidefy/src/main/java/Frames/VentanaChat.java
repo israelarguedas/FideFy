@@ -118,7 +118,7 @@ public class VentanaChat extends javax.swing.JFrame {
     private void btnEnviarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMensajeActionPerformed
         // TODO add your handling code here:
         Mensaje vNuevoMensaje = new Mensaje();
-        vNuevoMensaje.setContenido(txaChat.getText());
+        vNuevoMensaje.setContenido(txtNuevoMensaje.getText());
         vNuevoMensaje.setEmisor(this.emisor);
         switch (this.nombreChat){
         case "Rock":
@@ -149,15 +149,14 @@ public class VentanaChat extends javax.swing.JFrame {
         try {
             vNuevoSocket = new Socket("127.0.0.1", 15575);
             ObjectOutputStream vSerializador = new ObjectOutputStream(vNuevoSocket.getOutputStream());
-            vSerializador.writeObject(vNuevoMensaje);
-            //vSerializador.close();
-            //vNuevoSocket.close();
+            vSerializador.writeObject(vNuevoMensaje); // issue del lado del servidor, agregar instanceOf para recibir un objeto de tipo Mensaje
+            vSerializador.close();
+            vNuevoSocket.close();
             
             JOptionPane.showMessageDialog(this, "Mensaje enviado al servidor");
             
         } catch (IOException ex) {
-            //Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEnviarMensajeActionPerformed
 
