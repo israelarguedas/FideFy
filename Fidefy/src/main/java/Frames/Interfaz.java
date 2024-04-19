@@ -145,7 +145,7 @@ public class Interfaz extends javax.swing.JFrame {
         jToolBar2.setBackground(new java.awt.Color(2, 51, 19));
         jToolBar2.setRollover(true);
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 0));
+        jPanel1.setBackground(new java.awt.Color(2, 51, 19));
         jPanel1.setForeground(new java.awt.Color(0, 51, 0));
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
