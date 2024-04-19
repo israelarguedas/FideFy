@@ -5,6 +5,7 @@
 package Clases;
 
 
+import Frames.Canciones;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -88,7 +89,17 @@ public void run() {
                 //JOptionPane.showMessageDialog(null, "mensaje recibido en server");
                 Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
                 guardarMensajeBD(vMensajeRecibido);
+            } if (objetoRecibido instanceof Cancion){
+                Cancion nuevaCancion = (Cancion) objetoRecibido;
+                this.registroLogs.append("Cancion buscada recibida... \n");
+                
+                BuscarCancion(nuevaCancion);
+                Canciones nuevaVentana = new Canciones(nuevaCancion);
+                nuevaVentana.setVisible(true);
+                this.registroLogs.append("Cancion enviada... \n");
             }
+            
+            
             vDeserializador.close();
             vSerializador.close();
             vPeticionCliente.close();
@@ -205,5 +216,35 @@ private void guardarMensajeBD(Mensaje pMensaje){
         }
     }
 }
+
+    public void BuscarCancion(Cancion nuevaCancion){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoSelectPreparado = null;
+            
+            //Comando SELECT
+            String comandoSelect =  "SELECT artista,album FROM canciones WHERE titulo = ?";
+            comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+
+            //Definimos los parametros
+            comandoSelectPreparado.setString(1,nuevaCancion.getTitulo());
+            
+            ResultSet resultado = comandoSelectPreparado.executeQuery();
+            
+            if(resultado.next()){
+                nuevaCancion.setArtista(resultado.getString("artista"));
+                nuevaCancion.setAlbum(resultado.getString("album"));
+            }else{
+                JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
+            }
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    
+    }
 
 }

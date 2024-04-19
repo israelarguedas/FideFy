@@ -422,6 +422,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CBoxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBoxTipoActionPerformed
