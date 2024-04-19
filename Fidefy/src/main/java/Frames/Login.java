@@ -250,6 +250,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Bienvenido " + vInicioSesion.getNombreUsuario() + "!!");
                     Interfaz vVentana = new Interfaz();
                     vVentana.setVisible(true);
+                    vVentana.setUsuarioActual(vInicioSesion.getNombreUsuario());
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos. Vuelva a intentarlo.");

@@ -13,12 +13,16 @@ import Clases.Seguidos;
  * @author josue
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    String usuarioActual;
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
+    }
+    
+    public void setUsuarioActual(String pUsuarioActual){
+        this.usuarioActual=pUsuarioActual;
     }
 
     /**
@@ -30,6 +34,13 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel5 = new javax.swing.JPanel();
+        btnChatRock = new javax.swing.JButton();
+        btnChatJazz = new javax.swing.JButton();
+        btnChatElectronica = new javax.swing.JButton();
+        btnChatClasica = new javax.swing.JButton();
+        btnChatPop = new javax.swing.JButton();
+        btnChatLatina = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
         jToolBar2 = new javax.swing.JToolBar();
@@ -40,6 +51,79 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnChatRock1 = new javax.swing.JButton();
+        btnChatJazz1 = new javax.swing.JButton();
+        btnChatElectronica1 = new javax.swing.JButton();
+        btnChatClasica1 = new javax.swing.JButton();
+        btnChatPop1 = new javax.swing.JButton();
+        btnChatLatina1 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        btnChatRock.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatRock.setText("Rock");
+        btnChatRock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatRockActionPerformed(evt);
+            }
+        });
+
+        btnChatJazz.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatJazz.setText("Jazz");
+        btnChatJazz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatJazzActionPerformed(evt);
+            }
+        });
+
+        btnChatElectronica.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatElectronica.setText("Electrónica");
+        btnChatElectronica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatElectronicaActionPerformed(evt);
+            }
+        });
+
+        btnChatClasica.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatClasica.setText("Clásica");
+        btnChatClasica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatClasicaActionPerformed(evt);
+            }
+        });
+
+        btnChatPop.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatPop.setText("Pop");
+        btnChatPop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatPopActionPerformed(evt);
+            }
+        });
+
+        btnChatLatina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatLatina.setText("Latina");
+        btnChatLatina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatLatinaActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,7 +202,176 @@ public class Interfaz extends javax.swing.JFrame {
 
         jToolBar3.setBackground(new java.awt.Color(2, 51, 19));
         jToolBar3.setRollover(true);
+
+        jPanel2.setBackground(new java.awt.Color(2, 51, 19));
+
+        jPanel3.setBackground(new java.awt.Color(2, 51, 19));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 596, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 402, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jToolBar3.add(jPanel2);
+
         jTabbedPane1.addTab("Cuenta", jToolBar3);
+
+        jPanel4.setBackground(new java.awt.Color(2, 51, 19));
+
+        jTabbedPane2.setBackground(new java.awt.Color(0, 51, 51));
+        jTabbedPane2.setForeground(new java.awt.Color(255, 255, 255));
+        jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+
+        jPanel6.setBackground(new java.awt.Color(2, 51, 19));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 406, Short.MAX_VALUE)
+        );
+
+        jTabbedPane2.addTab("Mensajes directos", jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(2, 51, 19));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Chat temático");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Selecciones un género para iniciar a chatear");
+
+        btnChatRock1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatRock1.setText("Rock");
+        btnChatRock1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatRock1ActionPerformed(evt);
+            }
+        });
+
+        btnChatJazz1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatJazz1.setText("Jazz");
+        btnChatJazz1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatJazz1ActionPerformed(evt);
+            }
+        });
+
+        btnChatElectronica1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatElectronica1.setText("Electrónica");
+        btnChatElectronica1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatElectronica1ActionPerformed(evt);
+            }
+        });
+
+        btnChatClasica1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatClasica1.setText("Clásica");
+        btnChatClasica1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatClasica1ActionPerformed(evt);
+            }
+        });
+
+        btnChatPop1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatPop1.setText("Pop");
+        btnChatPop1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatPop1ActionPerformed(evt);
+            }
+        });
+
+        btnChatLatina1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChatLatina1.setText("Latina");
+        btnChatLatina1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChatLatina1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnChatPop1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnChatRock1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnChatElectronica1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnChatClasica1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnChatJazz1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnChatLatina1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChatRock1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChatJazz1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChatElectronica1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChatClasica1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChatPop1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChatLatina1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Mensajes temáticos", jPanel7);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane2)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane2)
+        );
+
+        jTabbedPane1.addTab("Chats", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,6 +409,92 @@ public class Interfaz extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnChatRockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatRockActionPerformed
+        // TODO add your handling code here:
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Rock");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatRockActionPerformed
+
+    private void btnChatJazzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatJazzActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Jazz");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatJazzActionPerformed
+
+    private void btnChatElectronicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatElectronicaActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Electrónica");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatElectronicaActionPerformed
+
+    private void btnChatClasicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatClasicaActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Clásica");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatClasicaActionPerformed
+
+    private void btnChatPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatPopActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Pop");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatPopActionPerformed
+
+    private void btnChatLatinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatLatinaActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Latina");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatLatinaActionPerformed
+
+    private void btnChatRock1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatRock1ActionPerformed
+        // TODO add your handling code here:
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Rock");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatRock1ActionPerformed
+
+    private void btnChatJazz1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatJazz1ActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Jazz");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatJazz1ActionPerformed
+
+    private void btnChatElectronica1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatElectronica1ActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Electrónica");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatElectronica1ActionPerformed
+
+    private void btnChatClasica1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatClasica1ActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Clásica");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatClasica1ActionPerformed
+
+    private void btnChatPop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatPop1ActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Pop");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatPop1ActionPerformed
+
+    private void btnChatLatina1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatLatina1ActionPerformed
+        VentanaChat vNuevaVentanaChat = new VentanaChat();
+        vNuevaVentanaChat.setNombreChat("Latina");
+        vNuevaVentanaChat.setEmisor(usuarioActual);
+        vNuevaVentanaChat.setVisible(true);
+    }//GEN-LAST:event_btnChatLatina1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,10 +534,31 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CBoxTipo;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnChatClasica;
+    private javax.swing.JButton btnChatClasica1;
+    private javax.swing.JButton btnChatElectronica;
+    private javax.swing.JButton btnChatElectronica1;
+    private javax.swing.JButton btnChatJazz;
+    private javax.swing.JButton btnChatJazz1;
+    private javax.swing.JButton btnChatLatina;
+    private javax.swing.JButton btnChatLatina1;
+    private javax.swing.JButton btnChatPop;
+    private javax.swing.JButton btnChatPop1;
+    private javax.swing.JButton btnChatRock;
+    private javax.swing.JButton btnChatRock1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
