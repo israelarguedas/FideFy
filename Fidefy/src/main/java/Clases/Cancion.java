@@ -4,6 +4,10 @@
  */
 package Clases;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 public class Cancion implements Comparable<Cancion>{
     private String Titulo;
     private String Artista;
@@ -83,6 +87,36 @@ public class Cancion implements Comparable<Cancion>{
     public boolean equals (Object NuevaCancion) {
         Cancion vCancion_equal = (Cancion) NuevaCancion;
         return vCancion_equal.getTitulo().equals(this.Titulo);
+    }
+    
+    public void BuscarCancion(Cancion nuevaCancion){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoSelectPreparado = null;
+            
+            //Comando SELECT
+            String comandoSelect =  "SELECT artista,album FROM canciones WHERE titulo = ?";
+            comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+
+            //Definimos los parametros
+            comandoSelectPreparado.setString(1,nuevaCancion.getTitulo());
+            
+            ResultSet resultado = comandoSelectPreparado.executeQuery();
+            
+            if(resultado.next()){
+                nuevaCancion.setArtista(resultado.getString("artista"));
+                nuevaCancion.setAlbum(resultado.getString("album"));
+            }else{
+                JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
+            }
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    
     }
 }
 

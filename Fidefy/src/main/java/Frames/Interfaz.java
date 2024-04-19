@@ -7,6 +7,9 @@ package Frames;
 import Clases.Cancion;
 import Clases.ListaReproduccion;
 import Clases.Seguidos;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -426,13 +429,29 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_CBoxTipoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //Crear los objetos segun el tipo de objeto seleccionado en el Combo Box
         Cancion nuevaCancion = new Cancion();
         //Artista nuevoArtista = new Artista();
         ListaReproduccion nuevaLista = new ListaReproduccion();
         Seguidos nuevoSeguidor = new Seguidos();
         
+        //Crear un nuevo Socket
+        Socket vNuevoSocket;
+        
+        //La primera opcion del Combo Box asigna la busqueda a un obeto de tipo cancion
         if(CBoxTipo.getSelectedIndex() == 0){ 
             nuevaCancion.setTitulo(txtBuscar.getText());
+            try {
+            vNuevoSocket = new Socket("127.0.0.1", 15575);//LOCALHOST
+            
+            //Enviar el objeto al servidor
+            ObjectOutputStream vObjectOutput = new ObjectOutputStream(vNuevoSocket.getOutputStream());
+            vObjectOutput.writeObject(nuevaCancion);
+            
+            } catch (Exception Error) {
+            JOptionPane.showMessageDialog(null, "Error cliente:" + Error);
+            }
+            
         }if(CBoxTipo.getSelectedIndex() == 1) {
             //nuevoArtista.setTitulo(txtBuscar.getText());
         }if(CBoxTipo.getSelectedIndex() == 2) {
@@ -440,8 +459,6 @@ public class Interfaz extends javax.swing.JFrame {
         }else {
             nuevoSeguidor.setNombreUsuario(txtBuscar.getText());
         }
-        
-        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnChatRockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatRockActionPerformed
