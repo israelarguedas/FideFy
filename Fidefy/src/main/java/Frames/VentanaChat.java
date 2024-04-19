@@ -4,6 +4,14 @@
  */
 package Frames;
 
+import Clases.Mensaje;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 100da
@@ -57,6 +65,11 @@ public class VentanaChat extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txaChat);
 
         btnEnviarMensaje.setText("Enviar");
+        btnEnviarMensaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarMensajeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,6 +114,52 @@ public class VentanaChat extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEnviarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMensajeActionPerformed
+        // TODO add your handling code here:
+        Mensaje vNuevoMensaje = new Mensaje();
+        vNuevoMensaje.setContenido(txaChat.getText());
+        vNuevoMensaje.setEmisor(this.emisor);
+        switch (this.nombreChat){
+        case "Rock":
+            vNuevoMensaje.setTema(1);
+            break;
+        case "Electrónica":
+            vNuevoMensaje.setTema(2);
+            break;
+        case "Pop":
+            vNuevoMensaje.setTema(3);
+            break;
+        case "Jazz":
+            vNuevoMensaje.setTema(4);
+            break;
+        case "Clásica":
+            vNuevoMensaje.setTema(5);
+            break;
+        case "Latina":
+            vNuevoMensaje.setTema(6);
+            break;
+        default:
+            vNuevoMensaje.setReceptor(this.nombreChat);
+            break;
+        }
+        
+        Socket vNuevoSocket;
+        
+        try {
+            vNuevoSocket = new Socket("127.0.0.1", 15575);
+            ObjectOutputStream vSerializador = new ObjectOutputStream(vNuevoSocket.getOutputStream());
+            vSerializador.writeObject(vNuevoMensaje);
+            //vSerializador.close();
+            //vNuevoSocket.close();
+            
+            JOptionPane.showMessageDialog(this, "Mensaje enviado al servidor");
+            
+        } catch (IOException ex) {
+            //Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_btnEnviarMensajeActionPerformed
 
     /**
      * @param args the command line arguments
