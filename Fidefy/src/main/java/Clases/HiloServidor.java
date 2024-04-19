@@ -60,7 +60,7 @@ public void run() {
             ObjectInputStream vDeserializador = new ObjectInputStream(vPeticionCliente.getInputStream());
             
             Object objetoRecibido = vDeserializador.readObject();
-            
+            UsuarioInicioSesion vCredenciales = new UsuarioInicioSesion(); //Inicializar vCredenciales antes de los credenciales para usar el atributo nombre de usuario para otras operaciones
 		
             if (objetoRecibido instanceof UsuarioRegistro) {
                 UsuarioRegistro registroNuevoUsuario = (UsuarioRegistro) objetoRecibido;
@@ -69,7 +69,7 @@ public void run() {
                 this.registroLogs.append("Registro exitoso para usuario: " + registroNuevoUsuario.getNombre() + ".\n");
 				
             } if (objetoRecibido instanceof UsuarioInicioSesion) {
-                UsuarioInicioSesion vCredenciales = (UsuarioInicioSesion) objetoRecibido;
+                vCredenciales = (UsuarioInicioSesion) objetoRecibido;
                 System.out.println("VCredenciales: " + vCredenciales.toString());
 
                 UsuarioInicioSesion respuesta = validarUsuario(vCredenciales);
@@ -97,6 +97,14 @@ public void run() {
                 Canciones nuevaVentana = new Canciones(nuevaCancion);
                 nuevaVentana.setVisible(true);
                 this.registroLogs.append("Cancion enviada... \n");
+            } if (objetoRecibido instanceof ComentariosCanciones){
+                ComentariosCanciones nuevoComentario = (ComentariosCanciones) objetoRecibido;
+                nuevoComentario.setUsuarioComenta(vCredenciales.getNombreUsuario()); //Setear el nombre de usuario que realizo el comentario
+                nuevoComentario.toString();
+                this.registroLogs.append("El comentario fue recibido... \n");
+                
+                ComentarioCancionAgregado(nuevoComentario);
+                this.registroLogs.append("Comentario fue enviado... \n");
             }
             
             
@@ -244,7 +252,31 @@ private void guardarMensajeBD(Mensaje pMensaje){
         } catch (Exception error) {
             System.out.println("ERROR: "+error.toString());
         }
+    }
     
+    public void ComentarioCancionAgregado(ComentariosCanciones nuevoComentario){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Comando INSERT
+            String comandoInsert = "INSERT INTO cancionescomentarios(titulo, usuario, comentario) VALUES (?, ?, ?);";
+            PreparedStatement comandoInsertPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoInsert);
+            
+            //Definimos los parametros
+            comandoInsertPreparado.setString(1, nuevoComentario.getTituloCancion());
+            comandoInsertPreparado.setString(2, nuevoComentario.getUsuarioComenta());
+            comandoInsertPreparado.setString(3, nuevoComentario.getComentario());
+            
+            //Ejecutar el comando
+            comandoInsertPreparado.executeUpdate();
+            
+            //Mensaje de finalizacion
+            JOptionPane.showMessageDialog(null, "Se ha ingresado el comentario correctamente en la base de datos");
+        
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
     }
 
 }

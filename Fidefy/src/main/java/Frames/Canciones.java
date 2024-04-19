@@ -5,6 +5,10 @@
 package Frames;
 
 import Clases.Cancion;
+import Clases.ComentariosCanciones;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -74,6 +78,11 @@ public class Canciones extends javax.swing.JFrame {
         btnMeGusta.setText("Me Gusta");
 
         btnComentario.setText("Agregar comentario");
+        btnComentario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComentarioActionPerformed(evt);
+            }
+        });
 
         txaComentario.setColumns(20);
         txaComentario.setRows(5);
@@ -161,6 +170,27 @@ public class Canciones extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentarioActionPerformed
+        //Instanciar Comentario de Cancion
+        ComentariosCanciones nuevoComentario = new ComentariosCanciones();
+        nuevoComentario.setComentario(txaComentario.getText());
+        nuevoComentario.setTituloCancion(nuevaCancion.getTitulo());
+        
+        //Crear un nuevo Socket
+        Socket vNuevoSocket;
+        
+        try {
+        vNuevoSocket = new Socket("127.0.0.1", 15575);//LOCALHOST
+        
+        //Enviar el objeto al servidor
+        ObjectOutputStream vObjectOutput = new ObjectOutputStream(vNuevoSocket.getOutputStream());
+        vObjectOutput.writeObject(nuevoComentario);
+        
+        } catch (Exception Error) {
+            JOptionPane.showMessageDialog(null, "Error cliente:" + Error);
+            }
+    }//GEN-LAST:event_btnComentarioActionPerformed
 
     /**
      * @param args the command line arguments
