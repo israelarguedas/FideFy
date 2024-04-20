@@ -15,8 +15,8 @@ public class ConexionBD {
     Connection conectar;
 
     String usuario = "root";
-    String contrasena = "Lobotmy@1";
-    String bd = "fidefy";
+    String contrasena = "";
+    String bd = "fidefySchema";
     String ip = "127.0.0.1";
     String puerto = "3306";
 

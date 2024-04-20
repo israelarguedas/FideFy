@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 public class VentanaChat extends javax.swing.JFrame {
     private String nombreChat; //nombre de la persona remitente o nombre del tema
     private String emisor; //quien envia el mensaje
+    private int  tema;
     HiloChatCliente nuevoHiloCliente;
     /**
      * Creates new form VentanaChat
@@ -27,7 +28,6 @@ public class VentanaChat extends javax.swing.JFrame {
     public VentanaChat() {
         initComponents();
         nuevoHiloCliente = new HiloChatCliente(txaChat);
-        nuevoHiloCliente.start();
     }
     
     public void setNombreChat(String pNombreChat){
@@ -39,6 +39,13 @@ public class VentanaChat extends javax.swing.JFrame {
         this.emisor=pEmisor;
     }
     
+    public void setTema(int pTema){
+        this.tema=pTema;
+        nuevoHiloCliente.setTema(pTema);
+        nuevoHiloCliente.start();
+    }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,29 +131,7 @@ public class VentanaChat extends javax.swing.JFrame {
         Mensaje vNuevoMensaje = new Mensaje();
         vNuevoMensaje.setContenido(txtNuevoMensaje.getText());
         vNuevoMensaje.setEmisor(this.emisor);
-        switch (this.nombreChat){
-        case "Rock":
-            vNuevoMensaje.setTema(1);
-            break;
-        case "Electrónica":
-            vNuevoMensaje.setTema(2);
-            break;
-        case "Pop":
-            vNuevoMensaje.setTema(3);
-            break;
-        case "Jazz":
-            vNuevoMensaje.setTema(4);
-            break;
-        case "Clásica":
-            vNuevoMensaje.setTema(5);
-            break;
-        case "Latina":
-            vNuevoMensaje.setTema(6);
-            break;
-        default:
-            vNuevoMensaje.setReceptor(this.nombreChat);
-            break;
-        }
+        vNuevoMensaje.setTema(tema);
         
         Socket vNuevoSocket;
         

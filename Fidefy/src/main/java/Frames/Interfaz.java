@@ -466,6 +466,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Rock");
+        vNuevaVentanaChat.setTema(1);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatRockActionPerformed
@@ -473,6 +474,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatJazzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatJazzActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Jazz");
+        vNuevaVentanaChat.setTema(4);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatJazzActionPerformed
@@ -480,6 +482,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatElectronicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatElectronicaActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Electrónica");
+        vNuevaVentanaChat.setTema(2);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatElectronicaActionPerformed
@@ -487,6 +490,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatClasicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatClasicaActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Clásica");
+        vNuevaVentanaChat.setTema(5);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatClasicaActionPerformed
@@ -494,6 +498,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatPopActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Pop");
+        vNuevaVentanaChat.setTema(3);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatPopActionPerformed
@@ -501,6 +506,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatLatinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatLatinaActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Latina");
+        vNuevaVentanaChat.setTema(6);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatLatinaActionPerformed
@@ -509,6 +515,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Rock");
+        vNuevaVentanaChat.setTema(1);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatRock1ActionPerformed
@@ -516,6 +523,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatJazz1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatJazz1ActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Jazz");
+        vNuevaVentanaChat.setTema(4);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatJazz1ActionPerformed
@@ -523,6 +531,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatElectronica1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatElectronica1ActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Electrónica");
+        vNuevaVentanaChat.setTema(2);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatElectronica1ActionPerformed
@@ -530,6 +539,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatClasica1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatClasica1ActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Clásica");
+        vNuevaVentanaChat.setTema(5);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatClasica1ActionPerformed
@@ -537,6 +547,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatPop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatPop1ActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Pop");
+        vNuevaVentanaChat.setTema(3);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatPop1ActionPerformed
@@ -544,6 +555,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnChatLatina1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatLatina1ActionPerformed
         VentanaChat vNuevaVentanaChat = new VentanaChat();
         vNuevaVentanaChat.setNombreChat("Latina");
+        vNuevaVentanaChat.setTema(6);
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatLatina1ActionPerformed

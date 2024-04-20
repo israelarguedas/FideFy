@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
  */
 public class HiloChatCliente extends Thread{
     private JTextArea ventanaChat;
+    private int tema;
 
     public HiloChatCliente(JTextArea ventanaChat) {
         this.ventanaChat = ventanaChat;
@@ -31,11 +32,22 @@ public class HiloChatCliente extends Thread{
     public void setVentanaChat(JTextArea ventanaChat) {
         this.ventanaChat = ventanaChat;
     }
+
+    public int getTema() {
+        return tema;
+    }
+
+    public void setTema(int pTema) {
+        this.tema = pTema;
+        //JOptionPane.showMessageDialog(null, this.tema);
+    }
+    
+    
     
     @Override
     public void run(){
-        //JOptionPane.showMessageDialog(null, "Iniciando escucha en lado cliente");
-        //ventanaChat.append("Iniciando escucha del lado del cliente");
+
+        //JOptionPane.showMessageDialog(null, this.tema);
         ServerSocket vSocketCliente;
         try {
             vSocketCliente = new ServerSocket(15576);
@@ -45,6 +57,14 @@ public class HiloChatCliente extends Thread{
                 Mensaje nuevoMensajeRecibido = (Mensaje) vDeserializador.readObject();
                 vDeserializador.close();
                 vPeticionCliente.close();
+                
+                if (nuevoMensajeRecibido.getReceptor().equals("")) {//chat tematico
+                    if (nuevoMensajeRecibido.getTema()==tema) {
+                        ventanaChat.append("["+nuevoMensajeRecibido.getEmisor()+"]: "+nuevoMensajeRecibido.getContenido());
+                    }
+                    
+                }
+                
             }
             
         } catch (IOException ex) {
