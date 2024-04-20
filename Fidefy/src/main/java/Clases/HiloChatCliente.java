@@ -1,0 +1,56 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Clases;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+/**
+ *
+ * @author 100da
+ */
+public class HiloChatCliente extends Thread{
+    private JTextArea ventanaChat;
+
+    public HiloChatCliente(JTextArea ventanaChat) {
+        this.ventanaChat = ventanaChat;
+    }
+
+    public JTextArea getVentanaChat() {
+        return ventanaChat;
+    }
+
+    public void setVentanaChat(JTextArea ventanaChat) {
+        this.ventanaChat = ventanaChat;
+    }
+    
+    @Override
+    public void run(){
+        //JOptionPane.showMessageDialog(null, "Iniciando escucha en lado cliente");
+        //ventanaChat.append("Iniciando escucha del lado del cliente");
+        ServerSocket vSocketCliente;
+        try {
+            vSocketCliente = new ServerSocket(15576);
+            while (true){
+                Socket vPeticionCliente = vSocketCliente.accept();
+                ObjectInputStream vDeserializador = new ObjectInputStream(vPeticionCliente.getInputStream());
+                Mensaje nuevoMensajeRecibido = (Mensaje) vDeserializador.readObject();
+                vDeserializador.close();
+                vPeticionCliente.close();
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(HiloChatCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HiloChatCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}

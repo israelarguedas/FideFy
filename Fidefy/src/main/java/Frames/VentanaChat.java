@@ -4,6 +4,7 @@
  */
 package Frames;
 
+import Clases.HiloChatCliente;
 import Clases.Mensaje;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -19,11 +20,14 @@ import javax.swing.JOptionPane;
 public class VentanaChat extends javax.swing.JFrame {
     private String nombreChat; //nombre de la persona remitente o nombre del tema
     private String emisor; //quien envia el mensaje
+    HiloChatCliente nuevoHiloCliente;
     /**
      * Creates new form VentanaChat
      */
     public VentanaChat() {
         initComponents();
+        nuevoHiloCliente = new HiloChatCliente(txaChat);
+        nuevoHiloCliente.start();
     }
     
     public void setNombreChat(String pNombreChat){

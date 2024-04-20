@@ -59,7 +59,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnIniciarChat = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -257,7 +257,7 @@ public class Interfaz extends javax.swing.JFrame {
         jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", " " }));
 
-        jButton1.setText("Iniciar conversación");
+        btnIniciarChat.setText("Iniciar chat");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -269,7 +269,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnIniciarChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -282,7 +282,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnIniciarChat)
                 .addContainerGap(253, Short.MAX_VALUE))
         );
 
@@ -580,7 +580,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnChatPop1;
     private javax.swing.JButton btnChatRock;
     private javax.swing.JButton btnChatRock1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnIniciarChat;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
