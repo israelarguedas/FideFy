@@ -5,6 +5,7 @@
 package Clases;
 
 
+import Frames.Canciones;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -59,7 +60,7 @@ public void run() {
             ObjectInputStream vDeserializador = new ObjectInputStream(vPeticionCliente.getInputStream());
             
             Object objetoRecibido = vDeserializador.readObject();
-            
+            UsuarioInicioSesion vCredenciales = new UsuarioInicioSesion(); //Inicializar vCredenciales antes de los credenciales para usar el atributo nombre de usuario para otras operaciones
 		
             if (objetoRecibido instanceof UsuarioRegistro) {
                 UsuarioRegistro registroNuevoUsuario = (UsuarioRegistro) objetoRecibido;
@@ -68,7 +69,7 @@ public void run() {
                 this.registroLogs.append("Registro exitoso para usuario: " + registroNuevoUsuario.getNombre() + ".\n");
 				
             } if (objetoRecibido instanceof UsuarioInicioSesion) {
-                UsuarioInicioSesion vCredenciales = (UsuarioInicioSesion) objetoRecibido;
+                vCredenciales = (UsuarioInicioSesion) objetoRecibido;
                 System.out.println("VCredenciales: " + vCredenciales.toString());
 
                 UsuarioInicioSesion respuesta = validarUsuario(vCredenciales);
@@ -88,7 +89,25 @@ public void run() {
                 //JOptionPane.showMessageDialog(null, "mensaje recibido en server");
                 Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
                 guardarMensajeBD(vMensajeRecibido);
+            } if (objetoRecibido instanceof Cancion){
+                Cancion nuevaCancion = (Cancion) objetoRecibido;
+                this.registroLogs.append("Cancion buscada recibida... \n");
+                
+                BuscarCancion(nuevaCancion);
+                Canciones nuevaVentana = new Canciones(nuevaCancion);
+                nuevaVentana.setVisible(true);
+                this.registroLogs.append("Cancion enviada... \n");
+            } if (objetoRecibido instanceof ComentariosCanciones){
+                ComentariosCanciones nuevoComentario = (ComentariosCanciones) objetoRecibido;
+                nuevoComentario.setUsuarioComenta(vCredenciales.getNombreUsuario()); //Setear el nombre de usuario que realizo el comentario
+                nuevoComentario.toString();
+                this.registroLogs.append("El comentario fue recibido... \n");
+                
+                ComentarioCancionAgregado(nuevoComentario);
+                this.registroLogs.append("Comentario fue enviado... \n");
             }
+            
+            
             vDeserializador.close();
             vSerializador.close();
             vPeticionCliente.close();
@@ -205,5 +224,59 @@ private void guardarMensajeBD(Mensaje pMensaje){
         }
     }
 }
+
+    public void BuscarCancion(Cancion nuevaCancion){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoSelectPreparado = null;
+            
+            //Comando SELECT
+            String comandoSelect =  "SELECT artista,album FROM canciones WHERE titulo = ?";
+            comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+
+            //Definimos los parametros
+            comandoSelectPreparado.setString(1,nuevaCancion.getTitulo());
+            
+            ResultSet resultado = comandoSelectPreparado.executeQuery();
+            
+            if(resultado.next()){
+                nuevaCancion.setArtista(resultado.getString("artista"));
+                nuevaCancion.setAlbum(resultado.getString("album"));
+            }else{
+                JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
+            }
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    }
+    
+    public void ComentarioCancionAgregado(ComentariosCanciones nuevoComentario){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Comando INSERT
+            String comandoInsert = "INSERT INTO cancionescomentarios(titulo, usuario, comentario) VALUES (?, ?, ?);";
+            PreparedStatement comandoInsertPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoInsert);
+            
+            //Definimos los parametros
+            comandoInsertPreparado.setString(1, nuevoComentario.getTituloCancion());
+            comandoInsertPreparado.setString(2, nuevoComentario.getUsuarioComenta());
+            comandoInsertPreparado.setString(3, nuevoComentario.getComentario());
+            
+            //Ejecutar el comando
+            comandoInsertPreparado.executeUpdate();
+            
+            //Mensaje de finalizacion
+            JOptionPane.showMessageDialog(null, "Se ha ingresado el comentario correctamente en la base de datos");
+        
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    }
 
 }

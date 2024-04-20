@@ -4,7 +4,12 @@
  */
 package Clases;
 
-public class Cancion implements Comparable<Cancion>{
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
+public class Cancion implements Comparable<Cancion>, Serializable{
     private String Titulo;
     private String Artista;
     private String Album;
@@ -84,5 +89,7 @@ public class Cancion implements Comparable<Cancion>{
         Cancion vCancion_equal = (Cancion) NuevaCancion;
         return vCancion_equal.getTitulo().equals(this.Titulo);
     }
+    
+
 }
 
