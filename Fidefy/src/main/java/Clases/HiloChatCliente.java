@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 public class HiloChatCliente extends Thread{
     private JTextArea ventanaChat;
     private int tema;
+    private boolean ejecutar = true;
 
     public HiloChatCliente(JTextArea ventanaChat) {
         this.ventanaChat = ventanaChat;
@@ -46,12 +47,12 @@ public class HiloChatCliente extends Thread{
     
     @Override
     public void run(){
-
+//JOptionPane.showMessageDialog(null, "estado de ejecutar: "+this.ejecutar);
         //JOptionPane.showMessageDialog(null, this.tema);
         ServerSocket vSocketCliente;
         try {
             vSocketCliente = new ServerSocket(15576);
-            while (true){
+            while (ejecutar){
                 Socket vPeticionCliente = vSocketCliente.accept();
                 ObjectInputStream vDeserializador = new ObjectInputStream(vPeticionCliente.getInputStream());
                 Mensaje nuevoMensajeRecibido = (Mensaje) vDeserializador.readObject();
@@ -72,5 +73,10 @@ public class HiloChatCliente extends Thread{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HiloChatCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void detener(){
+        ejecutar=false;
+        //JOptionPane.showMessageDialog(null, "estado de ejecutar: "+this.ejecutar);
     }
 }

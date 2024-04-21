@@ -5,6 +5,7 @@
 package Frames;
 
 import Clases.HiloChatCliente;
+import Clases.InstruccionChat;
 import Clases.Mensaje;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -28,6 +29,7 @@ public class VentanaChat extends javax.swing.JFrame {
     public VentanaChat() {
         initComponents();
         nuevoHiloCliente = new HiloChatCliente(txaChat);
+        
     }
     
     public void setNombreChat(String pNombreChat){
@@ -44,6 +46,8 @@ public class VentanaChat extends javax.swing.JFrame {
         nuevoHiloCliente.setTema(pTema);
         nuevoHiloCliente.start();
     }
+    
+    
     
 
 
@@ -64,6 +68,11 @@ public class VentanaChat extends javax.swing.JFrame {
         btnEnviarMensaje = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(2, 51, 19));
 
@@ -109,7 +118,7 @@ public class VentanaChat extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNuevoMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnviarMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,6 +158,22 @@ public class VentanaChat extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEnviarMensajeActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        nuevoHiloCliente.detener();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void enviarInstruccion(){
+        if (tema!=0) {
+            InstruccionChat vNuevaInstruccion = new InstruccionChat(this.emisor, this.tema);
+        }else{
+            InstruccionChat vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
+        }
+        Socket vNuevoSocket;
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */

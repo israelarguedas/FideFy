@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.text.html.HTMLDocument;
 
 /**
  *
@@ -105,6 +106,14 @@ public void run() {
                 
                 ComentarioCancionAgregado(nuevoComentario);
                 this.registroLogs.append("Comentario fue enviado... \n");
+            } if (objetoRecibido instanceof InstruccionChat) {
+                /*HiloChatServidor vNuevoHiloChatServidor;//CORREGIR 
+                if (((InstruccionChat) objetoRecibido).getDetener()==false) {
+                    vNuevoHiloChatServidor=new HiloChatServidor((InstruccionChat) objetoRecibido);
+                }else{
+                    vNuevoHiloChatServidor.interrupt(); //instanciar globalmnente primero
+                }*/
+                
             }
             
             
