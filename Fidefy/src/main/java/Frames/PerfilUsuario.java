@@ -4,17 +4,34 @@
  */
 package Frames;
 
+import Clases.ConexionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author mhernandez
  */
 public class PerfilUsuario extends javax.swing.JFrame {
-
+    
+    ConexionBD basedatos = new ConexionBD();
+    
+    
     /**
      * Creates new form PerfilUsuario
      */
     public PerfilUsuario() {
         initComponents();
+        cargarListasReproduccion();
+        cargarCancionesDeLista(1);
+        
     }
 
     /**
@@ -37,10 +54,10 @@ public class PerfilUsuario extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxListasReproduccionPublicas = new javax.swing.JComboBox<>();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCanciones = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
@@ -115,8 +132,6 @@ public class PerfilUsuario extends javax.swing.JFrame {
 
         jLabel1.setText("Comentarios de Playlist:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButton5.setText("Seguir");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,7 +139,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCanciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -143,7 +158,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblCanciones);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -170,7 +185,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addGap(29, 29, 29)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbxListasReproduccionPublicas, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jLabel1)
                         .addComponent(jScrollPane3))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -184,7 +199,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxListasReproduccionPublicas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(8, 8, 8)
                 .addComponent(jButton5)
@@ -270,15 +285,65 @@ public class PerfilUsuario extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void cargarListasReproduccion(){
+    String query = "SELECT nombrelista FROM listareproduccion";
+    Statement comando = null;
+    ResultSet rs = null;
+    try {comando = basedatos.establecerConexion().createStatement();
+        rs = comando.executeQuery(query);
+        //System.out.println(rs.toString());
+
+        // Limpiar el comboBox en caso de que ya tenga items
+        cbxListasReproduccionPublicas.removeAllItems();
+
+        while (rs.next()) {
+            //Lee los items por el nombre de la columna "nombrelista"
+            cbxListasReproduccionPublicas.addItem(rs.getString("nombrelista")); 
+        }          
+           
+            
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+    }
+    
+private void cargarCancionesDeLista(int idLista) {
+    String query = "SELECT c.titulo, c.artista, c.album, c.año FROM canciones c JOIN listareproduccioncanciones lrc ON c.id = lrc.idcancion WHERE lrc.idlista = ?";
+    
+    // Obtener el modelo existente y limpia tabla
+    DefaultTableModel tabla = (DefaultTableModel) tblCanciones.getModel(); 
+    tabla.setRowCount(0);
+
+    try (Connection conn = basedatos.establecerConexion();
+         PreparedStatement comandoPreparado = conn.prepareStatement(query)) {
+        
+        comandoPreparado.setInt(1, idLista);
+        ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+
+        while (resultadoConsulta.next()) {
+            String titulo = resultadoConsulta.getString("titulo");
+            String artista = resultadoConsulta.getString("artista");
+            String album = resultadoConsulta.getString("album");
+            int año = resultadoConsulta.getInt("año");
+            //Crear fila en tabla para añadir datos
+            Object[] row = {titulo, artista, album, año}; 
+            tabla.addRow(row);
+        }
+    } catch (SQLException ex) {
+        System.err.println(ex.getMessage());
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbxListasReproduccionPublicas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -289,9 +354,9 @@ public class PerfilUsuario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel lblNombreUsuario;
+    private javax.swing.JTable tblCanciones;
     // End of variables declaration//GEN-END:variables
 }

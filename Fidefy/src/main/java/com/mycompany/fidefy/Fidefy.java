@@ -5,6 +5,7 @@
 package com.mycompany.fidefy;
 
 import Frames.Login;
+import Frames.PerfilUsuario;
 import Frames.VentanaServidor;
 
 /**
@@ -22,6 +23,9 @@ public class Fidefy {
         //Se muestran las ventanas
         vVentanaLogs.setVisible(true);
         vVentanaLogin.setVisible(true);
+        
+        PerfilUsuario perfil = new PerfilUsuario();
+        perfil.setVisible(true);
         
         
         
