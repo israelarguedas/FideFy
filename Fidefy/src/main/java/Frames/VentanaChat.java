@@ -84,6 +84,12 @@ public class VentanaChat extends javax.swing.JFrame {
         txaChat.setRows(5);
         jScrollPane1.setViewportView(txaChat);
 
+        txtNuevoMensaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNuevoMensajeActionPerformed(evt);
+            }
+        });
+
         btnEnviarMensaje.setText("Enviar");
         btnEnviarMensaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +168,10 @@ public class VentanaChat extends javax.swing.JFrame {
         // TODO add your handling code here:
         nuevoHiloCliente.detener();
     }//GEN-LAST:event_formWindowClosed
+
+    private void txtNuevoMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNuevoMensajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNuevoMensajeActionPerformed
 
     private void enviarInstruccion(){
         if (tema!=0) {
