@@ -107,6 +107,7 @@ public void run() {
                 ComentarioCancionAgregado(nuevoComentario);
                 this.registroLogs.append("Comentario fue enviado... \n");
             } if (objetoRecibido instanceof InstruccionChat) {
+                
                 /*HiloChatServidor vNuevoHiloChatServidor;//CORREGIR 
                 if (((InstruccionChat) objetoRecibido).getDetener()==false) {
                     vNuevoHiloChatServidor=new HiloChatServidor((InstruccionChat) objetoRecibido);
