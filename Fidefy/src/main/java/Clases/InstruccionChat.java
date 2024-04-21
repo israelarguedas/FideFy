@@ -4,11 +4,13 @@
  */
 package Clases;
 
+import java.io.Serializable;
+
 /**
  *
  * @author 100da
  */
-public class InstruccionChat {
+public class InstruccionChat implements Serializable{
     private String emisor;
     private String receptor;
     private int tema;

@@ -107,13 +107,18 @@ public void run() {
                 ComentarioCancionAgregado(nuevoComentario);
                 this.registroLogs.append("Comentario fue enviado... \n");
             } if (objetoRecibido instanceof InstruccionChat) {
-                
-                /*HiloChatServidor vNuevoHiloChatServidor;//CORREGIR 
-                if (((InstruccionChat) objetoRecibido).getDetener()==false) {
-                    vNuevoHiloChatServidor=new HiloChatServidor((InstruccionChat) objetoRecibido);
-                }else{
-                    vNuevoHiloChatServidor.interrupt(); //instanciar globalmnente primero
-                }*/
+                //test
+                //JOptionPane.showMessageDialog(null, "Instruccion recibida en el server");
+                ResultSet resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
+                vSerializador.writeObject(resultado);
+                vSerializador.flush();
+                JOptionPane.showMessageDialog(null, "Enviado ResultTest a cliente");
+                //Mensaje vNuevoMensajeTest = new Mensaje("DarioTest", 1, "Probandooo");
+                //vSerializador.writeObject(vNuevoMensajeTest);
+                //vSerializador.flush();
+                //ResultSet resultadoBusquedaMensajes = obtenerMensajes((InstruccionChat) objetoRecibido);
+                //posiblemente hacer un for para no se xd
+
                 
             }
             
@@ -289,6 +294,38 @@ private void guardarMensajeBD(Mensaje pMensaje){
         }
     }
 
-
+private ResultSet obtenerMensajes(InstruccionChat pInstruccion){
+    ResultSet resultado=null;
+    Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+    PreparedStatement comandoSelectPreparado = null;
+    String comandoSelect;
+    if (pInstruccion.getReceptor().equals("")) {//chat tematico
+        try {
+        comandoSelect =  "SELECT id,remitente,mensaje FROM chatsgrupales WHERE tema = ?";
+        comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+        comandoSelectPreparado.setInt(1,pInstruccion.getTema());
+        resultado = comandoSelectPreparado.executeQuery();
+        JOptionPane.showMessageDialog(null, "Si encontrado mensaje");
+        //resultado.next();
+        //JOptionPane.showMessageDialog(null  , resultado.getString("mensaje"));
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }else{
+        try {
+            comandoSelect =  "SELECT id,remitente,destinatario,mensaje FROM chatindividual WHERE remitente = ? OR destinatario = ?";
+            comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+            comandoSelectPreparado.setString(1,pInstruccion.getEmisor());
+            comandoSelectPreparado.setString(2,pInstruccion.getEmisor());
+            resultado = comandoSelectPreparado.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
+        //enviar resultSet a cliente
+        return resultado;
+}       
 
 }

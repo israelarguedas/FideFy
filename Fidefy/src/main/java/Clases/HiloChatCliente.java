@@ -48,7 +48,7 @@ public class HiloChatCliente extends Thread{
     @Override
     public void run(){
 //JOptionPane.showMessageDialog(null, "estado de ejecutar: "+this.ejecutar);
-        //JOptionPane.showMessageDialog(null, this.tema);
+        JOptionPane.showMessageDialog(null, "Hilo cliente con tema: "+ this.tema);
         ServerSocket vSocketCliente;
         try {
             vSocketCliente = new ServerSocket(15576);

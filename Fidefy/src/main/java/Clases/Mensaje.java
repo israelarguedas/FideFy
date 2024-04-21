@@ -15,23 +15,20 @@ public class Mensaje implements Serializable{
     private String receptor="";
     private int tema;
     private String contenido;
-    private String fecha;
 
     public Mensaje() {
     }
 
-    public Mensaje(String emisor, String receptor, String contenido, String fecha) {
+    public Mensaje(String emisor, String receptor, String contenido) {
         this.emisor = emisor;
         this.receptor = receptor;
         this.contenido = contenido;
-        this.fecha = fecha;
     }
 
-    public Mensaje(String emisor, int tema, String contenido, String fecha) {
+    public Mensaje(String emisor, int tema, String contenido) {
         this.emisor = emisor;
         this.tema = tema;
         this.contenido = contenido;
-        this.fecha = fecha;
     }
 
     public String getEmisor() {
@@ -66,13 +63,6 @@ public class Mensaje implements Serializable{
         this.contenido = contenido;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
     
     
 }

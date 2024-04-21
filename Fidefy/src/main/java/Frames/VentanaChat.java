@@ -8,6 +8,7 @@ import Clases.HiloChatCliente;
 import Clases.InstruccionChat;
 import Clases.Mensaje;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -21,14 +22,14 @@ import javax.swing.JOptionPane;
 public class VentanaChat extends javax.swing.JFrame {
     private String nombreChat; //nombre de la persona remitente o nombre del tema
     private String emisor; //quien envia el mensaje
-    private int  tema;
+    private int tema;
     HiloChatCliente nuevoHiloCliente;
     /**
      * Creates new form VentanaChat
      */
     public VentanaChat() {
         initComponents();
-        nuevoHiloCliente = new HiloChatCliente(txaChat);
+        //nuevoHiloCliente = new HiloChatCliente(txaChat);
         
     }
     
@@ -39,12 +40,15 @@ public class VentanaChat extends javax.swing.JFrame {
     
     public void setEmisor(String pEmisor){
         this.emisor=pEmisor;
+        //JOptionPane.showMessageDialog(null, "desde seteo ya dentro de chat: "+this.emisor);
+        enviarInstruccion();
     }
     
     public void setTema(int pTema){
         this.tema=pTema;
-        nuevoHiloCliente.setTema(pTema);
-        nuevoHiloCliente.start();
+        //nuevoHiloCliente.setTema(pTema);
+        //nuevoHiloCliente.start();
+        
     }
     
     
@@ -166,7 +170,7 @@ public class VentanaChat extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-        nuevoHiloCliente.detener();
+        //nuevoHiloCliente.detener();
     }//GEN-LAST:event_formWindowClosed
 
     private void txtNuevoMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNuevoMensajeActionPerformed
@@ -174,13 +178,26 @@ public class VentanaChat extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNuevoMensajeActionPerformed
 
     private void enviarInstruccion(){
+        InstruccionChat vNuevaInstruccion = null;
         if (tema!=0) {
-            InstruccionChat vNuevaInstruccion = new InstruccionChat(this.emisor, this.tema);
+            vNuevaInstruccion = new InstruccionChat(this.emisor, this.tema);
+            JOptionPane.showConfirmDialog(null, "Emisor: "+this.emisor+ "  Tema: "+this.tema);
         }else{
-            InstruccionChat vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
+            vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
         }
+
         Socket vNuevoSocket;
         
+        try {
+            vNuevoSocket = new Socket("127.0.0.1", 15575);
+            ObjectOutputStream vSerializador = new ObjectOutputStream(vNuevoSocket.getOutputStream());
+            vSerializador.writeObject(vNuevaInstruccion);
+            vSerializador.close();
+            vNuevoSocket.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
@@ -213,6 +230,7 @@ public class VentanaChat extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new VentanaChat().setVisible(true);
             }

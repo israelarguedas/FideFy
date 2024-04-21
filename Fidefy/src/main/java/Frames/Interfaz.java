@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author josue
  */
 public class Interfaz extends javax.swing.JFrame {
-    String usuarioActual;
+    private String usuarioActual;
     /**
      * Creates new form Interfaz
      */
