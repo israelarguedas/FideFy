@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,7 +27,7 @@ public class VentanaChat extends javax.swing.JFrame {
     private String nombreChat; //nombre de la persona remitente o nombre del tema
     private String emisor; //quien envia el mensaje
     private int tema;
-    HiloChatCliente nuevoHiloCliente;
+    ///HiloChatCliente nuevoHiloCliente;
     /**
      * Creates new form VentanaChat
      */
@@ -46,8 +50,8 @@ public class VentanaChat extends javax.swing.JFrame {
     
     public void setTema(int pTema){
         this.tema=pTema;
-        //nuevoHiloCliente.setTema(pTema);
-        //nuevoHiloCliente.start();
+        ///nuevoHiloCliente.setTema(pTema);
+        ///nuevoHiloCliente.start();
         
     }
     
@@ -181,23 +185,47 @@ public class VentanaChat extends javax.swing.JFrame {
         InstruccionChat vNuevaInstruccion = null;
         if (tema!=0) {
             vNuevaInstruccion = new InstruccionChat(this.emisor, this.tema);
-            JOptionPane.showConfirmDialog(null, "Emisor: "+this.emisor+ "  Tema: "+this.tema);
+            //JOptionPane.showConfirmDialog(null, "Emisor: "+this.emisor+ "  Tema: "+this.tema);
         }else{
             vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
         }
 
-        Socket vNuevoSocket;
-        
         try {
-            vNuevoSocket = new Socket("127.0.0.1", 15575);
-            ObjectOutputStream vSerializador = new ObjectOutputStream(vNuevoSocket.getOutputStream());
-            vSerializador.writeObject(vNuevaInstruccion);
-            vSerializador.close();
-            vNuevoSocket.close();
+            Socket vSocket = new Socket("127.0.0.1", 15575);
+            ObjectOutputStream vSerializador = new ObjectOutputStream(vSocket.getOutputStream());
+            ObjectInputStream vDeserializador = new ObjectInputStream(vSocket.getInputStream()); 
             
-        } catch (IOException ex) {
+            vSerializador.writeObject(vNuevaInstruccion);
+            vSerializador.flush();
+            
+            //vSocket.setSoTimeout(1);
+            Object resultado=null;
+            ArrayList<Mensaje> listaMensajes = new ArrayList();
+            try{
+                resultado = vDeserializador.readObject();
+                //Mensaje vMensajeRecibido = (Mensaje) resultado;
+                //JOptionPane.showMessageDialog(null, vMensajeRecibido.getContenido());
+                listaMensajes = (ArrayList<Mensaje>) resultado;
+                //JOptionPane.showMessageDialog(null, "ArrayList recibido en cliente");
+                for (Mensaje mensaje : listaMensajes) {
+                    txaChat.append("["+mensaje.getEmisor()+"]: ");
+                    txaChat.append(mensaje.getContenido()+"\n");
+                }
+
+            //ResultSet resultado = (ResultSet) vDeserializador.readObject();
+            } catch (SocketTimeoutException e) {}
+            
+            
+            vSerializador.close();
+            vDeserializador.close();
+            ///vDeserializador.close();
+            vSocket.close();
+
+            
+            
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  
     }
     
     

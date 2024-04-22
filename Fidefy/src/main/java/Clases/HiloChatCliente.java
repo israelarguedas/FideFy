@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -51,20 +52,13 @@ public class HiloChatCliente extends Thread{
         JOptionPane.showMessageDialog(null, "Hilo cliente con tema: "+ this.tema);
         ServerSocket vSocketCliente;
         try {
-            vSocketCliente = new ServerSocket(15576);
-            while (ejecutar){
+            vSocketCliente = new ServerSocket(15575);
+            while (true){
                 Socket vPeticionCliente = vSocketCliente.accept();
                 ObjectInputStream vDeserializador = new ObjectInputStream(vPeticionCliente.getInputStream());
-                Mensaje nuevoMensajeRecibido = (Mensaje) vDeserializador.readObject();
+                ResultSet nuevoMensajeRecibido = (ResultSet) vDeserializador.readObject();
                 vDeserializador.close();
                 vPeticionCliente.close();
-                
-                if (nuevoMensajeRecibido.getReceptor().equals("")) {//chat tematico
-                    if (nuevoMensajeRecibido.getTema()==tema) {
-                        ventanaChat.append("["+nuevoMensajeRecibido.getEmisor()+"]: "+nuevoMensajeRecibido.getContenido());
-                    }
-                    
-                }
                 
             }
             
@@ -74,9 +68,5 @@ public class HiloChatCliente extends Thread{
             Logger.getLogger(HiloChatCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void detener(){
-        ejecutar=false;
-        //JOptionPane.showMessageDialog(null, "estado de ejecutar: "+this.ejecutar);
-    }
+   
 }

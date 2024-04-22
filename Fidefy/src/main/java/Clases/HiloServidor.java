@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -109,13 +110,20 @@ public void run() {
             } if (objetoRecibido instanceof InstruccionChat) {
                 //test
                 //JOptionPane.showMessageDialog(null, "Instruccion recibida en el server");
-                ResultSet resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
+                ArrayList<Mensaje> resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
+                //resultado.next();
+                //JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                
                 vSerializador.writeObject(resultado);
                 vSerializador.flush();
-                JOptionPane.showMessageDialog(null, "Enviado ResultTest a cliente");
-                //Mensaje vNuevoMensajeTest = new Mensaje("DarioTest", 1, "Probandooo");
-                //vSerializador.writeObject(vNuevoMensajeTest);
-                //vSerializador.flush();
+                //JOptionPane.showMessageDialog(null, "Enviado ResultTest a cliente");
+                
+                /*Mensaje vNuevoMensajeTest = new Mensaje("DarioTest", 1, "Probandooo");
+                vSerializador.writeObject(vNuevoMensajeTest);
+                //JOptionPane.showMessageDialog(null, "Enviado a cliente");*/
+                
+                
+                vSerializador.flush();
                 //ResultSet resultadoBusquedaMensajes = obtenerMensajes((InstruccionChat) objetoRecibido);
                 //posiblemente hacer un for para no se xd
 
@@ -294,8 +302,9 @@ private void guardarMensajeBD(Mensaje pMensaje){
         }
     }
 
-private ResultSet obtenerMensajes(InstruccionChat pInstruccion){
+private ArrayList<Mensaje> obtenerMensajes(InstruccionChat pInstruccion){
     ResultSet resultado=null;
+    ArrayList<Mensaje> listaMensajes=null;
     Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
     PreparedStatement comandoSelectPreparado = null;
     String comandoSelect;
@@ -305,8 +314,20 @@ private ResultSet obtenerMensajes(InstruccionChat pInstruccion){
         comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
         comandoSelectPreparado.setInt(1,pInstruccion.getTema());
         resultado = comandoSelectPreparado.executeQuery();
-        JOptionPane.showMessageDialog(null, "Si encontrado mensaje");
+        
+            listaMensajes = new ArrayList();
+            while (resultado.next()){
+                String emisor = resultado.getString("remitente");
+                String contenido = resultado.getString("mensaje");
+                //int tema = resultado.getInt("tema");
+                
+                Mensaje temp = new Mensaje(emisor, null, contenido);
+                listaMensajes.add(temp);
+            }
+        
+        //JOptionPane.showMessageDialog(null, "Si encontrado mensaje");
         //resultado.next();
+        //JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
         //JOptionPane.showMessageDialog(null  , resultado.getString("mensaje"));
         
         } catch (SQLException ex) {
@@ -325,7 +346,7 @@ private ResultSet obtenerMensajes(InstruccionChat pInstruccion){
     }
         
         //enviar resultSet a cliente
-        return resultado;
+        return listaMensajes;
 }       
 
 }
