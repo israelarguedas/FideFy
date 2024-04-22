@@ -141,7 +141,7 @@ CREATE TABLE `listareproduccion` (
 
 LOCK TABLES `listareproduccion` WRITE;
 /*!40000 ALTER TABLE `listareproduccion` DISABLE KEYS */;
-INSERT INTO `listareproduccion` VALUES (1,'Exitos musicales',1,1,0),(2,'Musica variada',1,1,0),(4,'Exitos musicales',1,1,0),(5,'Musica variada',1,1,0);
+INSERT INTO `listareproduccion` VALUES (1,'Exitos musicales',1,1,0),(2,'Musica variada',1,1,0),(4,'Exitos musicales 2',2,1,0),(5,'Musica variada 2',2,1,0);
 /*!40000 ALTER TABLE `listareproduccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +185,7 @@ CREATE TABLE `listareproduccioncomentarios` (
   `idusuario` int NOT NULL,
   `comentario` varchar(120) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +194,33 @@ CREATE TABLE `listareproduccioncomentarios` (
 
 LOCK TABLES `listareproduccioncomentarios` WRITE;
 /*!40000 ALTER TABLE `listareproduccioncomentarios` DISABLE KEYS */;
+INSERT INTO `listareproduccioncomentarios` VALUES (1,1,11,'Muy buena eleccion de musica'),(2,1,26,'Te segui'),(3,2,9,'Agrega mas canciones!!'),(4,1,9,'Hola, buena musica!');
 /*!40000 ALTER TABLE `listareproduccioncomentarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `listareproduccionseguidores`
+--
+
+DROP TABLE IF EXISTS `listareproduccionseguidores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `listareproduccionseguidores` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idlista` int NOT NULL,
+  `idusuarioseguidor` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `listareproduccionseguidores`
+--
+
+LOCK TABLES `listareproduccionseguidores` WRITE;
+/*!40000 ALTER TABLE `listareproduccionseguidores` DISABLE KEYS */;
+INSERT INTO `listareproduccionseguidores` VALUES (2,1,9);
+/*!40000 ALTER TABLE `listareproduccionseguidores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -237,10 +263,10 @@ DROP TABLE IF EXISTS `seguidores`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `seguidores` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `idusuario` int NOT NULL,
+  `idusuarioseguido` int NOT NULL,
   `idusuarioseguidor` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,6 +275,7 @@ CREATE TABLE `seguidores` (
 
 LOCK TABLES `seguidores` WRITE;
 /*!40000 ALTER TABLE `seguidores` DISABLE KEYS */;
+INSERT INTO `seguidores` VALUES (4,1,9);
 /*!40000 ALTER TABLE `seguidores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,4 +315,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-20 19:42:41
+-- Dump completed on 2024-04-21 20:43:10

@@ -128,13 +128,28 @@ public void run() {
                 //posiblemente hacer un for para no se xd
 
                 
-            }
+            } if (objetoRecibido instanceof PerfilUsuarioLR) {
+                PerfilUsuarioLR dato = (PerfilUsuarioLR) objetoRecibido;
+
+                PerfilUsuarioLR respuesta = cargarListasReproduccionPublicas(dato);
+                registroLogs.append("Enviando respuesta al cliente... \n");
+
+                // Envía la respuesta al cliente usando el ObjectOutputStream ya creado
+                try {
+                    System.out.println(respuesta.toString());
+                    vSerializador.writeObject(respuesta);
+                    vSerializador.flush();
+                    registroLogs.append("Resultado consulta enviado\n");
+                } catch (IOException e) {
+                    System.err.println("Error al enviar respuesta: " + e.getMessage());
+                }
             
             
             vDeserializador.close();
             vSerializador.close();
             vPeticionCliente.close();
         }
+    }
     } catch (Exception e) {
         registroLogs.append("Error en run: " + e.getMessage() + "\n");
     }
@@ -349,4 +364,41 @@ private ArrayList<Mensaje> obtenerMensajes(InstruccionChat pInstruccion){
         return listaMensajes;
 }       
 
+
+
+    private PerfilUsuarioLR cargarListasReproduccionPublicas(PerfilUsuarioLR dato){
+    //Agrega las listas de reproduccion  al combobox
+    int idUsuarioBuscado = dato.getIdLista();
+    PerfilUsuarioLR resultado = new PerfilUsuarioLR();
+    try {
+        ConexionBD vConectar = new ConexionBD();
+        String query = "SELECT lr.id, lr.nombrelista FROM listareproduccion lr JOIN usuarios u ON lr.idusuario = u.id WHERE lr.visibilidad = true  AND u.id = ?";
+        
+        try (PreparedStatement comandoPreparado = vConectar.establecerConexion().prepareStatement(query)) {
+            comandoPreparado.setInt(1, idUsuarioBuscado);
+            ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                //Lee los items por el nombre de la columna "nombrelista"
+                int idLista = resultadoConsulta.getInt("id");
+                String nombreLista = resultadoConsulta.getString("nombrelista");
+                
+                resultado.setIdLista(idLista);
+                resultado.setNombreLista(nombreLista);
+
+                return resultado;
+            }         
+
+        
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+        }
+             catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+       return resultado;      
+}
+    
 }

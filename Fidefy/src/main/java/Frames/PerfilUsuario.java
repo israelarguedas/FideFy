@@ -5,13 +5,12 @@
 package Frames;
 
 import Clases.ConexionBD;
+import Clases.PerfilUsuarioLR;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -21,18 +20,38 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PerfilUsuario extends javax.swing.JFrame {
     
+    private String nombreUsuarioVisitado;
+    private int idUsuarioBuscado;
+    private int idUsuarrioVisitante;
+    private int idListaReproduccion;
     ConexionBD basedatos = new ConexionBD();
-    
     
     /**
      * Creates new form PerfilUsuario
      */
     public PerfilUsuario() {
+        
         initComponents();
-        cargarListasReproduccion();
-        cargarCancionesDeLista(1);
+        
+        nombreUsuarioVisitado="aplomrk";
+        idUsuarioBuscado=1;
+        idUsuarrioVisitante=9;
+        lblNombreUsuario.setText(nombreUsuarioVisitado);
+        verificarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
+        cargarListasReproduccionPublicas();
+        
+        
         
     }
+   
+    
+    public PerfilUsuario(String nombreUsuarioBuscado, int idUsuarioBuscado, int idUsuarioVisitante) {
+        this.nombreUsuarioVisitado = nombreUsuarioBuscado;
+        this.idUsuarioBuscado = idUsuarioBuscado;
+        this.idUsuarrioVisitante = idUsuarioVisitante;
+    }
+
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,21 +68,21 @@ public class PerfilUsuario extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         lblNombreUsuario = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnFollow = new javax.swing.JButton();
+        btnEnviarMP = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cbxListasReproduccionPublicas = new javax.swing.JComboBox<>();
-        jButton5 = new javax.swing.JButton();
+        cbxListasReproduccionPublicas = new javax.swing.JComboBox();
+        btnSeguirLR = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCanciones = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txaMostrarComentarios = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton6 = new javax.swing.JButton();
+        txaComentario = new javax.swing.JTextArea();
+        btnComentar = new javax.swing.JButton();
 
         jButton2.setText("Follow");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -78,20 +97,20 @@ public class PerfilUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblNombreUsuario.setText("Nombre Usuario");
 
-        jButton1.setText("Follow");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFollow.setText("Follow");
+        btnFollow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFollowActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Enviar MP");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviarMP.setText("Enviar MP");
+        btnEnviarMP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEnviarMPActionPerformed(evt);
             }
         });
 
@@ -104,16 +123,16 @@ public class PerfilUsuario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(46, 46, 46)
                         .addComponent(lblNombreUsuario)
-                        .addGap(93, 93, 93)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addGap(45, 45, 45)
+                        .addComponent(btnFollow, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEnviarMP))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(101, 101, 101)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,8 +140,8 @@ public class PerfilUsuario extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombreUsuario)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(btnFollow)
+                    .addComponent(btnEnviarMP))
                 .addGap(44, 44, 44)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(88, Short.MAX_VALUE))
@@ -132,10 +151,16 @@ public class PerfilUsuario extends javax.swing.JFrame {
 
         jLabel1.setText("Comentarios de Playlist:");
 
-        jButton5.setText("Seguir");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        cbxListasReproduccionPublicas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                cbxListasReproduccionPublicasActionPerformed(evt);
+            }
+        });
+
+        btnSeguirLR.setText("Seguir Playlist");
+        btnSeguirLR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeguirLRActionPerformed(evt);
             }
         });
 
@@ -160,17 +185,22 @@ public class PerfilUsuario extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblCanciones);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txaMostrarComentarios.setColumns(20);
+        txaMostrarComentarios.setRows(5);
+        jScrollPane3.setViewportView(txaMostrarComentarios);
 
         jLabel5.setText("Playlist Publicas del Usuario");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane4.setViewportView(jTextArea2);
+        txaComentario.setColumns(20);
+        txaComentario.setRows(5);
+        jScrollPane4.setViewportView(txaComentario);
 
-        jButton6.setText("Comentar");
+        btnComentar.setText("Comentar");
+        btnComentar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComentarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -179,7 +209,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5)
+                    .addComponent(btnSeguirLR)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -191,21 +221,21 @@ public class PerfilUsuario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addComponent(btnComentar)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxListasReproduccionPublicas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(8, 8, 8)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSeguirLR)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,8 +245,8 @@ public class PerfilUsuario extends javax.swing.JFrame {
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jButton6)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addComponent(btnComentar)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("PlayList", jPanel2);
@@ -235,21 +265,68 @@ public class PerfilUsuario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnFollowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFollowActionPerformed
+        
+        if (btnFollow.getText().equals("Follow")) {
+            agregarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
+            btnFollow.setText("Unfollow");
+            btnFollow.setForeground(Color.red);
+            
+        }else{
+            eliminarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
+            btnFollow.setText("Follow");
+            btnFollow.setForeground(Color.black);
+        }
+
+        
+        
+    }//GEN-LAST:event_btnFollowActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnEnviarMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnEnviarMPActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnSeguirLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguirLRActionPerformed
+        
+
+        if (btnSeguirLR.getText().equals("Seguir Playlist")) {
+            seguirListaReproduccion(idListaReproduccion,idUsuarrioVisitante);
+            btnSeguirLR.setText("Dejar Seguir");
+            btnSeguirLR.setForeground(Color.red);
+            
+        }else{
+            eliminarSeguidorLista(idListaReproduccion, idUsuarrioVisitante);
+            btnSeguirLR.setText("Seguir Playlist");
+            btnSeguirLR.setForeground(Color.black);
+        }
+        
+    }//GEN-LAST:event_btnSeguirLRActionPerformed
+
+    private void cbxListasReproduccionPublicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxListasReproduccionPublicasActionPerformed
+        
+    PerfilUsuarioLR itemSeleccionado = (PerfilUsuarioLR) cbxListasReproduccionPublicas.getSelectedItem();
+    
+        if (itemSeleccionado != null) {
+            int idLista = itemSeleccionado.getIdLista(); 
+            idListaReproduccion = idLista;
+            actualizarTablaCanciones(idListaReproduccion);
+            actualizarComentariosLista(idListaReproduccion);
+            verificarSeguidorLista(idListaReproduccion, idUsuarrioVisitante);
+    }
+        
+    }//GEN-LAST:event_cbxListasReproduccionPublicasActionPerformed
+
+    private void btnComentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentarActionPerformed
+        
+        agregarComentario(txaComentario.getText());
+        actualizarComentariosLista(idListaReproduccion);
+        txaComentario.setText("");
+        
+    }//GEN-LAST:event_btnComentarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,21 +363,28 @@ public class PerfilUsuario extends javax.swing.JFrame {
         });
     }
     
-    private void cargarListasReproduccion(){
-    String query = "SELECT nombrelista FROM listareproduccion";
-    Statement comando = null;
-    ResultSet rs = null;
-    try {comando = basedatos.establecerConexion().createStatement();
-        rs = comando.executeQuery(query);
-        //System.out.println(rs.toString());
+    private void cargarListasReproduccionPublicas(){
+    //Agrega las listas de reproduccion  al combobox
+    String query = "SELECT lr.id, lr.nombrelista FROM listareproduccion lr JOIN usuarios u ON lr.idusuario = u.id WHERE lr.visibilidad = true  AND u.id = ?";
+    
+    try (
+            Connection conectar = basedatos.establecerConexion();
+            PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+            //System.out.println(rs.toString());
+            
+            comandoPreparado.setInt(1, idUsuarioBuscado);
+            ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+            // Limpiar el comboBox en caso de que ya tenga items
+            cbxListasReproduccionPublicas.removeAllItems();
 
-        // Limpiar el comboBox en caso de que ya tenga items
-        cbxListasReproduccionPublicas.removeAllItems();
+            while (resultadoConsulta.next()) {
+                //Lee los items por el nombre de la columna "nombrelista"
+                int idLista = resultadoConsulta.getInt("id");
+                String nombreLista = resultadoConsulta.getString("nombrelista");
 
-        while (rs.next()) {
-            //Lee los items por el nombre de la columna "nombrelista"
-            cbxListasReproduccionPublicas.addItem(rs.getString("nombrelista")); 
-        }          
+                cbxListasReproduccionPublicas.addItem(new PerfilUsuarioLR(idLista, nombreLista));
+                
+            }          
            
             
         } catch (SQLException ex) {
@@ -309,41 +393,224 @@ public class PerfilUsuario extends javax.swing.JFrame {
         
     }
     
-private void cargarCancionesDeLista(int idLista) {
-    String query = "SELECT c.titulo, c.artista, c.album, c.año FROM canciones c JOIN listareproduccioncanciones lrc ON c.id = lrc.idcancion WHERE lrc.idlista = ?";
-    
-    // Obtener el modelo existente y limpia tabla
-    DefaultTableModel tabla = (DefaultTableModel) tblCanciones.getModel(); 
-    tabla.setRowCount(0);
+    private void actualizarTablaCanciones(int idLista) {
 
-    try (Connection conn = basedatos.establecerConexion();
-         PreparedStatement comandoPreparado = conn.prepareStatement(query)) {
-        
-        comandoPreparado.setInt(1, idLista);
-        ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+        String query = "SELECT c.titulo, c.artista, c.album, c.año FROM canciones c JOIN listareproduccioncanciones lrc ON c.id = lrc.idcancion WHERE lrc.idlista = ?";
 
-        while (resultadoConsulta.next()) {
-            String titulo = resultadoConsulta.getString("titulo");
-            String artista = resultadoConsulta.getString("artista");
-            String album = resultadoConsulta.getString("album");
-            int año = resultadoConsulta.getInt("año");
-            //Crear fila en tabla para añadir datos
-            Object[] row = {titulo, artista, album, año}; 
-            tabla.addRow(row);
+        // Obtener el modelo existente y limpia tabla
+        DefaultTableModel tabla = (DefaultTableModel) tblCanciones.getModel(); 
+        tabla.setRowCount(0);
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idLista);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+
+                while (resultadoConsulta.next()) {
+                    String titulo = resultadoConsulta.getString("titulo");
+                    String artista = resultadoConsulta.getString("artista");
+                    String album = resultadoConsulta.getString("album");
+                    int año = resultadoConsulta.getInt("año");
+                    //Crear fila en tabla para añadir datos
+                    Object[] row = {titulo, artista, album, año}; 
+                    tabla.addRow(row);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
+}
+
+    private void agregarComentario(String comentario){
+        String query="INSERT INTO listareproduccioncomentarios(idlista,idusuario,comentario) VALUES(?,?,?)";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idListaReproduccion);
+                comandoPreparado.setInt(2, idUsuarrioVisitante);
+                comandoPreparado.setString(3, comentario);
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }    
+
+    private void actualizarComentariosLista (int idLista){
+        String query = "SELECT u.nombreusuario, lrc.comentario FROM listareproduccioncomentarios lrc JOIN usuarios u ON lrc.idusuario = u.id WHERE lrc.idlista = ?";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idListaReproduccion);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+                StringBuilder comentarios = new StringBuilder();
+
+                while (resultadoConsulta.next()) {
+                    String usuarioR = resultadoConsulta.getString("nombreusuario");
+                    String comentarioR = resultadoConsulta.getString("comentario");
+                    comentarios.append(usuarioR).append(": ").append(comentarioR).append("\n");
+
+            }
+                txaMostrarComentarios.setText(comentarios.toString());
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    private void agregarSeguidor (int idUsuarioSeguido, int idUsuarioSeguidor){
+        String query = "INSERT INTO seguidores (idusuarioseguido, idusuarioseguidor) VALUES (?, ?)";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idUsuarioSeguido);
+                comandoPreparado.setInt(2, idUsuarioSeguidor);
+                
+                
+                comandoPreparado.executeUpdate();
+                
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    private void eliminarSeguidor (int idUsuarioSeguido, int idUsuarioSeguidor){
+        
+        String query = "DELETE FROM seguidores WHERE idusuarioseguido= ? AND idusuarioseguidor=?";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idUsuarioSeguido);
+                comandoPreparado.setInt(2, idUsuarioSeguidor);
+                
+                
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    public void verificarSeguidor(int idUsuarioSeguido, int idUsuarioSeguidor) {
+    
+    String query = "SELECT COUNT(*) FROM seguidores WHERE idusuarioseguido = ? AND idusuarioseguidor = ?";
+    try (
+            
+        Connection conectar = basedatos.establecerConexion();
+        PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+        
+        comandoPreparado.setInt(1, idUsuarioSeguido);
+        comandoPreparado.setInt(2, idUsuarioSeguidor);
+        
+        ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+        
+        if (resultadoConsulta.next()) {
+            btnFollow.setText("Unfollow");
+            btnFollow.setForeground(Color.red);
+            
+        }
+        
+        
     } catch (SQLException ex) {
-        System.err.println(ex.getMessage());
+        System.err.println("Error al verificar si un usuario sigue a otro: " + ex.getMessage());
     }
 }
 
+    public void seguirListaReproduccion(int idLista, int idUsuario){
+        
+        String query = "INSERT INTO listareproduccionseguidores (idlista, idusuarioseguidor) VALUES (?, ?)";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idLista);
+                comandoPreparado.setInt(2, idUsuario);
+                
+                
+                comandoPreparado.executeUpdate();
+                
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    private void eliminarSeguidorLista (int idLista, int idUsuarioSeguidor){
+        
+        String query = "DELETE FROM listareproduccionseguidores WHERE idlista= ? AND idusuarioseguidor=?";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idLista);
+                comandoPreparado.setInt(2, idUsuarioSeguidor);
+                
+                
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+        
+
+    public void verificarSeguidorLista(int idLista, int idUsuarioSeguidor) {
+    
+    String query = "SELECT COUNT(*) FROM listareproduccionseguidores WHERE idlista = ? AND idusuarioseguidor = ?";
+    try (
+            
+        Connection conectar = basedatos.establecerConexion();
+        PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+        
+        comandoPreparado.setInt(1, idLista);
+        comandoPreparado.setInt(2, idUsuarioSeguidor);
+        
+        ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+        
+        if (resultadoConsulta.next() && resultadoConsulta.getInt(1) > 0) {
+            btnSeguirLR.setText("Dejar Seguir");
+            btnSeguirLR.setForeground(Color.RED); 
+        } else {
+            btnSeguirLR.setText("Seguir Playlist");
+            btnSeguirLR.setForeground(Color.BLACK); 
+        }
+        
+        
+    } catch (SQLException ex) {
+        System.err.println("Error al verificar si el usuario sigue la lista: " + ex.getMessage());
+    }
+}
+    
+
+
+    
+    
+   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbxListasReproduccionPublicas;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnComentar;
+    private javax.swing.JButton btnEnviarMP;
+    private javax.swing.JButton btnFollow;
+    private javax.swing.JButton btnSeguirLR;
+    private javax.swing.JComboBox cbxListasReproduccionPublicas;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -354,9 +621,11 @@ private void cargarCancionesDeLista(int idLista) {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JTable tblCanciones;
+    private javax.swing.JTextArea txaComentario;
+    private javax.swing.JTextArea txaMostrarComentarios;
     // End of variables declaration//GEN-END:variables
+
+
 }
