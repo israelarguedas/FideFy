@@ -52,8 +52,6 @@ public class VentanaChat extends javax.swing.JFrame {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Colocar aquí el código que deseas ejecutar cada cierto tiempo
-                //System.out.println("El temporizador de Swing se ha ejecutado.");
                 enviarInstruccion();
             }
         });
@@ -65,8 +63,6 @@ public class VentanaChat extends javax.swing.JFrame {
     
     public void setTema(int pTema){
         this.tema=pTema;
-        ///nuevoHiloCliente.setTema(pTema);
-        ///nuevoHiloCliente.start();
         
     }
     

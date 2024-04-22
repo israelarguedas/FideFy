@@ -5,10 +5,18 @@
 package Frames;
 
 import Clases.Cancion;
+import Clases.InstruccionChat;
 import Clases.ListaReproduccion;
+import Clases.Mensaje;
 import Clases.Seguidos;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,10 +30,12 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+        
     }
     
     public void setUsuarioActual(String pUsuarioActual){
         this.usuarioActual=pUsuarioActual;
+        this.enviarInstruccion();
     }
 
     /**
@@ -88,7 +98,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboxUsuariosChatear = new javax.swing.JComboBox<>();
         btnIniciarChat = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -530,9 +540,9 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Chats directos");
 
-        jComboBox1.setBackground(new java.awt.Color(0, 51, 51));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", " " }));
+        cboxUsuariosChatear.setBackground(new java.awt.Color(0, 51, 51));
+        cboxUsuariosChatear.setForeground(new java.awt.Color(255, 255, 255));
+        cboxUsuariosChatear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         btnIniciarChat.setText("Iniciar chat");
 
@@ -543,7 +553,7 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboxUsuariosChatear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6)
                     .addComponent(btnIniciarChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -557,7 +567,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(26, 26, 26)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboxUsuariosChatear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIniciarChat)
                 .addContainerGap(253, Short.MAX_VALUE))
@@ -834,6 +844,42 @@ public class Interfaz extends javax.swing.JFrame {
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatLatina1ActionPerformed
 
+    private void enviarInstruccion(){
+        InstruccionChat vNuevaInstruccion = null;
+        vNuevaInstruccion = new InstruccionChat("", "");
+        
+
+        try {
+            Socket vSocket = new Socket("127.0.0.1", 15575);
+            ObjectOutputStream vSerializador = new ObjectOutputStream(vSocket.getOutputStream());
+            ObjectInputStream vDeserializador = new ObjectInputStream(vSocket.getInputStream()); 
+            
+            vSerializador.writeObject(vNuevaInstruccion);
+            vSerializador.flush();
+            
+            //vSocket.setSoTimeout(100);
+            Object resultado=null;
+            ArrayList<String> listaUsuarios = new ArrayList();
+            try{
+                resultado = vDeserializador.readObject();
+                listaUsuarios = (ArrayList<String>) resultado;
+                cboxUsuariosChatear.removeAllItems();
+                for (String usuario : listaUsuarios) {
+                    cboxUsuariosChatear.addItem(usuario);
+                }
+            } catch (SocketTimeoutException e) {}
+            
+            
+            vSerializador.close();
+            vDeserializador.close();
+            ///vDeserializador.close();
+            vSocket.close();
+
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -886,11 +932,11 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnChatRock1;
     private javax.swing.JButton btnDejarSeguir;
     private javax.swing.JButton btnIniciarChat;
+    private javax.swing.JComboBox<String> cboxUsuariosChatear;
     private javax.swing.JComboBox<String> cbxSeleccionarLR;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

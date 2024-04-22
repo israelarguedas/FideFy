@@ -108,24 +108,25 @@ public void run() {
                 ComentarioCancionAgregado(nuevoComentario);
                 this.registroLogs.append("Comentario fue enviado... \n");
             } if (objetoRecibido instanceof InstruccionChat) {
-                //test
-                //JOptionPane.showMessageDialog(null, "Instruccion recibida en el server");
-                ArrayList<Mensaje> resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
-                //resultado.next();
-                //JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
                 
-                vSerializador.writeObject(resultado);
-                vSerializador.flush();
-                //JOptionPane.showMessageDialog(null, "Enviado ResultTest a cliente");
-                
-                /*Mensaje vNuevoMensajeTest = new Mensaje("DarioTest", 1, "Probandooo");
-                vSerializador.writeObject(vNuevoMensajeTest);
-                //JOptionPane.showMessageDialog(null, "Enviado a cliente");*/
-                
-                
-                vSerializador.flush();
-                //ResultSet resultadoBusquedaMensajes = obtenerMensajes((InstruccionChat) objetoRecibido);
-                //posiblemente hacer un for para no se xd
+                if (((InstruccionChat) objetoRecibido).getEmisor().equals("")) {
+                    //JOptionPane.showMessageDialog(null, "Intruccion vacia recibida en el server");
+                    ArrayList<String> resultado = this.obtenerUsuarios();
+                    //JOptionPane.showMessageDialog(null, resultado.toString());
+                    try {
+                        vSerializador.writeObject(resultado);
+                        vSerializador.flush();
+                } catch (IOException e) {
+                    System.err.println("Error al enviar respuesta: " + e.getMessage());
+                }
+                }else{
+                    ArrayList<Mensaje> resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
+
+                    vSerializador.writeObject(resultado);
+                    vSerializador.flush();
+
+
+                }
 
                 
             } if (objetoRecibido instanceof PerfilUsuarioLR) {
@@ -399,6 +400,35 @@ private ArrayList<Mensaje> obtenerMensajes(InstruccionChat pInstruccion){
                 System.err.println(ex.getMessage());
             }
        return resultado;      
+}
+    
+public ArrayList<String> obtenerUsuarios(){
+    ArrayList<String> usuarios = null;
+    ResultSet resultado=null;
+    Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+    PreparedStatement comandoSelectPreparado = null;
+    String comandoSelect;
+        try {
+        comandoSelect =  "SELECT nombre,nombreusuario FROM usuarios";
+        comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+        resultado = comandoSelectPreparado.executeQuery();
+        
+            usuarios = new ArrayList();
+            while (resultado.next()){
+                String nombre = resultado.getString("nombre");
+                String nombreUsuario = resultado.getString("nombreusuario");
+                //int tema = resultado.getInt("tema");
+                
+                String temp = nombre + " (@" + nombreUsuario + ")";
+                usuarios.add(temp);
+            }
+
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    return usuarios;
 }
     
 }
