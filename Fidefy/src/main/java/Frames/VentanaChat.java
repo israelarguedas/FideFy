@@ -7,6 +7,8 @@ package Frames;
 import Clases.HiloChatCliente;
 import Clases.InstruccionChat;
 import Clases.Mensaje;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -45,7 +48,19 @@ public class VentanaChat extends javax.swing.JFrame {
     public void setEmisor(String pEmisor){
         this.emisor=pEmisor;
         //JOptionPane.showMessageDialog(null, "desde seteo ya dentro de chat: "+this.emisor);
-        enviarInstruccion();
+        
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Colocar aquí el código que deseas ejecutar cada cierto tiempo
+                //System.out.println("El temporizador de Swing se ha ejecutado.");
+                enviarInstruccion();
+            }
+        });
+
+        // Iniciar el temporizador
+        timer.start();
+        
     }
     
     public void setTema(int pTema){
@@ -155,6 +170,7 @@ public class VentanaChat extends javax.swing.JFrame {
         vNuevoMensaje.setContenido(txtNuevoMensaje.getText());
         vNuevoMensaje.setEmisor(this.emisor);
         vNuevoMensaje.setTema(tema);
+        txtNuevoMensaje.setText(""); 
         
         Socket vNuevoSocket;
         
@@ -164,8 +180,6 @@ public class VentanaChat extends javax.swing.JFrame {
             vSerializador.writeObject(vNuevoMensaje); // issue del lado del servidor, agregar instanceOf para recibir un objeto de tipo Mensaje
             vSerializador.close();
             vNuevoSocket.close();
-            
-            //JOptionPane.showMessageDialog(this, "Mensaje enviado al servidor");
             
         } catch (IOException ex) {
             Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,7 +199,6 @@ public class VentanaChat extends javax.swing.JFrame {
         InstruccionChat vNuevaInstruccion = null;
         if (tema!=0) {
             vNuevaInstruccion = new InstruccionChat(this.emisor, this.tema);
-            //JOptionPane.showConfirmDialog(null, "Emisor: "+this.emisor+ "  Tema: "+this.tema);
         }else{
             vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
         }
@@ -203,16 +216,12 @@ public class VentanaChat extends javax.swing.JFrame {
             ArrayList<Mensaje> listaMensajes = new ArrayList();
             try{
                 resultado = vDeserializador.readObject();
-                //Mensaje vMensajeRecibido = (Mensaje) resultado;
-                //JOptionPane.showMessageDialog(null, vMensajeRecibido.getContenido());
                 listaMensajes = (ArrayList<Mensaje>) resultado;
-                //JOptionPane.showMessageDialog(null, "ArrayList recibido en cliente");
+                txaChat.setText("");
                 for (Mensaje mensaje : listaMensajes) {
                     txaChat.append("["+mensaje.getEmisor()+"]: ");
                     txaChat.append(mensaje.getContenido()+"\n");
                 }
-
-            //ResultSet resultado = (ResultSet) vDeserializador.readObject();
             } catch (SocketTimeoutException e) {}
             
             
