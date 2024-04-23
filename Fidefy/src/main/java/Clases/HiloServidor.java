@@ -110,15 +110,13 @@ public void run() {
             } if (objetoRecibido instanceof InstruccionChat) {
                 
                 if (((InstruccionChat) objetoRecibido).getEmisor().equals("")) {
-                    //JOptionPane.showMessageDialog(null, "Intruccion vacia recibida en el server");
                     ArrayList<String> resultado = this.obtenerUsuarios();
-                    //JOptionPane.showMessageDialog(null, resultado.toString());
                     try {
                         vSerializador.writeObject(resultado);
                         vSerializador.flush();
-                } catch (IOException e) {
-                    System.err.println("Error al enviar respuesta: " + e.getMessage());
-                }
+                    } catch (IOException e) {
+                        System.err.println("Error al enviar respuesta: " + e.getMessage());
+                    }
                 }else{
                     ArrayList<Mensaje> resultado = this.obtenerMensajes((InstruccionChat) objetoRecibido);
 
@@ -243,7 +241,8 @@ private void guardarMensajeBD(Mensaje pMensaje){
     ConexionBD vConectar = new ConexionBD();
     Connection conexion = null;
     
-    if (pMensaje.getReceptor().equals("")){ //Mensaje tematico, ya que no tiene receptor
+    if (pMensaje.getTema()>0){ //Mensaje tematico, ya que no tiene receptor
+        //JOptionPane.showMessageDialog(null, "guardando en bd");
         try {
         
         conexion = vConectar.establecerConexion();
@@ -261,6 +260,25 @@ private void guardarMensajeBD(Mensaje pMensaje){
         } catch (SQLException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }else{
+        try {
+            //JOptionPane.showMessageDialog(null, "guardando en bd");
+            conexion = vConectar.establecerConexion();
+            conexion.setAutoCommit(false);
+
+            String comandoInsert = "INSERT INTO chatindividual(remitente, destinatario, mensaje) VALUES (?, ?, ?);";
+            PreparedStatement comandoPreparado = vConectar.establecerConexion().prepareStatement(comandoInsert);
+            comandoPreparado.setString(1, pMensaje.getEmisor());
+            comandoPreparado.setString(2, pMensaje.getReceptor());
+            comandoPreparado.setString(3, pMensaje.getContenido());
+            comandoPreparado.executeUpdate();
+            conexion.close();
+            //JOptionPane.showMessageDialog(null, "mensaje guardado en BD");
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
 }
 
@@ -324,7 +342,7 @@ private ArrayList<Mensaje> obtenerMensajes(InstruccionChat pInstruccion){
     Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
     PreparedStatement comandoSelectPreparado = null;
     String comandoSelect;
-    if (pInstruccion.getReceptor().equals("")) {//chat tematico
+    if (pInstruccion.getTema()>0) {//chat tematico
         try {
         comandoSelect =  "SELECT id,remitente,mensaje FROM chatsgrupales WHERE tema = ?";
         comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
@@ -341,21 +359,36 @@ private ArrayList<Mensaje> obtenerMensajes(InstruccionChat pInstruccion){
                 listaMensajes.add(temp);
             }
         
-        //JOptionPane.showMessageDialog(null, "Si encontrado mensaje");
-        //resultado.next();
-        //JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
-        //JOptionPane.showMessageDialog(null  , resultado.getString("mensaje"));
-        
         } catch (SQLException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }else{
+    }else{//Chat privados
+        //JOptionPane.showMessageDialog(null, "solicitud de chat privado en server");
+
         try {
-            comandoSelect =  "SELECT id,remitente,destinatario,mensaje FROM chatindividual WHERE remitente = ? OR destinatario = ?";
+            comandoSelect =  "SELECT remitente,destinatario,mensaje FROM chatindividual WHERE (remitente = ? AND destinatario = ?) OR (remitente = ? AND destinatario = ?)";
             comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
             comandoSelectPreparado.setString(1,pInstruccion.getEmisor());
-            comandoSelectPreparado.setString(2,pInstruccion.getEmisor());
+            comandoSelectPreparado.setString(2,pInstruccion.getReceptor());
+            comandoSelectPreparado.setString(3,pInstruccion.getReceptor());
+            comandoSelectPreparado.setString(4,pInstruccion.getEmisor());
             resultado = comandoSelectPreparado.executeQuery();
+            
+           /* while (resultado.next()){
+            JOptionPane.showMessageDialog(null, resultado.getString("Remitente"));}*/
+            
+            listaMensajes = new ArrayList();
+            while (resultado.next()){
+                String emisor = resultado.getString("remitente");
+                String receptor = resultado.getString("destinatario");
+                String contenido = resultado.getString("mensaje");
+                //int tema = resultado.getInt("tema");
+                
+                Mensaje temp = new Mensaje(emisor, receptor, contenido);
+                listaMensajes.add(temp);
+                //System.out.println(emisor+" "+receptor+" "+contenido);
+            }
+            //System.out.println("Mensaje enviados a cliente");
         } catch (SQLException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -545,6 +545,11 @@ public class Interfaz extends javax.swing.JFrame {
         cboxUsuariosChatear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         btnIniciarChat.setText("Iniciar chat");
+        btnIniciarChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarChatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -843,6 +848,22 @@ public class Interfaz extends javax.swing.JFrame {
         vNuevaVentanaChat.setEmisor(usuarioActual);
         vNuevaVentanaChat.setVisible(true);
     }//GEN-LAST:event_btnChatLatina1ActionPerformed
+
+    private void btnIniciarChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarChatActionPerformed
+        // TODO add your handling code here:
+        String nombreObtenido = (String) cboxUsuariosChatear.getSelectedItem();
+        nombreObtenido = nombreObtenido.replace("(","");
+        nombreObtenido= nombreObtenido.replace(")", "");
+        String recortado = nombreObtenido.substring(nombreObtenido.indexOf("@") + 1);
+        recortado.trim();
+        
+        VentanaChat vNuevaVentana = new VentanaChat();
+        vNuevaVentana.setNombreChat(recortado);
+        vNuevaVentana.setEmisor(this.usuarioActual);
+        vNuevaVentana.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnIniciarChatActionPerformed
 
     private void enviarInstruccion(){
         InstruccionChat vNuevaInstruccion = null;

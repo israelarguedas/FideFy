@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class InstruccionChat implements Serializable{
     private String emisor;
     private String receptor;
-    private int tema;
+    private int tema=0;
     private boolean detener=false;
 
     public InstruccionChat() {

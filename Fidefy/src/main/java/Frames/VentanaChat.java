@@ -27,9 +27,9 @@ import javax.swing.Timer;
  * @author 100da
  */
 public class VentanaChat extends javax.swing.JFrame {
-    private String nombreChat; //nombre de la persona remitente o nombre del tema
+    private String nombreChat; //nombre de la persona receptora o nombre del tema
     private String emisor; //quien envia el mensaje
-    private int tema;
+    private int tema=0;
     ///HiloChatCliente nuevoHiloCliente;
     /**
      * Creates new form VentanaChat
@@ -165,6 +165,7 @@ public class VentanaChat extends javax.swing.JFrame {
         Mensaje vNuevoMensaje = new Mensaje();
         vNuevoMensaje.setContenido(txtNuevoMensaje.getText());
         vNuevoMensaje.setEmisor(this.emisor);
+        vNuevoMensaje.setReceptor(this.nombreChat);
         vNuevoMensaje.setTema(tema);
         txtNuevoMensaje.setText(""); 
         
@@ -199,38 +200,43 @@ public class VentanaChat extends javax.swing.JFrame {
             vNuevaInstruccion = new InstruccionChat(this.emisor, this.nombreChat);
         }
 
-        try {
-            Socket vSocket = new Socket("127.0.0.1", 15575);
-            ObjectOutputStream vSerializador = new ObjectOutputStream(vSocket.getOutputStream());
-            ObjectInputStream vDeserializador = new ObjectInputStream(vSocket.getInputStream()); 
-            
-            vSerializador.writeObject(vNuevaInstruccion);
-            vSerializador.flush();
-            
-            //vSocket.setSoTimeout(1);
-            Object resultado=null;
-            ArrayList<Mensaje> listaMensajes = new ArrayList();
-            try{
-                resultado = vDeserializador.readObject();
-                listaMensajes = (ArrayList<Mensaje>) resultado;
-                txaChat.setText("");
-                for (Mensaje mensaje : listaMensajes) {
-                    txaChat.append("["+mensaje.getEmisor()+"]: ");
-                    txaChat.append(mensaje.getContenido()+"\n");
-                }
-            } catch (SocketTimeoutException e) {}
-            
-            
-            vSerializador.close();
-            vDeserializador.close();
-            ///vDeserializador.close();
-            vSocket.close();
+        if(this.isVisible()){
+            try {
+                Socket vSocket = new Socket("127.0.0.1", 15575);
+                ObjectOutputStream vSerializador = new ObjectOutputStream(vSocket.getOutputStream());
+                ObjectInputStream vDeserializador = new ObjectInputStream(vSocket.getInputStream()); 
 
-            
-            
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+                vSerializador.writeObject(vNuevaInstruccion);
+                vSerializador.flush();
+
+                //vSocket.setSoTimeout(1);
+                Object resultado=null;
+                ArrayList<Mensaje> listaMensajes = new ArrayList();
+                try{
+                    resultado = vDeserializador.readObject();
+                    listaMensajes = (ArrayList<Mensaje>) resultado;
+                    txaChat.setText("");
+                    if (listaMensajes!=null) {
+                        for (Mensaje mensaje : listaMensajes) {
+                        txaChat.append("["+mensaje.getEmisor()+"]: ");
+                        txaChat.append(mensaje.getContenido()+"\n");
+                        }   
+                    }
+
+                } catch (SocketTimeoutException e) {}
+
+
+                vSerializador.close();
+                vDeserializador.close();
+                ///vDeserializador.close();
+                vSocket.close();
+
+
+
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+        }
     }
     
     
