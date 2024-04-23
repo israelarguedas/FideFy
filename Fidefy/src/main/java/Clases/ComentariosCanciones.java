@@ -10,15 +10,36 @@ public class ComentariosCanciones implements Serializable{
     private String usuarioComenta;
     private String tituloCancion;
     private String comentario;
+    private int IDcancion;
+    private int IDusuario;
 
     public ComentariosCanciones() {
     }
 
-    public ComentariosCanciones(String usuarioComenta, String tituloCancion, String comentario) {
+    public ComentariosCanciones(String usuarioComenta, String tituloCancion, String comentario, int IDcancion, int IDusuario) {
         this.usuarioComenta = usuarioComenta;
         this.tituloCancion = tituloCancion;
         this.comentario = comentario;
+        this.IDcancion = IDcancion;
+        this.IDusuario = IDusuario;
     }
+
+    public int getIDcancion() {
+        return IDcancion;
+    }
+
+    public void setIDcancion(int IDcancion) {
+        this.IDcancion = IDcancion;
+    }
+
+    public int getIDusuario() {
+        return IDusuario;
+    }
+
+    public void setIDusuario(int IDusuario) {
+        this.IDusuario = IDusuario;
+    }
+
 
     public String getUsuarioComenta() {
         return usuarioComenta;

@@ -31,12 +31,17 @@ import javax.swing.text.html.HTMLDocument;
 public class HiloServidor extends Thread{
     
     private JTextArea registroLogs;
+    private int usuarioActual;
 
     public HiloServidor() {
     }
 
     public HiloServidor(JTextArea registroLogs) {
         this.registroLogs = registroLogs;
+    }
+    
+    public void setUsuarioActual(int pUsuarioActual){
+        this.usuarioActual=pUsuarioActual;
     }
 
     public JTextArea getRegistroLogs() {
@@ -75,6 +80,7 @@ public void run() {
                 System.out.println("VCredenciales: " + vCredenciales.toString());
 
                 UsuarioInicioSesion respuesta = validarUsuario(vCredenciales);
+                usuarioActual = respuesta.getID();
                 registroLogs.append("Enviando respuesta al cliente... \n");
                 System.out.println("Servidor: " + respuesta.toString());
 
@@ -87,10 +93,12 @@ public void run() {
                 } catch (IOException e) {
                     System.err.println("Error al enviar respuesta: " + e.getMessage());
                 }
+                
             } if (objetoRecibido instanceof Mensaje){
                 //JOptionPane.showMessageDialog(null, "mensaje recibido en server");
                 Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
                 guardarMensajeBD(vMensajeRecibido);
+                
             } if (objetoRecibido instanceof Cancion){
                 Cancion nuevaCancion = (Cancion) objetoRecibido;
                 this.registroLogs.append("Cancion buscada recibida... \n");
@@ -98,11 +106,12 @@ public void run() {
                 BuscarCancion(nuevaCancion);
                 Canciones nuevaVentana = new Canciones(nuevaCancion);
                 nuevaVentana.setVisible(true);
+                nuevaVentana.setUsuarioActual(usuarioActual);
                 this.registroLogs.append("Cancion enviada... \n");
+                
             } if (objetoRecibido instanceof ComentariosCanciones){
                 ComentariosCanciones nuevoComentario = (ComentariosCanciones) objetoRecibido;
-                nuevoComentario.setUsuarioComenta(vCredenciales.getNombreUsuario()); //Setear el nombre de usuario que realizo el comentario
-                nuevoComentario.toString();
+                nuevoComentario.setIDusuario(usuarioActual); //Setear el nombre de usuario que realizo el comentario
                 this.registroLogs.append("El comentario fue recibido... \n");
                 
                 ComentarioCancionAgregado(nuevoComentario);
@@ -226,8 +235,10 @@ public UsuarioInicioSesion validarUsuario(UsuarioInicioSesion pDato) {
             try (ResultSet rs = comadoPreparado.executeQuery()) {
                 if (rs.next()) {
                     consulta.setNombreUsuario(pDato.getNombreUsuario());
+                    consulta.setID(pDato.getID());
                     consulta.setContrasena("contra"); 
                     consulta.setEsValido(true);
+                    usuarioActual = pDato.getID();
                 }
             }
         }
@@ -273,7 +284,7 @@ private void guardarMensajeBD(Mensaje pMensaje){
             PreparedStatement comandoSelectPreparado = null;
             
             //Comando SELECT
-            String comandoSelect =  "SELECT artista,album FROM canciones WHERE titulo = ?";
+            String comandoSelect =  "SELECT artista,album,id FROM canciones WHERE titulo = ?";
             comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
 
             //Definimos los parametros
@@ -284,6 +295,7 @@ private void guardarMensajeBD(Mensaje pMensaje){
             if(resultado.next()){
                 nuevaCancion.setArtista(resultado.getString("artista"));
                 nuevaCancion.setAlbum(resultado.getString("album"));
+                nuevaCancion.setID(resultado.getInt("id"));
             }else{
                 JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
             }
@@ -299,12 +311,12 @@ private void guardarMensajeBD(Mensaje pMensaje){
             Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
             
             //Comando INSERT
-            String comandoInsert = "INSERT INTO cancionescomentarios(titulo, usuario, comentario) VALUES (?, ?, ?);";
+            String comandoInsert = "INSERT INTO cancionescomentarios(idcancion, idusuario, comentario) VALUES (?, ?, ?);";
             PreparedStatement comandoInsertPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoInsert);
             
             //Definimos los parametros
-            comandoInsertPreparado.setString(1, nuevoComentario.getTituloCancion());
-            comandoInsertPreparado.setString(2, nuevoComentario.getUsuarioComenta());
+            comandoInsertPreparado.setInt(1, nuevoComentario.getIDcancion());
+            comandoInsertPreparado.setInt(2, nuevoComentario.getIDusuario());
             comandoInsertPreparado.setString(3, nuevoComentario.getComentario());
             
             //Ejecutar el comando

@@ -16,19 +16,30 @@ public class Cancion implements Comparable<Cancion>, Serializable{
     private String AnoLanzamiento;
     private String Genero;
     private int MeGusta;
+    private int ID;
 
     public Cancion() {
     }
 
-    public Cancion(String Titulo, String Artista, String Album, String AnoLanzamiento, String Genero, int MeGusta) {
+    public Cancion(String Titulo, String Artista, String Album, String AnoLanzamiento, String Genero, int MeGusta, int ID) {
         this.Titulo = Titulo;
         this.Artista = Artista;
         this.Album = Album;
         this.AnoLanzamiento = AnoLanzamiento;
         this.Genero = Genero;
         this.MeGusta = MeGusta;
- 
+        this.ID = ID;
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
 
     public String getTitulo() {
         return Titulo;
@@ -89,7 +100,11 @@ public class Cancion implements Comparable<Cancion>, Serializable{
         Cancion vCancion_equal = (Cancion) NuevaCancion;
         return vCancion_equal.getTitulo().equals(this.Titulo);
     }
-    
 
+    @Override
+    public String toString() {
+        return "Cancion{" + "Titulo=" + Titulo + ", Artista=" + Artista + ", Album=" + Album + ", AnoLanzamiento=" + AnoLanzamiento + ", Genero=" + Genero + ", MeGusta=" + MeGusta + ", ID=" + ID + '}';
+    }
+    
 }
 

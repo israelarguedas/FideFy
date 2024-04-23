@@ -6,6 +6,7 @@ package Frames;
 
 import Clases.Cancion;
 import Clases.ComentariosCanciones;
+import Clases.UsuarioInicioSesion;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import javax.swing.JOptionPane;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Canciones extends javax.swing.JFrame {
     private Cancion nuevaCancion;
+    private int usuarioActual;
     /**
      * Creates new form Canciones
      */
@@ -23,12 +25,29 @@ public class Canciones extends javax.swing.JFrame {
         initComponents();
     }
 
-    public Canciones(Cancion nuevaCancion) {
+    public Canciones(Cancion nuevaCancion, int usuarioActual) {
+        this.nuevaCancion = nuevaCancion;
+        this.lblTitulo.setText(nuevaCancion.getTitulo());
+        this.lblAlbum.setText(nuevaCancion.getAlbum());
+        this.lblArtista.setText(nuevaCancion.getArtista()); 
+        this.usuarioActual = usuarioActual;
+    }
+    
+    
+   public Canciones(Cancion nuevaCancion) {
         initComponents();
         this.nuevaCancion = nuevaCancion;
         this.lblTitulo.setText(nuevaCancion.getTitulo());
         this.lblAlbum.setText(nuevaCancion.getAlbum());
         this.lblArtista.setText(nuevaCancion.getArtista());          
+    }
+
+    public int getUsuarioActual() {
+        return usuarioActual;
+    }
+
+    public void setUsuarioActual(int usuarioActual) {
+        this.usuarioActual = usuarioActual;
     }
 
     /**
@@ -175,7 +194,11 @@ public class Canciones extends javax.swing.JFrame {
         //Instanciar Comentario de Cancion
         ComentariosCanciones nuevoComentario = new ComentariosCanciones();
         nuevoComentario.setComentario(txaComentario.getText());
-        nuevoComentario.setTituloCancion(nuevaCancion.getTitulo());
+        nuevoComentario.setIDcancion(nuevaCancion.getID());
+        nuevoComentario.setIDusuario(usuarioActual);
+        
+        //JOptionPane.showMessageDialog(null, "Usuario actual: " + usuarioActual.toString());
+        //JOptionPane.showMessageDialog(null, "Comentario actual " + nuevoComentario.toString());
         
         //Crear un nuevo Socket
         Socket vNuevoSocket;

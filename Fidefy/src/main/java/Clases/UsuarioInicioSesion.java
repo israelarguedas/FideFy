@@ -15,6 +15,7 @@ public class UsuarioInicioSesion implements Serializable{
     private String NombreUsuario; 
     private String Contrasena;
     private boolean esValido;
+    private int ID;
 
     public UsuarioInicioSesion() {
     }
@@ -25,6 +26,20 @@ public class UsuarioInicioSesion implements Serializable{
         this.esValido = esValido;
     }
 
+    public UsuarioInicioSesion(String NombreUsuario, String Contrasena, boolean esValido, int ID) {
+        this.NombreUsuario = NombreUsuario;
+        this.Contrasena = Contrasena;
+        this.esValido = esValido;
+        this.ID = ID;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getNombreUsuario() {
         return NombreUsuario;
