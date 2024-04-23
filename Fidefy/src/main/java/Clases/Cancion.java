@@ -39,8 +39,6 @@ public class Cancion implements Comparable<Cancion>, Serializable{
         this.ID = ID;
     }
 
-
-
     public String getTitulo() {
         return Titulo;
     }

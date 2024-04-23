@@ -8,7 +8,10 @@ import Clases.Cancion;
 import Clases.ComentariosCanciones;
 import Clases.UsuarioInicioSesion;
 import java.io.ObjectOutputStream;
+import static java.lang.Integer.parseInt;
 import java.net.Socket;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,6 +33,7 @@ public class Canciones extends javax.swing.JFrame {
         this.lblTitulo.setText(nuevaCancion.getTitulo());
         this.lblAlbum.setText(nuevaCancion.getAlbum());
         this.lblArtista.setText(nuevaCancion.getArtista()); 
+        this.lblMeGusta.setText(nuevaCancion.isMeGusta()+"");
         this.usuarioActual = usuarioActual;
     }
     
@@ -39,7 +43,8 @@ public class Canciones extends javax.swing.JFrame {
         this.nuevaCancion = nuevaCancion;
         this.lblTitulo.setText(nuevaCancion.getTitulo());
         this.lblAlbum.setText(nuevaCancion.getAlbum());
-        this.lblArtista.setText(nuevaCancion.getArtista());          
+        this.lblArtista.setText(nuevaCancion.getArtista()); 
+        this.lblMeGusta.setText(nuevaCancion.isMeGusta()+"");
     }
 
     public int getUsuarioActual() {
@@ -60,6 +65,7 @@ public class Canciones extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnIcono = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
@@ -70,8 +76,11 @@ public class Canciones extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txaComentario = new javax.swing.JTextArea();
         btnVolver = new javax.swing.JButton();
+        lblMeGusta = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -94,7 +103,12 @@ public class Canciones extends javax.swing.JFrame {
         lblArtista.setForeground(new java.awt.Color(255, 255, 255));
         lblArtista.setText("Artista");
 
-        btnMeGusta.setText("Me Gusta");
+        btnMeGusta.setText("Me Gusta:");
+        btnMeGusta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMeGustaActionPerformed(evt);
+            }
+        });
 
         btnComentario.setText("Agregar comentario");
         btnComentario.addActionListener(new java.awt.event.ActionListener() {
@@ -114,20 +128,17 @@ public class Canciones extends javax.swing.JFrame {
             }
         });
 
+        lblMeGusta.setForeground(new java.awt.Color(255, 255, 255));
+        lblMeGusta.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnComentario)
-                        .addGap(81, 81, 81))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -142,8 +153,15 @@ public class Canciones extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnMeGusta))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnMeGusta)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblMeGusta)))))
+                .addGap(0, 97, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(btnComentario)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +177,9 @@ public class Canciones extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblArtista)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMeGusta)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMeGusta)
+                    .addComponent(lblMeGusta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnComentario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -215,6 +235,34 @@ public class Canciones extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_btnComentarioActionPerformed
 
+    private void btnMeGustaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeGustaActionPerformed
+        int meGusta = this.nuevaCancion.isMeGusta();
+        meGusta = meGusta + 1;
+        this.nuevaCancion.setMeGusta(meGusta);
+        this.lblMeGusta.setText(meGusta + "");
+        
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoUpdatePreparado = null;
+            
+            //Comando SELECT
+            String comandoUpdate =  "Update canciones SET megusta = ? WHERE titulo = ?";
+            comandoUpdatePreparado = nuevaConexion.establecerConexion().prepareStatement(comandoUpdate);
+
+            //Definimos los parametros
+            comandoUpdatePreparado.setInt(1,nuevaCancion.isMeGusta());
+            comandoUpdatePreparado.setString(2,nuevaCancion.getTitulo());
+            
+            comandoUpdatePreparado.executeUpdate();
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    }//GEN-LAST:event_btnMeGustaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,10 +304,12 @@ public class Canciones extends javax.swing.JFrame {
     private javax.swing.JButton btnMeGusta;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAlbum;
     private javax.swing.JLabel lblArtista;
+    private javax.swing.JLabel lblMeGusta;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextArea txaComentario;
     // End of variables declaration//GEN-END:variables

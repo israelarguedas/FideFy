@@ -302,7 +302,7 @@ private void guardarMensajeBD(Mensaje pMensaje){
             PreparedStatement comandoSelectPreparado = null;
             
             //Comando SELECT
-            String comandoSelect =  "SELECT artista,album,id FROM canciones WHERE titulo = ?";
+            String comandoSelect =  "SELECT artista,album,id,megusta FROM canciones WHERE titulo = ?";
             comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
 
             //Definimos los parametros
@@ -314,6 +314,7 @@ private void guardarMensajeBD(Mensaje pMensaje){
                 nuevaCancion.setArtista(resultado.getString("artista"));
                 nuevaCancion.setAlbum(resultado.getString("album"));
                 nuevaCancion.setID(resultado.getInt("id"));
+                nuevaCancion.setMeGusta(resultado.getInt("megusta"));
             }else{
                 JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
             }
