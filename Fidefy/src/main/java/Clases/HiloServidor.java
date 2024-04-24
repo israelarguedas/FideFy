@@ -105,11 +105,15 @@ public void run() {
                 this.registroLogs.append("Cancion buscada recibida... \n");
                 
                 BuscarCancion(nuevaCancion);
-                Canciones nuevaVentana = new Canciones(nuevaCancion);
-                nuevaVentana.setVisible(true);
-                nuevaVentana.setUsuarioActual(usuarioActual);
-                this.registroLogs.append("Cancion enviada... \n");
                 
+                if (nuevaCancion.getArtista() == null){
+                    JOptionPane.showMessageDialog(null, "ERROR: Cancion no encontrada. Intentelo de nuevo!");
+                }else{
+                    Canciones nuevaVentana = new Canciones(nuevaCancion);
+                    nuevaVentana.setVisible(true);
+                    nuevaVentana.setUsuarioActual(usuarioActual);
+                    this.registroLogs.append("Cancion enviada... \n");
+                }
             } if (objetoRecibido instanceof ComentariosCanciones){
                 ComentariosCanciones nuevoComentario = (ComentariosCanciones) objetoRecibido;
                 nuevoComentario.setIDusuario(usuarioActual); //Setear el nombre de usuario que realizo el comentario
@@ -162,9 +166,14 @@ public void run() {
             this.registroLogs.append("Usuario buscado recibido... \n");
             
             BuscarUsuario(nuevoUsuario);
+
+            if (nuevoUsuario.getNombre() == null){
+                JOptionPane.showMessageDialog(null, "ERROR: Usuario no encontrado. Intentelo de nuevo!");
+            }else{
             PerfilUsuario nuevaVentana = new PerfilUsuario(nuevoUsuario, usuarioActual);
             nuevaVentana.setVisible(true);
             this.registroLogs.append("Usuario enviado... \n");
+            }
         }
     }
     } catch (Exception e) {

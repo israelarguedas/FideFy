@@ -250,7 +250,6 @@ public class Canciones extends javax.swing.JFrame {
             lblMeGusta.setText(nuevaCancion.isMeGusta()+"");
         }
     }//GEN-LAST:event_btnMeGustaActionPerformed
-
     
     private void AgregarMeGusta(Cancion nuevaCancion){
         int meGusta = this.nuevaCancion.isMeGusta();
