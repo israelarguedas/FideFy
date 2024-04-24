@@ -95,7 +95,6 @@ public void run() {
                 }
                 
             } if (objetoRecibido instanceof Mensaje){
-                //JOptionPane.showMessageDialog(null, "mensaje recibido en server");
                 Mensaje vMensajeRecibido = (Mensaje) objetoRecibido;
                 guardarMensajeBD(vMensajeRecibido);
                 

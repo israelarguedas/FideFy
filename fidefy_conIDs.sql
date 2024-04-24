@@ -1,6 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `fidefy_conids` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `fidefy_conids`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: fidefy
+-- Host: localhost    Database: fidefy_conids
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -116,6 +118,60 @@ CREATE TABLE `cancionescomentarios` (
 LOCK TABLES `cancionescomentarios` WRITE;
 /*!40000 ALTER TABLE `cancionescomentarios` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cancionescomentarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chatindividual`
+--
+
+DROP TABLE IF EXISTS `chatindividual`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatindividual` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `remitente` varchar(45) NOT NULL,
+  `destinatario` varchar(45) NOT NULL,
+  `mensaje` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chatindividual`
+--
+
+LOCK TABLES `chatindividual` WRITE;
+/*!40000 ALTER TABLE `chatindividual` DISABLE KEYS */;
+INSERT INTO `chatindividual` VALUES (1,'Dora','aplomrk','hola, como estas?');
+/*!40000 ALTER TABLE `chatindividual` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chatsgrupales`
+--
+
+DROP TABLE IF EXISTS `chatsgrupales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatsgrupales` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `remitente` varchar(45) NOT NULL,
+  `mensaje` text NOT NULL,
+  `tema` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chatsgrupales`
+--
+
+LOCK TABLES `chatsgrupales` WRITE;
+/*!40000 ALTER TABLE `chatsgrupales` DISABLE KEYS */;
+INSERT INTO `chatsgrupales` VALUES (1,'Dora','buenas!',1);
+/*!40000 ALTER TABLE `chatsgrupales` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -305,6 +361,14 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,'Marcos','aplomrk','banano'),(8,'Juano','juan512','holas'),(9,'Yorleny','ygonzalez','panycafe'),(10,'Karol','loly1','kiko'),(11,'Juan vindas','señogato','gatos'),(18,'Ramon G','rpmtv','celular'),(22,'test','123456','hola'),(24,'prueba2','usuario','taller'),(25,'test4','usuario2','holas'),(26,'candy R','confite','viviana'),(27,'Marco','mhernandez','hola'),(28,'karla m','holaK','holas'),(30,'El Dorado','Dora','laexplorer');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'fidefy_conids'
+--
+
+--
+-- Dumping routines for database 'fidefy_conids'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -315,4 +379,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-21 20:43:10
+-- Dump completed on 2024-04-24 10:16:14
