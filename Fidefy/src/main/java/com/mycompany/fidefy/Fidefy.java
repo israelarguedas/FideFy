@@ -25,8 +25,8 @@ public class Fidefy {
         vVentanaLogin.setVisible(true);
         
         //PerfilUsuario perfil = new PerfilUsuario("aplomrk", 1
-        PerfilUsuario perfil = new PerfilUsuario();
-        perfil.setVisible(true);
+        //PerfilUsuario perfil = new PerfilUsuario();
+        //perfil.setVisible(true);
         
         
         

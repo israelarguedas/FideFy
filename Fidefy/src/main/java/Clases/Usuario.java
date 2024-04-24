@@ -16,6 +16,7 @@ public class Usuario implements Serializable, Comparable<Usuario>{
     private String Nombre;
     private String NombreUsuario; 
     private String Contrasena;
+    private int ID;
     
     //private ArrayList<Seguidos> Seguidos;
     //private ArrayList<Seguidores> Seguidores;
@@ -32,14 +33,13 @@ public class Usuario implements Serializable, Comparable<Usuario>{
         this.NombreUsuario = NombreUsuario;
         this.Contrasena = Contrasena;
     }
-    
 
-    public Usuario(String Nombre, String NombreUsuario, String Contrasena) {
+    public Usuario(String Nombre, String NombreUsuario, String Contrasena, int ID) {
         this.Nombre = Nombre;
         this.NombreUsuario = NombreUsuario;
         this.Contrasena = Contrasena;
+        this.ID = ID;
     }
-
     
     public String getNombre() {
         return Nombre;
@@ -64,6 +64,14 @@ public class Usuario implements Serializable, Comparable<Usuario>{
     public void setContrasena(String Contrasena) {
         this.Contrasena = Contrasena;
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
    
     @Override
     public int compareTo(Usuario usuario1) {
@@ -75,6 +83,12 @@ public class Usuario implements Serializable, Comparable<Usuario>{
         Usuario vUsuario_equal = (Usuario) usuario1;
         return vUsuario_equal.getNombreUsuario().equals(this.NombreUsuario);
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "Nombre=" + Nombre + ", NombreUsuario=" + NombreUsuario + ", Contrasena=" + Contrasena + ", ID=" + ID + '}';
+    }
+    
     /* 
     public void agregar_seguido(Seguidos NuevoSeguido){ //Seguir un nuevo usuario. Se agrega a la lista de usuarios seguidos
         this.Seguidos.add(NuevoSeguido);

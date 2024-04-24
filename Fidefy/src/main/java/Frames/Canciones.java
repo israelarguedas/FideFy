@@ -7,6 +7,7 @@ package Frames;
 import Clases.Cancion;
 import Clases.ComentariosCanciones;
 import Clases.UsuarioInicioSesion;
+import java.awt.Color;
 import java.io.ObjectOutputStream;
 import static java.lang.Integer.parseInt;
 import java.net.Socket;
@@ -217,8 +218,8 @@ public class Canciones extends javax.swing.JFrame {
         nuevoComentario.setIDcancion(nuevaCancion.getID());
         nuevoComentario.setIDusuario(usuarioActual);
         
-        //JOptionPane.showMessageDialog(null, "Usuario actual: " + usuarioActual.toString());
-        //JOptionPane.showMessageDialog(null, "Comentario actual " + nuevoComentario.toString());
+        //JOptionPane.showMessageDialog(null, "Usuario actual: " + usuarioActual);
+        //JOptionPane.showMessageDialog(null, "Comentario actual 2" + nuevoComentario.toString());
         
         //Crear un nuevo Socket
         Socket vNuevoSocket;
@@ -236,10 +237,25 @@ public class Canciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComentarioActionPerformed
 
     private void btnMeGustaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeGustaActionPerformed
+        if (btnMeGusta.getText().equals("Me Gusta:")) {
+            AgregarMeGusta(nuevaCancion);
+            btnMeGusta.setText("No Me Gusta:");
+            btnMeGusta.setForeground(Color.red);
+            lblMeGusta.setText(nuevaCancion.isMeGusta()+"");
+            
+        }else{
+            QuitarMeGusta(nuevaCancion);
+            btnMeGusta.setText("Me Gusta:");
+            btnMeGusta.setForeground(Color.black);
+            lblMeGusta.setText(nuevaCancion.isMeGusta()+"");
+        }
+    }//GEN-LAST:event_btnMeGustaActionPerformed
+
+    
+    private void AgregarMeGusta(Cancion nuevaCancion){
         int meGusta = this.nuevaCancion.isMeGusta();
         meGusta = meGusta + 1;
         this.nuevaCancion.setMeGusta(meGusta);
-        this.lblMeGusta.setText(meGusta + "");
         
         try {
             //Crear coneccion a la Base de Datos
@@ -261,8 +277,34 @@ public class Canciones extends javax.swing.JFrame {
         } catch (Exception error) {
             System.out.println("ERROR: "+error.toString());
         }
-    }//GEN-LAST:event_btnMeGustaActionPerformed
+    }
+    
+    private void QuitarMeGusta(Cancion nuevaCancion){
+        int meGusta = this.nuevaCancion.isMeGusta();
+        meGusta = meGusta - 1;
+        this.nuevaCancion.setMeGusta(meGusta);
+        
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoUpdatePreparado = null;
+            
+            //Comando SELECT
+            String comandoUpdate =  "Update canciones SET megusta = ? WHERE titulo = ?";
+            comandoUpdatePreparado = nuevaConexion.establecerConexion().prepareStatement(comandoUpdate);
 
+            //Definimos los parametros
+            comandoUpdatePreparado.setInt(1,nuevaCancion.isMeGusta());
+            comandoUpdatePreparado.setString(2,nuevaCancion.getTitulo());
+            
+            comandoUpdatePreparado.executeUpdate();
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    }
     /**
      * @param args the command line arguments
      */

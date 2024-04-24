@@ -64,7 +64,10 @@ public class UsuarioInicioSesion implements Serializable{
     public void setEsValido(boolean esValido) {
         this.esValido = esValido;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "UsuarioInicioSesion{" + "NombreUsuario=" + NombreUsuario + ", Contrasena=" + Contrasena + ", esValido=" + esValido + ", ID=" + ID + '}';
+    }
     
 }

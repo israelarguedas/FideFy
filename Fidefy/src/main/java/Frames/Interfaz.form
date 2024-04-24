@@ -254,8 +254,8 @@
                       <StringArray count="4">
                         <StringItem index="0" value="Canciones"/>
                         <StringItem index="1" value="Artistas"/>
-                        <StringItem index="2" value="Usuarios"/>
-                        <StringItem index="3" value="Listas de Reproduccion"/>
+                        <StringItem index="2" value="Listas de Reproduccion"/>
+                        <StringItem index="3" value="Usuarios"/>
                       </StringArray>
                     </Property>
                   </Properties>

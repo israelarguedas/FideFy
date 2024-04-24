@@ -8,7 +8,7 @@ import Clases.Cancion;
 import Clases.InstruccionChat;
 import Clases.ListaReproduccion;
 import Clases.Mensaje;
-import Clases.Seguidos;
+import Clases.Usuario;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -205,7 +205,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar: ");
 
-        CBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canciones", "Artistas", "Usuarios", "Listas de Reproduccion" }));
+        CBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canciones", "Artistas", "Listas de Reproduccion", "Usuarios" }));
         CBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CBoxTipoActionPerformed(evt);
@@ -727,7 +727,7 @@ public class Interfaz extends javax.swing.JFrame {
         Cancion nuevaCancion = new Cancion();
         //Artista nuevoArtista = new Artista();
         ListaReproduccion nuevaLista = new ListaReproduccion();
-        Seguidos nuevoSeguidor = new Seguidos();
+        Usuario nuevoSeguidor = new Usuario();
         
         //Crear un nuevo Socket
         Socket vNuevoSocket;
@@ -752,6 +752,16 @@ public class Interfaz extends javax.swing.JFrame {
             nuevaLista.setNombreLista(txtBuscar.getText());
         }else {
             nuevoSeguidor.setNombreUsuario(txtBuscar.getText());
+            try {
+            vNuevoSocket = new Socket("127.0.0.1", 15575);//LOCALHOST
+            
+            //Enviar el objeto al servidor
+            ObjectOutputStream vObjectOutput = new ObjectOutputStream(vNuevoSocket.getOutputStream());
+            vObjectOutput.writeObject(nuevoSeguidor);
+            
+            } catch (Exception Error) {
+            JOptionPane.showMessageDialog(null, "Error cliente:" + Error);
+            }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 

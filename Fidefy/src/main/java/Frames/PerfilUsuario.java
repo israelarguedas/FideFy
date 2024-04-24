@@ -6,6 +6,7 @@ package Frames;
 
 import Clases.ConexionBD;
 import Clases.PerfilUsuarioLR;
+import Clases.Usuario;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PerfilUsuario extends javax.swing.JFrame {
     
+    private Usuario nuevoUsuario;
     private String nombreUsuarioVisitado;
     private int idUsuarioBuscado;
     private int idUsuarrioVisitante;
@@ -33,12 +35,12 @@ public class PerfilUsuario extends javax.swing.JFrame {
         
         initComponents();
         
-        nombreUsuarioVisitado="aplomrk";
+        /*nombreUsuarioVisitado="aplomrk";
         idUsuarioBuscado=1;
         idUsuarrioVisitante=9;
         lblNombreUsuario.setText(nombreUsuarioVisitado);
         verificarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
-        cargarListasReproduccionPublicas();
+        cargarListasReproduccionPublicas();*/
         
         
         
@@ -49,6 +51,17 @@ public class PerfilUsuario extends javax.swing.JFrame {
         this.nombreUsuarioVisitado = nombreUsuarioBuscado;
         this.idUsuarioBuscado = idUsuarioBuscado;
         this.idUsuarrioVisitante = idUsuarioVisitante;
+    }
+
+    public PerfilUsuario(Usuario nuevoUsuario, int idUsuarrioVisitante) {
+        initComponents();
+        this.nuevoUsuario = nuevoUsuario;
+        this.idUsuarrioVisitante = idUsuarrioVisitante;
+        this.nombreUsuarioVisitado = nuevoUsuario.getNombreUsuario();
+        this.lblNombreUsuario.setText(nombreUsuarioVisitado);
+        this.idUsuarioBuscado = nuevoUsuario.getID();
+        verificarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
+        cargarListasReproduccionPublicas();
     }
 
  
@@ -95,7 +108,7 @@ public class PerfilUsuario extends javax.swing.JFrame {
 
         jLabel4.setText("Playlist Publicas del Usuario");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblNombreUsuario.setText("Nombre Usuario");

@@ -6,6 +6,7 @@ package Clases;
 
 
 import Frames.Canciones;
+import Frames.PerfilUsuario;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -81,6 +82,7 @@ public void run() {
 
                 UsuarioInicioSesion respuesta = validarUsuario(vCredenciales);
                 usuarioActual = respuesta.getID();
+                registroLogs.append("Usuario \n" + usuarioActual);
                 registroLogs.append("Enviando respuesta al cliente... \n");
                 System.out.println("Servidor: " + respuesta.toString());
 
@@ -155,6 +157,14 @@ public void run() {
             vDeserializador.close();
             vSerializador.close();
             vPeticionCliente.close();
+        } if (objetoRecibido instanceof Usuario) {
+            Usuario nuevoUsuario = (Usuario) objetoRecibido;
+            this.registroLogs.append("Usuario buscado recibido... \n");
+            
+            BuscarUsuario(nuevoUsuario);
+            PerfilUsuario nuevaVentana = new PerfilUsuario(nuevoUsuario, usuarioActual);
+            nuevaVentana.setVisible(true);
+            this.registroLogs.append("Usuario enviado... \n");
         }
     }
     } catch (Exception e) {
@@ -232,10 +242,10 @@ public UsuarioInicioSesion validarUsuario(UsuarioInicioSesion pDato) {
             try (ResultSet rs = comadoPreparado.executeQuery()) {
                 if (rs.next()) {
                     consulta.setNombreUsuario(pDato.getNombreUsuario());
-                    consulta.setID(pDato.getID());
+                    consulta.setID(rs.getInt("id"));
                     consulta.setContrasena("contra"); 
                     consulta.setEsValido(true);
-                    usuarioActual = pDato.getID();
+                    usuarioActual = consulta.getID();
                 }
             }
         }
@@ -475,5 +485,34 @@ public ArrayList<String> obtenerUsuarios(){
     
     return usuarios;
 }
+
+    public void BuscarUsuario(Usuario nuevoUsuario){
+        try {
+            //Crear coneccion a la Base de Datos
+            Clases.ConexionBD nuevaConexion = new Clases.ConexionBD();
+            
+            //Crear PreparedStatement
+            PreparedStatement comandoSelectPreparado = null;
+            
+            //Comando SELECT
+            String comandoSelect =  "SELECT nombre,id FROM usuarios WHERE nombreusuario = ?";
+            comandoSelectPreparado = nuevaConexion.establecerConexion().prepareStatement(comandoSelect);
+
+            //Definimos los parametros
+            comandoSelectPreparado.setString(1,nuevoUsuario.getNombreUsuario());
+            
+            ResultSet resultado = comandoSelectPreparado.executeQuery();
+            
+            if(resultado.next()){
+                nuevoUsuario.setNombre(resultado.getString("nombre"));
+                nuevoUsuario.setID(resultado.getInt("id"));
+            }else{
+                JOptionPane.showMessageDialog(null, "No fue posible encontrar el registro indicado.");
+            }
+                    
+        } catch (Exception error) {
+            System.out.println("ERROR: "+error.toString());
+        }
+    }
     
 }
