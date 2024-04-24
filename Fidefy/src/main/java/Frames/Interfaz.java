@@ -205,7 +205,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar: ");
 
-        CBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canciones", "Artistas", "Listas de Reproduccion", "Usuarios" }));
+        CBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canciones", "Usuarios" }));
         CBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CBoxTipoActionPerformed(evt);
@@ -726,7 +726,7 @@ public class Interfaz extends javax.swing.JFrame {
         //Crear los objetos segun el tipo de objeto seleccionado en el Combo Box
         Cancion nuevaCancion = new Cancion();
         //Artista nuevoArtista = new Artista();
-        ListaReproduccion nuevaLista = new ListaReproduccion();
+        //ListaReproduccion nuevaLista = new ListaReproduccion();
         Usuario nuevoSeguidor = new Usuario();
         
         //Crear un nuevo Socket
@@ -746,10 +746,6 @@ public class Interfaz extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error cliente:" + Error);
             }
             
-        }if(CBoxTipo.getSelectedIndex() == 1) {
-            //nuevoArtista.setTitulo(txtBuscar.getText());
-        }if(CBoxTipo.getSelectedIndex() == 2) {
-            nuevaLista.setNombreLista(txtBuscar.getText());
         }else {
             nuevoSeguidor.setNombreUsuario(txtBuscar.getText());
             try {

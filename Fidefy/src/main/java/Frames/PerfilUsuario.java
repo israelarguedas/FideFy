@@ -32,18 +32,13 @@ public class PerfilUsuario extends javax.swing.JFrame {
      * Creates new form PerfilUsuario
      */
     public PerfilUsuario() {
-        
-        initComponents();
-        
+        initComponents(); 
         /*nombreUsuarioVisitado="aplomrk";
         idUsuarioBuscado=1;
         idUsuarrioVisitante=9;
         lblNombreUsuario.setText(nombreUsuarioVisitado);
         verificarSeguidor(idUsuarioBuscado, idUsuarrioVisitante);
-        cargarListasReproduccionPublicas();*/
-        
-        
-        
+        cargarListasReproduccionPublicas();*/    
     }
    
     
