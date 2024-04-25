@@ -248,11 +248,11 @@ public UsuarioInicioSesion validarUsuario(UsuarioInicioSesion pDato) {
         try (PreparedStatement comadoPreparado = vConectar.establecerConexion().prepareStatement(query)) {
             comadoPreparado.setString(1, pDato.getNombreUsuario());
             comadoPreparado.setString(2, pDato.getContrasena()); // Considera cambiar esto para usar contraseñas hasheadas
-            try (ResultSet rs = comadoPreparado.executeQuery()) {
-                if (rs.next()) {
+            try (ResultSet resultadoConsulta = comadoPreparado.executeQuery()) {
+                if (resultadoConsulta.next()) {
                     consulta.setNombreUsuario(pDato.getNombreUsuario());
-                    consulta.setID(rs.getInt("id"));
-                    consulta.setContrasena("contra"); 
+                    consulta.setID(resultadoConsulta.getInt("id"));
+                    consulta.setContrasena("******"); 
                     consulta.setEsValido(true);
                     usuarioActual = consulta.getID();
                 }

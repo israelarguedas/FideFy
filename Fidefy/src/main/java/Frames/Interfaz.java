@@ -5,33 +5,84 @@
 package Frames;
 
 import Clases.Cancion;
+import Clases.ConexionBD;
 import Clases.InstruccionChat;
 import Clases.ListaReproduccion;
 import Clases.Mensaje;
+import Clases.PerfilUsuarioLR;
 import Clases.Usuario;
+import Clases.UsuarioInicioSesion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author josue
  */
 public class Interfaz extends javax.swing.JFrame {
+    ConexionBD basedatos = new ConexionBD();
+    int idListaReproduccionSeguida;
+    int idListaReproduccionPropia;
+    private UsuarioInicioSesion datosLogin;
+    private int idUsuarioActual;
     private String usuarioActual;
     /**
      * Creates new form Interfaz
      */
-    public Interfaz() {
+    public Interfaz(UsuarioInicioSesion datosLogin) {
         initComponents();
         
+        this.datosLogin = datosLogin;
+        this.usuarioActual = datosLogin.getNombreUsuario();
+        this.idUsuarioActual = datosLogin.getID();
+        lblBienvenidoPerfil.setText("Bienvenido "+usuarioActual+"!");
+        enviarInstruccion();
+        cargarListasSeguidas();
+        cargarListasPropias();
+ 
+        
     }
+
+    private Interfaz() {
+        
+    }
+
+    public int getIdUsuarioActual() {
+        return idUsuarioActual;
+    }
+
+   
+    public Interfaz(int idUsuarioActual, String usuarioActual) {
+        this.idUsuarioActual = idUsuarioActual;
+        this.usuarioActual = usuarioActual;
+        //this.enviarInstruccion();
+    }
+
+    public void setIdUsuarioActual(int idUsuarioActual) {
+        this.idUsuarioActual = idUsuarioActual;
+    }
+
+    public UsuarioInicioSesion getDatosLogin() {
+        return datosLogin;
+    }
+
+    public void setDatosLogin(UsuarioInicioSesion datosLogin) {
+        this.datosLogin = datosLogin;
+    }
+    
+    
     
     public void setUsuarioActual(String pUsuarioActual){
         this.usuarioActual=pUsuarioActual;
@@ -60,6 +111,11 @@ public class Interfaz extends javax.swing.JFrame {
         btnChatLatina = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jComboBox2 = new javax.swing.JComboBox<>();
         tabApp = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
         jToolBar2 = new javax.swing.JToolBar();
@@ -74,29 +130,48 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         tabUsuario = new javax.swing.JTabbedPane();
         jPanel11 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        lblBienvenidoPerfil = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cbxListasSeguidas = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblListasSeguidas = new javax.swing.JTable();
         btnDejarSeguir = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txaMostrarComentariosLS = new javax.swing.JTextArea();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txaComentarioLS = new javax.swing.JTextArea();
+        btnComentar = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblListasPropias1 = new javax.swing.JTable();
-        cbxSeleccionarLR = new javax.swing.JComboBox<>();
+        cbxListaPropia = new javax.swing.JComboBox();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jLabel9 = new javax.swing.JLabel();
+        TxaMostrarComentariosLP = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
+        txtCrearLista = new javax.swing.JTextField();
+        btnCrearLista = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        cbxEliminarLista = new javax.swing.JComboBox();
+        btnCrearLista1 = new javax.swing.JButton();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jTextField2 = new javax.swing.JTextField();
+        btnCrearLista2 = new javax.swing.JButton();
+        btnCrearLista3 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        cbxVisibilidad = new javax.swing.JComboBox();
+        jLabel16 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
@@ -186,6 +261,34 @@ public class Interfaz extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane8.setViewportView(jTable3);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabApp.setBackground(new java.awt.Color(0, 51, 51));
@@ -254,7 +357,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscar)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jToolBar2.add(jPanel1);
@@ -274,13 +377,18 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(2, 51, 19));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Bienvenido usuario!");
+        lblBienvenidoPerfil.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblBienvenidoPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        lblBienvenidoPerfil.setText("Bienvenido usuario!");
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ac_generico.jpg"))); // NOI18N
 
-        jButton2.setText("Cerrar Sesion");
+        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -289,12 +397,12 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(106, 106, 106)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jLabel11)
+                .addComponent(lblBienvenidoPerfil)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
         jPanel11Layout.setVerticalGroup(
@@ -302,18 +410,22 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jButton2))
+                    .addComponent(lblBienvenidoPerfil)
+                    .addComponent(btnCerrarSesion))
                 .addGap(34, 34, 34)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabUsuario.addTab("Perfil", jPanel11);
 
         jPanel9.setBackground(new java.awt.Color(2, 51, 19));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxListasSeguidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxListasSeguidasActionPerformed(evt);
+            }
+        });
 
         tblListasSeguidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -323,12 +435,51 @@ public class Interfaz extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Titulo", "Artista", "Album", "Año"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblListasSeguidas);
 
         btnDejarSeguir.setText("Dejar Seguir");
+        btnDejarSeguir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDejarSeguirActionPerformed(evt);
+            }
+        });
+
+        txaMostrarComentariosLS.setColumns(20);
+        txaMostrarComentariosLS.setRows(5);
+        jScrollPane4.setViewportView(txaMostrarComentariosLS);
+
+        txaComentarioLS.setColumns(20);
+        txaComentarioLS.setRows(5);
+        jScrollPane7.setViewportView(txaComentarioLS);
+
+        btnComentar.setText("Comentar");
+        btnComentar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComentarActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Seleccione lista reproduccion");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -336,29 +487,54 @@ public class Interfaz extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnComentar))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnDejarSeguir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane4)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                                .addGroup(jPanel9Layout.createSequentialGroup()
+                                    .addComponent(cbxListasSeguidas, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnDejarSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 10, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel15)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxListasSeguidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDejarSeguir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(btnComentar)))
+                .addGap(23, 23, 23))
         );
 
         tabUsuario.addTab("Listas Seguidas", jPanel9);
 
         jPanel8.setBackground(new java.awt.Color(2, 51, 19));
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("0");
 
         jPanel10.setBackground(new java.awt.Color(2, 51, 19));
 
@@ -374,16 +550,35 @@ public class Interfaz extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Titulo", "Artista", "Album", "Año"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(tblListasPropias1);
 
-        cbxSeleccionarLR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxListaPropia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxListaPropiaActionPerformed(evt);
+            }
+        });
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane6.setViewportView(jTextArea2);
+        TxaMostrarComentariosLP.setColumns(20);
+        TxaMostrarComentariosLP.setRows(5);
+        jScrollPane6.setViewportView(TxaMostrarComentariosLP);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -393,7 +588,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8)
-                    .addComponent(cbxSeleccionarLR, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxListaPropia, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                     .addComponent(jScrollPane6))
                 .addContainerGap())
@@ -404,18 +599,13 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbxSeleccionarLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbxListaPropia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(50, 50, 50)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
-
-        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("0");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -425,18 +615,12 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("LIKES");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jButton1.setText("Comentar");
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap(382, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -445,16 +629,9 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addGap(55, 55, 55))))
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -467,13 +644,9 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addGap(159, 159, 159)
                 .addComponent(jLabel10)
-                .addGap(128, 128, 128)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(30, 30, 30))
+                .addContainerGap(225, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -485,15 +658,150 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel12.setBackground(new java.awt.Color(2, 51, 19));
 
+        btnCrearLista.setText("Crear Lista");
+        btnCrearLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearListaActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Ingrese el nombre de la lista a eliminar:");
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Ingrese el nombre de la lista a crear:");
+
+        cbxEliminarLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxEliminarListaActionPerformed(evt);
+            }
+        });
+
+        btnCrearLista1.setText("Eliminar Lista");
+        btnCrearLista1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearLista1ActionPerformed(evt);
+            }
+        });
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Canciones"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane9.setViewportView(jTable4);
+
+        btnCrearLista2.setText("Buscar");
+        btnCrearLista2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearLista2ActionPerformed(evt);
+            }
+        });
+
+        btnCrearLista3.setText("Agregar");
+        btnCrearLista3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearLista3ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Ingrese el nombre de la cacion a buscar:");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Seleccione nombre Playlist para agregar canciones:");
+
+        cbxVisibilidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "true", "false" }));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Publica?");
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel11)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(cbxEliminarLista, javax.swing.GroupLayout.Alignment.LEADING, 0, 239, Short.MAX_VALUE)
+                                .addComponent(txtCrearLista, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel12))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnCrearLista1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCrearLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCrearLista2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCrearLista3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxVisibilidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCrearLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxVisibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(btnCrearLista)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxEliminarLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrearLista1))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(btnCrearLista3)
+                        .addGap(39, 39, 39))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCrearLista2))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
 
         tabUsuario.addTab("Administrar Listas", jPanel12);
@@ -508,7 +816,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabUsuario)
+            .addComponent(tabUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 445, Short.MAX_VALUE)
         );
 
         tabUsuario.getAccessibleContext().setAccessibleName("Listas Reproduccion");
@@ -579,7 +887,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(cboxUsuariosChatear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIniciarChat)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Mensajes directos", jPanel6);
@@ -685,7 +993,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnChatPop1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChatLatina1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Mensajes temáticos", jPanel7);
@@ -875,6 +1183,81 @@ public class Interfaz extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnIniciarChatActionPerformed
 
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        this.dispose();
+        Login vVentana = new Login();
+        vVentana.setVisible(true);
+        
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void cbxListasSeguidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxListasSeguidasActionPerformed
+    
+        PerfilUsuarioLR itemSeleccionado = (PerfilUsuarioLR) cbxListasSeguidas.getSelectedItem();
+    
+        if (itemSeleccionado != null) {
+            int idLista = itemSeleccionado.getIdLista();
+            idListaReproduccionSeguida = idLista;
+            actualizarTblLS(idLista);
+            actualizarComentariosLS(idLista);
+            
+    }
+    }//GEN-LAST:event_cbxListasSeguidasActionPerformed
+
+    private void btnComentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentarActionPerformed
+
+        agregarComentarioLR(txaComentarioLS.getText());
+        actualizarComentariosLS(idListaReproduccionSeguida);
+        txaComentarioLS.setText("");
+
+    }//GEN-LAST:event_btnComentarActionPerformed
+
+    private void cbxListaPropiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxListaPropiaActionPerformed
+        
+        PerfilUsuarioLR itemSeleccionado = (PerfilUsuarioLR) cbxListaPropia.getSelectedItem();
+    
+        if (itemSeleccionado != null) {
+            int idLista = itemSeleccionado.getIdLista();
+            idListaReproduccionPropia = idLista;
+            actualizarTblLP(idLista);
+            actualizarComentariosLP(idLista);
+        }
+        
+    }//GEN-LAST:event_cbxListaPropiaActionPerformed
+
+    private void btnCrearLista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearLista1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearLista1ActionPerformed
+
+    private void btnCrearLista2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearLista2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearLista2ActionPerformed
+
+    private void btnCrearLista3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearLista3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearLista3ActionPerformed
+
+    private void btnCrearListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearListaActionPerformed
+        crearLRPropia();
+        txtCrearLista.setText("");
+        actualizarTblLP(idUsuarioActual);
+        cargarListasPropias();
+    }//GEN-LAST:event_btnCrearListaActionPerformed
+
+    private void cbxEliminarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEliminarListaActionPerformed
+    PerfilUsuarioLR itemSeleccionado = (PerfilUsuarioLR) cbxEliminarLista.getSelectedItem();
+    
+        if (itemSeleccionado != null) {
+            int idLista = itemSeleccionado.getIdLista();
+            String nombreLista = itemSeleccionado.getNombreLista();
+            eliminarLP(nombreLista, idLista);
+            
+        }
+    }//GEN-LAST:event_cbxEliminarListaActionPerformed
+
+    private void btnDejarSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDejarSeguirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDejarSeguirActionPerformed
+
     private void enviarInstruccion(){
         InstruccionChat vNuevaInstruccion = null;
         vNuevaInstruccion = new InstruccionChat("", "");
@@ -909,6 +1292,238 @@ public class Interfaz extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(VentanaChat.class.getName()).log(Level.SEVERE, null, ex);
         }  
+    }
+    
+    
+    private void cargarListasSeguidas(){
+        //Agrega las listas de reproduccion  al combobox
+        String query = "SELECT lr.id, lr.nombrelista FROM listareproduccionseguidores AS lrs JOIN listareproduccion AS lr ON lrs.idlista = lr.id WHERE lrs.idusuarioseguidor = ?;";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+                //System.out.println(rs.toString());
+
+                comandoPreparado.setInt(1, idUsuarioActual);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+                // Limpiar el comboBox en caso de que ya tenga items
+                cbxListasSeguidas.removeAllItems();
+
+                while (resultadoConsulta.next()) {
+                    //Lee los items por el nombre de la columna "nombrelista"
+                    int idLista = resultadoConsulta.getInt("id");
+                    String nombreLista = resultadoConsulta.getString("nombrelista");
+
+                    cbxListasSeguidas.addItem(new PerfilUsuarioLR(idLista, nombreLista));
+
+                }          
+
+
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        
+        }
+    
+    private void cargarListasPropias(){
+        //Agrega las listas de reproduccion  al combobox
+        String query = "SELECT lr.id, lr.nombrelista FROM listareproduccion AS lr  WHERE lr.idusuario = ?;";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+                //System.out.println(rs.toString());
+
+                comandoPreparado.setInt(1, idUsuarioActual);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+                // Limpiar el comboBox en caso de que ya tenga items
+                cbxListaPropia.removeAllItems();
+
+                while (resultadoConsulta.next()) {
+                    //Lee los items por el nombre de la columna "nombrelista"
+                    int idLista = resultadoConsulta.getInt("id");
+                    String nombreLista = resultadoConsulta.getString("nombrelista");
+
+                    cbxListaPropia.addItem(new PerfilUsuarioLR(idLista, nombreLista));
+                    cbxEliminarLista.addItem(new PerfilUsuarioLR(idLista, nombreLista));
+
+                }          
+
+
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        
+        }
+    
+        private void actualizarTblLS(int idLista) {
+
+        String query = "SELECT c.titulo, c.artista, c.album, c.año FROM canciones c JOIN listareproduccioncanciones lrc ON c.id = lrc.idcancion WHERE lrc.idlista = ?";
+
+        // Obtener el modelo existente y limpia tabla
+        DefaultTableModel tabla = (DefaultTableModel) tblListasSeguidas.getModel(); 
+        tabla.setRowCount(0);
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idLista);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+
+                while (resultadoConsulta.next()) {
+                    String titulo = resultadoConsulta.getString("titulo");
+                    String artista = resultadoConsulta.getString("artista");
+                    String album = resultadoConsulta.getString("album");
+                    int año = resultadoConsulta.getInt("año");
+                    //Crear fila en tabla para añadir datos
+                    Object[] row = {titulo, artista, album, año}; 
+                    tabla.addRow(row);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+}
+
+        private void actualizarTblLP(int idLista) {
+
+        String query = "SELECT c.titulo, c.artista, c.album, c.año FROM canciones c JOIN listareproduccioncanciones lrc ON c.id = lrc.idcancion WHERE lrc.idlista = ?";
+
+        // Obtener el modelo existente y limpia tabla
+        DefaultTableModel tabla = (DefaultTableModel) tblListasPropias1.getModel(); 
+        tabla.setRowCount(0);
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idLista);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+
+                while (resultadoConsulta.next()) {
+                    String titulo = resultadoConsulta.getString("titulo");
+                    String artista = resultadoConsulta.getString("artista");
+                    String album = resultadoConsulta.getString("album");
+                    int año = resultadoConsulta.getInt("año");
+                    //Crear fila en tabla para añadir datos
+                    Object[] row = {titulo, artista, album, año}; 
+                    tabla.addRow(row);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+}
+        
+    private void actualizarComentariosLS (int idLista){
+        String query = "SELECT u.nombreusuario, lrc.comentario FROM listareproduccioncomentarios lrc JOIN usuarios u ON lrc.idusuario = u.id WHERE lrc.idlista = ?";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idListaReproduccionSeguida);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+                StringBuilder comentarios = new StringBuilder();
+
+                while (resultadoConsulta.next()) {
+                    String usuarioR = resultadoConsulta.getString("nombreusuario");
+                    String comentarioR = resultadoConsulta.getString("comentario");
+                    comentarios.append(usuarioR).append(": ").append(comentarioR).append("\n");
+
+            }
+                txaMostrarComentariosLS.setText(comentarios.toString());
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    private void actualizarComentariosLP (int idLista){
+        String query = "SELECT u.nombreusuario, lrc.comentario FROM listareproduccioncomentarios lrc JOIN usuarios u ON lrc.idusuario = u.id WHERE lrc.idlista = ?";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idListaReproduccionPropia);
+                ResultSet resultadoConsulta = comandoPreparado.executeQuery();
+                StringBuilder comentarios = new StringBuilder();
+
+                while (resultadoConsulta.next()) {
+                    String usuarioR = resultadoConsulta.getString("nombreusuario");
+                    String comentarioR = resultadoConsulta.getString("comentario");
+                    comentarios.append(usuarioR).append(": ").append(comentarioR).append("\n");
+
+            }
+                TxaMostrarComentariosLP.setText(comentarios.toString());
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    private void agregarComentarioLR(String comentario){
+        String query="INSERT INTO listareproduccioncomentarios(idlista,idusuario,comentario) VALUES(?,?,?)";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                comandoPreparado.setInt(1, idListaReproduccionSeguida);
+                comandoPreparado.setInt(2, idUsuarioActual);
+                comandoPreparado.setString(3, comentario);
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
+    //Administrar listas
+    
+    private void crearLRPropia(){
+        String query="INSERT INTO listareproduccion(nombrelista,idusuario,visibilidad) VALUES(?,?,?)";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+            
+            boolean visibilidad=false;
+                
+            if(cbxVisibilidad.getSelectedItem().toString().equals("true")){
+                visibilidad = true;   
+            }
+
+                comandoPreparado.setString(1, txtCrearLista.getText());
+                comandoPreparado.setInt(2, idUsuarioActual);
+                comandoPreparado.setBoolean(3, visibilidad);
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    private void eliminarLP(String nombreLista, int idUsuario){
+        String query="DELETE FROM listareproduccion WHERE nombrelista = ? AND idusuario = ?;";
+
+        try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+            
+                comandoPreparado.setString(1, nombreLista);
+                comandoPreparado.setInt(2, idUsuario);
+
+                comandoPreparado.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
     
     /**
@@ -948,7 +1563,9 @@ public class Interfaz extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CBoxTipo;
+    private javax.swing.JTextArea TxaMostrarComentariosLP;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnChatClasica;
     private javax.swing.JButton btnChatClasica1;
     private javax.swing.JButton btnChatElectronica;
@@ -961,17 +1578,29 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnChatPop1;
     private javax.swing.JButton btnChatRock;
     private javax.swing.JButton btnChatRock1;
+    private javax.swing.JButton btnComentar;
+    private javax.swing.JButton btnCrearLista;
+    private javax.swing.JButton btnCrearLista1;
+    private javax.swing.JButton btnCrearLista2;
+    private javax.swing.JButton btnCrearLista3;
     private javax.swing.JButton btnDejarSeguir;
     private javax.swing.JButton btnIniciarChat;
     private javax.swing.JComboBox<String> cboxUsuariosChatear;
-    private javax.swing.JComboBox<String> cbxSeleccionarLR;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox cbxEliminarLista;
+    private javax.swing.JComboBox cbxListaPropia;
+    private javax.swing.JComboBox cbxListasSeguidas;
+    private javax.swing.JComboBox cbxVisibilidad;
     private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -995,19 +1624,29 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JLabel lblBienvenidoPerfil;
     private javax.swing.JTabbedPane tabApp;
     private javax.swing.JTabbedPane tabUsuario;
     private javax.swing.JTable tblListasPropias1;
     private javax.swing.JTable tblListasSeguidas;
+    private javax.swing.JTextArea txaComentarioLS;
+    private javax.swing.JTextArea txaMostrarComentariosLS;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtCrearLista;
     // End of variables declaration//GEN-END:variables
 }
