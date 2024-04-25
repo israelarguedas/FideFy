@@ -296,6 +296,10 @@ public class PerfilUsuario extends javax.swing.JFrame {
 
     private void btnEnviarMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMPActionPerformed
         // TODO add your handling code here:
+        VentanaChat vNuevaVentana = new VentanaChat();
+        vNuevaVentana.setNombreChat(lblNombreUsuario.getText());
+        vNuevaVentana.setEmisor(this.nombreUsuarioVisitado);
+        vNuevaVentana.setVisible(true);
     }//GEN-LAST:event_btnEnviarMPActionPerformed
 
     private void btnSeguirLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguirLRActionPerformed

@@ -36,7 +36,6 @@ public class VentanaChat extends javax.swing.JFrame {
      */
     public VentanaChat() {
         initComponents();
-        //nuevoHiloCliente = new HiloChatCliente(txaChat);
         
     }
     

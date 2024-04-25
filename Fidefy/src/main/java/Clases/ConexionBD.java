@@ -15,7 +15,7 @@ public class ConexionBD {
     Connection conectar;
 
     String usuario = "root";
-    String contrasena = "Lobotmy@1";
+    String contrasena = "";
     String bd = "fidefy_conids";
     String ip = "127.0.0.1";
     String puerto = "3306";
@@ -28,7 +28,6 @@ public class ConexionBD {
             //Compatibilidad por error que me dio
             Class.forName("com.mysql.cj.jdbc.Driver");
             conectar = DriverManager.getConnection(cadena, usuario, contrasena);
-            //System.out.println("Se establecio conexion con la BD");
         } catch (Exception e) {
             System.out.println("Problema en la conexión: " + e.toString());
         }
