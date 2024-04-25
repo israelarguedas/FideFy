@@ -4,8 +4,12 @@
  */
 package Frames;
 
+import Clases.ConexionBD;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,6 +18,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -24,10 +29,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author josue
  */
 public class Reproductor extends javax.swing.JFrame {
+     ConexionBD basedatos = new ConexionBD();
      private DefaultListModel<String> listModel = new DefaultListModel<>();
     private ArrayList<String> songPaths = new ArrayList<>();
     private Clip clip;
     private boolean isPaused = false;
+    private int idUsuarioActual;
     
 
     public Reproductor() {
@@ -49,9 +56,15 @@ public class Reproductor extends javax.swing.JFrame {
         }
     });
     }
-   
 
-   
+    public int getIdUsuarioActual() {
+        return idUsuarioActual;
+    }
+
+    public void setIdUsuarioActual(int idUsuarioActual) {
+        this.idUsuarioActual = idUsuarioActual;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -242,12 +255,28 @@ public class Reproductor extends javax.swing.JFrame {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File[] selectedFiles = fileChooser.getSelectedFiles();
-            for (File file : selectedFiles) {
-                listModel.addElement(file.getName());
-                songPaths.add(file.getAbsolutePath()); // Guardar la ruta del archivo
-            }
-        }
+            
+            String query = "INSERT INTO songsplaylist(idusuario, file_names, file_locations) VALUES(?,?,?)";
 
+            try (
+                Connection conectar = basedatos.establecerConexion();
+                PreparedStatement comandoPreparado = conectar.prepareStatement(query)) {
+
+                for (File file : selectedFiles) {
+                    comandoPreparado.setInt(1, idUsuarioActual);
+                    comandoPreparado.setString(2, file.getName());
+                    comandoPreparado.setString(3, file.getAbsolutePath());
+                    comandoPreparado.executeUpdate();
+                    
+                    listModel.addElement(file.getName());
+                    songPaths.add(file.getAbsolutePath());
+                }
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al agregar canciones a la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        } 
     }//GEN-LAST:event_agregarCancionesActionPerformed
 
     private void btnReproducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReproducirActionPerformed
