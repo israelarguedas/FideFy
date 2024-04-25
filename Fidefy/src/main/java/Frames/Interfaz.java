@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,25 +39,28 @@ public class Interfaz extends javax.swing.JFrame {
     private UsuarioInicioSesion datosLogin;
     private int idUsuarioActual;
     private String usuarioActual;
+    private DefaultListModel<String> listModel;
     /**
      * Creates new form Interfaz
      */
     public Interfaz(UsuarioInicioSesion datosLogin) {
         initComponents();
         
+        listModel = new DefaultListModel<>();
+    
         this.datosLogin = datosLogin;
         this.usuarioActual = datosLogin.getNombreUsuario();
         this.idUsuarioActual = datosLogin.getID();
         lblBienvenidoPerfil.setText("Bienvenido "+usuarioActual+"!");
         enviarInstruccion();
         cargarListasSeguidas();
-        cargarListasPropias();
+        cargarListasPropias(); 
+        cargarListasPLista();
  
         
     }
 
-    private Interfaz() {
-        
+    Interfaz() {
     }
 
     public int getIdUsuarioActual() {
@@ -118,6 +122,11 @@ public class Interfaz extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         tabApp = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jToolBar2 = new javax.swing.JToolBar();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -297,6 +306,56 @@ public class Interfaz extends javax.swing.JFrame {
 
         jToolBar1.setBackground(new java.awt.Color(2, 51, 19));
         jToolBar1.setRollover(true);
+
+        jPanel13.setBackground(new java.awt.Color(2, 51, 19));
+
+        jLabel17.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Tu biblioteca");
+
+        jButton1.setText("Crear una PlayList");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jList1.setBackground(new java.awt.Color(2, 51, 19));
+        jList1.setForeground(new java.awt.Color(255, 255, 255));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(jList1);
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(295, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jToolBar1.add(jPanel13);
+
         tabApp.addTab("Home", jToolBar1);
 
         jToolBar2.setBackground(new java.awt.Color(2, 51, 19));
@@ -518,7 +577,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
@@ -646,7 +705,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(159, 159, 159)
                 .addComponent(jLabel10)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1258,6 +1317,38 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDejarSeguirActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    String nombreLista = JOptionPane.showInputDialog(this, "Introduce el nombre de la lista:");
+
+    // Verificar si se ingresó un nombre válido
+    if (nombreLista != null && !nombreLista.isEmpty()) {
+        try {
+            // Insertar la lista en la base de datos
+            Connection conexion = basedatos.establecerConexion();
+            String query = "INSERT INTO listareproduccion(nombrelista, idusuario, visibilidad) VALUES (?, ?, ?)";
+            PreparedStatement pstmt = conexion.prepareStatement(query);
+            pstmt.setString(1, nombreLista);
+            pstmt.setInt(2, idUsuarioActual); 
+            pstmt.setInt(3, 1);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conexion.close();
+
+            cargarListasPLista(); 
+            jList1.setModel(listModel); 
+        } catch (SQLException ex) {
+            System.out.println("Error al insertar la lista: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "El nombre de la lista no puede estar vacío.");
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        new Reproductor().setVisible(true);
+    }//GEN-LAST:event_jList1MouseClicked
+
     private void enviarInstruccion(){
         InstruccionChat vNuevaInstruccion = null;
         vNuevaInstruccion = new InstruccionChat("", "");
@@ -1324,6 +1415,34 @@ public class Interfaz extends javax.swing.JFrame {
             }
         
         }
+    
+    private void cargarListasPLista() {
+    listModel.clear(); // Limpiar el modelo de lista antes de cargar las nuevas listas
+
+    try {
+        // Establecer la conexión a la base de datos y ejecutar la consulta SQL
+        Connection conexion = basedatos.establecerConexion();
+        String query = "SELECT lr.id, lr.nombrelista FROM listareproduccion AS lr WHERE lr.idusuario = ?";
+        PreparedStatement pstmt = conexion.prepareStatement(query);
+        pstmt.setInt(1, idUsuarioActual); // Usar el ID del usuario actual en la consulta
+        ResultSet rs = pstmt.executeQuery();
+
+        // Recorrer los resultados y agregar las listas al modelo de lista
+        while (rs.next()) {
+            int idLista = rs.getInt("id");
+            String nombreLista = rs.getString("nombrelista");
+            listModel.addElement(nombreLista); // Agregar el nombre de la lista al modelo de lista
+        }
+
+        // Cerrar la conexión y los recursos JDBC
+        rs.close();
+        pstmt.close();
+        conexion.close();
+    } catch (SQLException ex) {
+        System.out.println("Error al cargar las listas propias: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
     
     private void cargarListasPropias(){
         //Agrega las listas de reproduccion  al combobox
@@ -1590,6 +1709,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox cbxListaPropia;
     private javax.swing.JComboBox cbxListasSeguidas;
     private javax.swing.JComboBox cbxVisibilidad;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1601,6 +1721,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1609,10 +1730,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1622,6 +1745,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
