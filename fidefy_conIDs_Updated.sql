@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: fidefy_conids
+-- Host: 127.0.0.1    Database: fidefyfull
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -187,7 +187,7 @@ CREATE TABLE `listareproduccion` (
   `visibilidad` tinyint NOT NULL,
   `megusta` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +196,7 @@ CREATE TABLE `listareproduccion` (
 
 LOCK TABLES `listareproduccion` WRITE;
 /*!40000 ALTER TABLE `listareproduccion` DISABLE KEYS */;
-INSERT INTO `listareproduccion` VALUES (1,'Exitos musicales',1,1,0),(2,'Musica variada',1,1,0),(4,'Exitos musicales 2',2,1,0),(5,'Musica variada 2',2,1,0);
+INSERT INTO `listareproduccion` VALUES (1,'Exitos musicales',1,1,0),(2,'Musica variada',1,1,0),(4,'Exitos musicales 2',2,1,0),(5,'Musica variada 2',2,1,0),(6,'Josue',33,1,NULL),(7,'sas',33,1,NULL),(8,'sds',33,1,NULL),(9,'12',33,1,NULL),(10,'sas',33,1,NULL),(11,'asas',33,1,NULL),(12,'josue',34,1,NULL),(13,'asa',34,1,NULL);
 /*!40000 ALTER TABLE `listareproduccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,6 +279,32 @@ INSERT INTO `listareproduccionseguidores` VALUES (2,1,9);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `playlist`
+--
+
+DROP TABLE IF EXISTS `playlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `playlist` (
+  `PlayID` int NOT NULL AUTO_INCREMENT,
+  `nombrelista` varchar(45) DEFAULT NULL,
+  `idusuario` varchar(45) DEFAULT NULL,
+  `visibilidad` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`PlayID`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist`
+--
+
+LOCK TABLES `playlist` WRITE;
+/*!40000 ALTER TABLE `playlist` DISABLE KEYS */;
+INSERT INTO `playlist` VALUES (1,'prueba','0','1'),(2,'Josue','0','0'),(5,'asas','0','0'),(6,'Josue','0','1'),(7,'prueba','0','1'),(8,'asa','0','1'),(11,'jaja','0','1');
+/*!40000 ALTER TABLE `playlist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `preferenciasmusicales`
 --
 
@@ -296,7 +322,7 @@ CREATE TABLE `preferenciasmusicales` (
   `latina` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombreusuario_UNIQUE` (`nombreusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,7 +331,7 @@ CREATE TABLE `preferenciasmusicales` (
 
 LOCK TABLES `preferenciasmusicales` WRITE;
 /*!40000 ALTER TABLE `preferenciasmusicales` DISABLE KEYS */;
-INSERT INTO `preferenciasmusicales` VALUES (1,'aplomrk',1,1,1,0,0,0),(4,'juan512',1,1,0,1,0,1),(5,'ygonzalez',0,1,1,0,1,1),(6,'loly1',1,0,0,1,0,0),(7,'señogato',1,1,0,0,1,0),(8,'rpmtv',1,1,0,0,1,0),(9,'usuario',1,0,1,1,0,0),(10,'usuario2',1,1,0,0,1,0),(11,'Dora',1,0,0,0,1,1);
+INSERT INTO `preferenciasmusicales` VALUES (1,'aplomrk',1,1,1,0,0,0),(4,'juan512',1,1,0,1,0,1),(5,'ygonzalez',0,1,1,0,1,1),(6,'loly1',1,0,0,1,0,0),(7,'señogato',1,1,0,0,1,0),(8,'rpmtv',1,1,0,0,1,0),(9,'usuario',1,0,1,1,0,0),(10,'usuario2',1,1,0,0,1,0),(11,'Dora',1,0,0,0,1,1),(12,'Josue',1,1,0,0,0,0),(13,'aa',1,1,0,0,0,0);
 /*!40000 ALTER TABLE `preferenciasmusicales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,6 +361,30 @@ INSERT INTO `seguidores` VALUES (4,1,9);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `songsplaylist`
+--
+
+DROP TABLE IF EXISTS `songsplaylist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `songsplaylist` (
+  `idusuario` int NOT NULL,
+  `file_names` varchar(450) DEFAULT NULL,
+  `file_locations` varchar(450) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `songsplaylist`
+--
+
+LOCK TABLES `songsplaylist` WRITE;
+/*!40000 ALTER TABLE `songsplaylist` DISABLE KEYS */;
+INSERT INTO `songsplaylist` VALUES (1,'Mariage d\'Amour.mp3','C:\\Users\\josue\\Downloads\\Mariage d\'Amour.mp3'),(2,'Alok, Bruno Martini feat. Zeeba - Hear Me Now (Official Music Video) (192  kbps) (ytmp3xd.com).mp3','C:\\Users\\josue\\Downloads\\Alok, Bruno Martini feat. Zeeba - Hear Me Now (Official Music Video) (192  kbps) (ytmp3xd.com).mp3'),(5,'James Blunt - You\'re Beautiful (Official Music Video) [4K].mp3','C:\\Users\\josue\\Downloads\\James Blunt - You\'re Beautiful (Official Music Video) [4K].mp3'),(2,'Alok, Bruno Martini feat. Zeeba - Hear Me Now (Official Music Video) (192  kbps) (ytmp3xd.com).mp3','C:\\Users\\josue\\Downloads\\Alok, Bruno Martini feat. Zeeba - Hear Me Now (Official Music Video) (192  kbps) (ytmp3xd.com).mp3'),(1,'Mariage d\'Amour.mp3','C:\\Users\\josue\\Downloads\\Mariage d\'Amour.mp3'),(8,'Mariage d\'Amour.mp3','C:\\Users\\josue\\Downloads\\Mariage d\'Amour.mp3'),(11,'Mariage d\'Amour.mp3','C:\\Users\\josue\\Downloads\\Mariage d\'Amour.mp3');
+/*!40000 ALTER TABLE `songsplaylist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `usuarios`
 --
 
@@ -348,7 +398,7 @@ CREATE TABLE `usuarios` (
   `contraseña` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,9 +407,13 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Marcos','aplomrk','banano'),(8,'Juano','juan512','holas'),(9,'Yorleny','ygonzalez','panycafe'),(10,'Karol','loly1','kiko'),(11,'Juan vindas','señogato','gatos'),(18,'Ramon G','rpmtv','celular'),(22,'test','123456','hola'),(24,'prueba2','usuario','taller'),(25,'test4','usuario2','holas'),(26,'candy R','confite','viviana'),(27,'Marco','mhernandez','hola'),(28,'karla m','holaK','holas'),(30,'El Dorado','Dora','laexplorer');
+INSERT INTO `usuarios` VALUES (1,'Marcos','aplomrk','banano'),(8,'Juano','juan512','holas'),(9,'Yorleny','ygonzalez','panycafe'),(10,'Karol','loly1','kiko'),(11,'Juan vindas','señogato','gatos'),(18,'Ramon G','rpmtv','celular'),(22,'test','123456','hola'),(24,'prueba2','usuario','taller'),(25,'test4','usuario2','holas'),(26,'candy R','confite','viviana'),(27,'Marco','mhernandez','hola'),(28,'karla m','holaK','holas'),(30,'El Dorado','Dora','laexplorer'),(33,'Josue','Josue','1234'),(34,'Josue','aa','1234');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'fidefyfull'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -370,4 +424,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-24 18:52:14
+-- Dump completed on 2024-04-25 15:04:29
